@@ -1,11 +1,13 @@
 package com.ftn.kvtsvtprojekat.model;
 
-import com.ftn.kvtsvtprojekat.model.enums.ReactionType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -13,21 +15,19 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
-public class Reaction {
+public class Group {
     @Id
     @Column(nullable = false, updatable = false)
     private Long id;
     @NotNull
-    private ReactionType reactionType;
+    private String name;
     @NotNull
-    private LocalDateTime reactionTime;
+    private String description;
+    private LocalDateTime creationDate;
+    private Boolean isSuspended;
+    private String suspensionReason;
 
-    @NotNull
-    @OneToOne
-    private User user;
+    @OneToMany
+    private Set<Post> post = new HashSet<>();
 
-    @OneToOne
-    private Post post;
-    @OneToOne
-    private Comment comment;
 }

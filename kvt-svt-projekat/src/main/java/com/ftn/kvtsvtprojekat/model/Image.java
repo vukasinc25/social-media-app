@@ -1,8 +1,6 @@
 package com.ftn.kvtsvtprojekat.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,13 +10,15 @@ import org.jetbrains.annotations.NotNull;
 @ToString
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
-public class Comment {
+public class Image {
     @Id
     @Column(nullable = false, updatable = false)
     private Long id;
     @NotNull
-    private String text;
-    private Boolean isDeleted;
+    private String path;
 
-
+    @OneToOne
+    private Post post;
+    @OneToOne
+    private User user;
 }

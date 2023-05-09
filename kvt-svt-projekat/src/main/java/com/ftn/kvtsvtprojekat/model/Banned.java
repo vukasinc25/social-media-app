@@ -4,7 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -12,13 +13,10 @@ import org.jetbrains.annotations.NotNull;
 @ToString
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
-public class Comment {
+public class Banned {
     @Id
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NotNull
-    private String text;
-    private Boolean isDeleted;
-
+    private LocalDateTime banTime;
 
 }

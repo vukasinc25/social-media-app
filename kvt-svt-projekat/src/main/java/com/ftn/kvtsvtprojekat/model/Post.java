@@ -1,27 +1,33 @@
 package com.ftn.kvtsvtprojekat.model;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 public class Post {
     @Id
+    @Column(nullable = false, updatable = false)
     private Long id;
+    @NotNull
     private String content;
-    @ElementCollection
-    private List<String> imagePaths;
+    @OneToMany
+    private List<Image> imagePaths;
+    @NotNull
     private LocalDateTime creationDate;
+    @NotNull
     @OneToOne
     private User user;
 
-    public Post() {}
-
-    public Post(Long id, String content, List<String> imagePaths, LocalDateTime creationDate, User user) {
+    public Post(Long id, String content, List<Image> imagePaths, LocalDateTime creationDate, User user) {
         this.id = id;
         this.content = content;
         this.imagePaths = imagePaths;
@@ -29,46 +35,4 @@ public class Post {
         this.user = user;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getContent() {
-        return content;
-    }
-    public void setContent(String content) {
-        this.content = content;
-    }
-    public List<String> getImagePaths() {
-        return imagePaths;
-    }
-    public void setImagePaths(List<String> imagePaths) {
-        this.imagePaths = imagePaths;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", imagePaths=" + imagePaths +
-                ", creationDate=" + creationDate +
-                ", user=" + user +
-                '}';
-    }
 }
