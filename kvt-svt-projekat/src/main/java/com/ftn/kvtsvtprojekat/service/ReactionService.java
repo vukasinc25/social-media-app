@@ -12,4 +12,6 @@ public interface ReactionService {
     Reaction addReaction(Reaction reaction);
 
     Reaction updateReaction(Reaction reaction);
+
+    Reaction deleteReaction(Long id);
 }

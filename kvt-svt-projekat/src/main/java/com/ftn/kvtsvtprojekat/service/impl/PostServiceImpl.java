@@ -17,22 +17,27 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
+    @Override
     public List<Post> findAll(){
         return postRepository.findAll();
     }
 
+    @Override
     public Post findOneById(Long id){
         return postRepository.findPostById(id);
     }
 
+    @Override
     public Post addPost(Post post){
         return postRepository.save(post);
     }
 
+    @Override
     public Post updatePost(Post post){
         return postRepository.save(post);
     }
 
+    @Override
     public Post deletePost(Long id){
         return postRepository.deletePostById(id);
     }

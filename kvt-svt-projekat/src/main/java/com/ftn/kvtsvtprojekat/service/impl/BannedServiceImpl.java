@@ -16,22 +16,27 @@ public class BannedServiceImpl implements BannedService {
         this.bannedRepository = bannedRepository;
     }
 
+    @Override
     public List<Banned> findAll(){
         return bannedRepository.findAll();
     }
 
+    @Override
     public Banned findOneById(Long id){
         return bannedRepository.findBannedById(id);
     }
 
+    @Override
     public Banned addBanned(Banned banned){
         return bannedRepository.save(banned);
     }
 
+    @Override
     public Banned updateBanned(Banned banned){
         return bannedRepository.save(banned);
     }
 
+    @Override
     public Banned deleteBanned(Long id){
         return bannedRepository.deleteBannedById(id);
     }

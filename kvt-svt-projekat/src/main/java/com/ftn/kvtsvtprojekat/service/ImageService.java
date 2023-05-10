@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.service;
 
+import com.ftn.kvtsvtprojekat.model.Banned;
 import com.ftn.kvtsvtprojekat.model.Image;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface ImageService {
     Image addImage(Image image);
 
     Image updateImage(Image image);
+
+    Image deleteImage(Long id);
 }

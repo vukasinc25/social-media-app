@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.service;
 
+import com.ftn.kvtsvtprojekat.model.Banned;
 import com.ftn.kvtsvtprojekat.model.GroupRequest;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface GroupRequestService {
     GroupRequest addGroupRequest(GroupRequest groupRequest);
 
     GroupRequest updateGroupRequest(GroupRequest groupRequest);
+
+    GroupRequest deleteGroupRequest(Long id);
 }

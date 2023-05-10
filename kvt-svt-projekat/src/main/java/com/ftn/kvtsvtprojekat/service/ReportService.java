@@ -12,4 +12,6 @@ public interface ReportService {
     Report addReport(Report report);
 
     Report updateReport(Report report);
+
+    Report deleteReport(Long id);
 }

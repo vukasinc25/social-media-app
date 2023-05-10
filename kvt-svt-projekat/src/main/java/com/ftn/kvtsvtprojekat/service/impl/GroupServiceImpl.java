@@ -15,23 +15,28 @@ public class GroupServiceImpl implements GroupService {
     public GroupServiceImpl(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
-    
+
+    @Override
     public List<Group> findAll(){
         return groupRepository.findAll();
     }
 
+    @Override
     public Group findOneById(Long id){
         return groupRepository.findGroupById(id);
     }
 
+    @Override
     public Group addGroup(Group group){
         return groupRepository.save(group);
     }
 
+    @Override
     public Group updateGroup(Group group){
         return groupRepository.save(group);
     }
 
+    @Override
     public Group deleteGroup(Long id){
         return groupRepository.deleteGroupById(id);
     }

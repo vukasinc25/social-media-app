@@ -16,22 +16,27 @@ public class FriendRequestServiceImpl implements FriendRequestService {
         this.friendRequestRepository = friendRequestRepository;
     }
 
+    @Override
     public List<FriendRequest> findAll(){
         return friendRequestRepository.findAll();
     }
 
+    @Override
     public FriendRequest findOneById(Long id){
         return friendRequestRepository.findFriendRequestById(id);
     }
 
+    @Override
     public FriendRequest addFriendRequest(FriendRequest friendRequest){
         return friendRequestRepository.save(friendRequest);
     }
 
+    @Override
     public FriendRequest updateFriendRequest(FriendRequest friendRequest){
         return friendRequestRepository.save(friendRequest);
     }
 
+    @Override
     public FriendRequest deleteFriendRequest(Long id){
         return friendRequestRepository.deleteFriendRequestById(id);
     }

@@ -16,22 +16,27 @@ public class CommentServiceImpl implements CommentService {
         this.commentRepository = commentRepository;
     }
 
+    @Override
     public List<Comment> findAll(){
         return commentRepository.findAll();
     }
 
+    @Override
     public Comment findOneById(Long id){
         return commentRepository.findCommentById(id);
     }
 
+    @Override
     public Comment addComment(Comment comment){
         return commentRepository.save(comment);
     }
 
+    @Override
     public Comment updateComment(Comment comment){
         return commentRepository.save(comment);
     }
 
+    @Override
     public Comment deleteComment(Long id){
         return commentRepository.deleteCommentById(id);
     }

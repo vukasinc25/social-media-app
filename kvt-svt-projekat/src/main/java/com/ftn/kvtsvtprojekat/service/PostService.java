@@ -12,4 +12,6 @@ public interface PostService {
     Post addPost(Post post);
 
     Post updatePost(Post post);
+
+    Post deletePost(Long id);
 }

@@ -13,4 +13,6 @@ public interface BannedService {
     Banned addBanned(Banned banned);
 
     Banned updateBanned(Banned banned);
+
+    Banned deleteBanned(Long id);
 }
