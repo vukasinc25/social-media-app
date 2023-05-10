@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 @Setter
 @ToString
 @NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Image {
     @Id
     @Column(nullable = false, updatable = false)
@@ -19,6 +19,8 @@ public class Image {
 
     @OneToOne
     private Post post;
+
+    //Users Profile Picture
     @OneToOne
     private User user;
 }

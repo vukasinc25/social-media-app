@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Post {
     @Id
     @Column(nullable = false, updatable = false)
@@ -23,16 +23,9 @@ public class Post {
     private List<Image> imagePaths;
     @NotNull
     private LocalDateTime creationDate;
+    private Boolean isSuspended;
+
     @NotNull
     @OneToOne
     private User user;
-
-    public Post(Long id, String content, List<Image> imagePaths, LocalDateTime creationDate, User user) {
-        this.id = id;
-        this.content = content;
-        this.imagePaths = imagePaths;
-        this.creationDate = creationDate;
-        this.user = user;
-    }
-
 }

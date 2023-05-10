@@ -2,12 +2,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Banned;
 import com.ftn.kvtsvtprojekat.repository.BannedRepository;
+import com.ftn.kvtsvtprojekat.service.BannedService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class BannedServiceImpl {
+public class BannedServiceImpl implements BannedService {
 
     public final BannedRepository bannedRepository;
 

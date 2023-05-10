@@ -3,12 +3,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.repository.PostRepository;
 import com.ftn.kvtsvtprojekat.repository.PostRepository;
+import com.ftn.kvtsvtprojekat.service.PostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PostServiceImpl {
+public class PostServiceImpl implements PostService {
 
     public final PostRepository postRepository;
 

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Report {
     @Id
     @Column(nullable = false, updatable = false)
@@ -27,6 +27,8 @@ public class Report {
 
     @OneToOne
     private User byUser;
+    @OneToOne
+    private User reportedUser;
     @OneToOne
     private Post post;
     @OneToOne

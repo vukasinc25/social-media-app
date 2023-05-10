@@ -2,12 +2,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.GroupRequest;
 import com.ftn.kvtsvtprojekat.repository.GroupRequestRepository;
+import com.ftn.kvtsvtprojekat.service.GroupRequestService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GroupRequestServiceImpl {
+public class GroupRequestServiceImpl implements GroupRequestService {
     
     public final GroupRequestRepository groupRequestRepository;
 

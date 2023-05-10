@@ -2,12 +2,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.repository.CommentRepository;
+import com.ftn.kvtsvtprojekat.service.CommentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CommentServiceImpl {
+public class CommentServiceImpl implements CommentService {
     
     public final CommentRepository commentRepository;
 

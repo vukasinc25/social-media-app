@@ -3,12 +3,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Image;
 import com.ftn.kvtsvtprojekat.repository.ImageRepository;
 import com.ftn.kvtsvtprojekat.repository.ImageRepository;
+import com.ftn.kvtsvtprojekat.service.ImageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ImageServiceImpl {
+public class ImageServiceImpl implements ImageService {
     
     public final ImageRepository imageRepository;
 

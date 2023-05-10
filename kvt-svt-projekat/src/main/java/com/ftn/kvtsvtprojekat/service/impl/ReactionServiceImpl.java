@@ -2,12 +2,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Reaction;
 import com.ftn.kvtsvtprojekat.repository.ReactionRepository;
+import com.ftn.kvtsvtprojekat.service.ReactionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ReactionServiceImpl {
+public class ReactionServiceImpl implements ReactionService {
     
     public final ReactionRepository reactionRepository;
 

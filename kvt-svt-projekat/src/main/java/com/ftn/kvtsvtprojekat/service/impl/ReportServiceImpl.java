@@ -3,12 +3,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Report;
 import com.ftn.kvtsvtprojekat.model.Report;
 import com.ftn.kvtsvtprojekat.repository.ReportRepository;
+import com.ftn.kvtsvtprojekat.service.ReportService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ReportServiceImpl {
+public class ReportServiceImpl implements ReportService {
     public final ReportRepository reportRepository;
 
     public ReportServiceImpl(ReportRepository reportRepository) {

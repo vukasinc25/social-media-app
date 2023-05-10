@@ -11,14 +11,15 @@ import org.jetbrains.annotations.NotNull;
 @Setter
 @ToString
 @NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Comment {
     @Id
     @Column(nullable = false, updatable = false)
     private Long id;
     @NotNull
     private String text;
-    private Boolean isDeleted;
+    private Boolean isSuspended;
+
 
 
 }

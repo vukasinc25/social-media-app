@@ -6,24 +6,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class Banned {
+public class GroupAdmin {
     @Id
     @Column(nullable = false, updatable = false)
     private Long id;
-    private LocalDateTime banTime;
 
     @OneToOne
     private User user;
     @OneToOne
-    private User admin;
-    @OneToOne
-    private GroupAdmin groupAdmin;
+    private Group group;
 }

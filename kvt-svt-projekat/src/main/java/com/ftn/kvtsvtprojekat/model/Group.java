@@ -14,7 +14,7 @@ import java.util.Set;
 @Setter
 @ToString
 @NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Group {
     @Id
     @Column(nullable = false, updatable = false)
@@ -28,6 +28,8 @@ public class Group {
     private String suspensionReason;
 
     @OneToMany
-    private Set<Post> post = new HashSet<>();
+    private Set<Post> posts = new HashSet<>();
+    @OneToMany
+    private Set<GroupAdmin> groupAdmins = new HashSet<>();
 
 }

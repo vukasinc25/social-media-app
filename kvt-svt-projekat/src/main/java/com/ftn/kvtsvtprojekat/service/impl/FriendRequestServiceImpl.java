@@ -2,12 +2,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.FriendRequest;
 import com.ftn.kvtsvtprojekat.repository.FriendRequestRepository;
+import com.ftn.kvtsvtprojekat.service.FriendRequestService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class FriendRequestServiceImpl {
+public class FriendRequestServiceImpl implements FriendRequestService {
     
     public final FriendRequestRepository friendRequestRepository;
 

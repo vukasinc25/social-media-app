@@ -2,16 +2,17 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Group;
 import com.ftn.kvtsvtprojekat.repository.GroupRepository;
+import com.ftn.kvtsvtprojekat.service.GroupService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GroupService {
+public class GroupServiceImpl implements GroupService {
 
     public final GroupRepository groupRepository;
 
-    public GroupService(GroupRepository groupRepository) {
+    public GroupServiceImpl(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
     

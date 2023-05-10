@@ -2,12 +2,13 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.repository.UserRepository;
+import com.ftn.kvtsvtprojekat.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -15,19 +16,19 @@ public class UserServiceImpl {
         this.userRepository = userRepository;
     }
 
-    public void login(String username, String password){
-        User user = userRepository.findUserByUsername(username);
-        if (user != null){
-            if (user.getPassword() == password){
-                //TODO Login
-            }
-            else {
+//    public void login(String username, String password){
+//        User user = userRepository.findUserByUsername(username);
+//        if (user != null){
+//            if (user.getPassword() == password){
+//                //TODO Login
+//            }
+//            else {
+//
+//            }
+//        }
+//    }
 
-            }
-        }
-    }
-
-    public List<User> findAllUsers(){
+    public List<User> findAll(){
         return userRepository.findAll();
     }
 

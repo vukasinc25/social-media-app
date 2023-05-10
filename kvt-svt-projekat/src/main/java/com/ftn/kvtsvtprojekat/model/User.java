@@ -14,7 +14,7 @@ import java.util.Set;
 @Setter
 @ToString
 @NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue
@@ -33,8 +33,10 @@ public class User {
     private String lastName;
     @NotNull
     private String profileImagePath;
+    private Boolean isAdmin;
+
     @ManyToMany(mappedBy = "user")
     private Set<User> friends = new HashSet<>();
-    @ManyToMany(mappedBy = "friends")
-    private Set<User> befriended = new HashSet<>();
+    @OneToMany
+    private Set<GroupAdmin> groupAdmins = new HashSet<>();
 }
