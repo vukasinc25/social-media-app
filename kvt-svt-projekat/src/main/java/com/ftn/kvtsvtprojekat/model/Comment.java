@@ -1,10 +1,11 @@
 package com.ftn.kvtsvtprojekat.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,5 +22,10 @@ public class Comment {
     private Boolean isSuspended;
 
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "comments_replies",
+            joinColumns = @JoinColumn(name = "comment_parent"),
+            inverseJoinColumns = @JoinColumn(name = "comment_child"))
+    private Set<User> friends = new HashSet<>();
 
 }

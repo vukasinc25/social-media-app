@@ -35,8 +35,12 @@ public class User {
     private String profileImagePath;
     private Boolean isAdmin;
 
-    @ManyToMany(mappedBy = "user")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private Set<User> friends = new HashSet<>();
+
     @OneToMany
     private Set<GroupAdmin> groupAdmins = new HashSet<>();
 }

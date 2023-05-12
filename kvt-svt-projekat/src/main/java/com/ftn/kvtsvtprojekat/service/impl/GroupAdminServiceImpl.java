@@ -37,6 +37,7 @@ public class GroupAdminServiceImpl implements GroupAdminService {
 
     @Override
     public GroupAdmin deleteGroupAdmin(Long id) {
-        return groupAdminRepository.delete(id);
+        return groupAdminRepository.deleteGroupAdminById(id);
     }
+
 }

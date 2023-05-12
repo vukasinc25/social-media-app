@@ -25,5 +25,7 @@ public class Banned {
     @OneToOne
     private User admin;
     @OneToOne
+    private Group group;
+    @OneToOne
     private GroupAdmin groupAdmin;
 }
