@@ -1,5 +1,8 @@
 package com.ftn.kvtsvtprojekat.security;
 
+import com.ftn.kvtsvtprojekat.model.User;
+import com.ftn.kvtsvtprojekat.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;

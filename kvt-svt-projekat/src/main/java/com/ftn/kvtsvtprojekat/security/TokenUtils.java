@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class TokenUtils {
+public class TokenUtils<Claims> {
 
     @Value("biloKojiString")
     private String secret;
@@ -23,7 +23,7 @@ public class TokenUtils {
     public String getUsernameFromToken(String token) {
         String username;
         try {
-            Claims claims = this.getClaimsFromToken(token); // username izvlacimo iz subject polja unutar payload tokena
+            io.jsonwebtoken.Claims claims = this.getClaimsFromToken(token); // username izvlacimo iz subject polja unutar payload tokena
             username = claims.getSubject();
         } catch (Exception e) {
             username = null;
@@ -31,8 +31,8 @@ public class TokenUtils {
         return username;
     }
 
-    private Claims getClaimsFromToken(String token) {
-        Claims claims;
+    private io.jsonwebtoken.Claims getClaimsFromToken(String token) {
+        io.jsonwebtoken.Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(this.secret) // izvlacenje celog payloada
                     .parseClaimsJws(token).getBody();
@@ -45,7 +45,7 @@ public class TokenUtils {
     public Date getExpirationDateFromToken(String token) {
         Date expirationDate;
         try {
-            final Claims claims = this.getClaimsFromToken(token); // username izvlacimo iz expiration time polja unutar payload tokena
+            final io.jsonwebtoken.Claims claims = this.getClaimsFromToken(token); // username izvlacimo iz expiration time polja unutar payload tokena
             expirationDate = claims.getExpiration();
         } catch (Exception e) {
             expirationDate = null;
