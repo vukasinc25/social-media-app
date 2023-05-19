@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.model;
 
+import com.ftn.kvtsvtprojekat.model.enums.Roles;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +34,8 @@ public class User {
     private String lastName;
     @NotNull
     private String profileImagePath;
-    private Boolean isAdmin;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_friends",
@@ -43,4 +45,5 @@ public class User {
 
     @OneToMany
     private Set<GroupAdmin> groupAdmins = new HashSet<>();
+
 }

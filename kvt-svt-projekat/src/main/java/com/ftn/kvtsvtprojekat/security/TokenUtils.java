@@ -31,7 +31,7 @@ public class TokenUtils<Claims> {
         return username;
     }
 
-    private io.jsonwebtoken.Claims getClaimsFromToken(String token) {
+        private io.jsonwebtoken.Claims getClaimsFromToken(String token) {
         io.jsonwebtoken.Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(this.secret) // izvlacenje celog payloada

@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.service;
 
 import com.ftn.kvtsvtprojekat.model.User;
+import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface UserService {
 
     User findOneById(Long id);
 
-    User addUser(User user);
+    User createUser(UserDTO userDTO);
 
     User updateUser(User user);
 
