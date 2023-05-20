@@ -15,17 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NotNull
     private String content;
     @OneToMany
     private List<Image> imagePaths;
-    @NotNull
     private LocalDateTime creationDate;
     private Boolean isSuspended;
 
-    @NotNull
     @OneToOne
     private User user;
 }

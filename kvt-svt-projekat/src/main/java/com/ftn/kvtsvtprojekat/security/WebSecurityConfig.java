@@ -60,6 +60,14 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
         http.authorizeRequests()
+                .requestMatchers(HttpMethod.GET, "/group/*").permitAll()
+                .requestMatchers(HttpMethod.POST, "/group/*").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/group/*").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/group/*").permitAll()
+                .requestMatchers(HttpMethod.GET, "/post/*").permitAll()
+                .requestMatchers(HttpMethod.POST, "/post/*").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/post/*").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/post/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/clubs/{id}/**").access("@webSecurity.checkClubId(authentication,request,#id)")
@@ -74,19 +82,23 @@ public class WebSecurityConfig {
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(new AuthenticationTokenFilter(userDetailsService(), tokenUtils), BasicAuthenticationFilter.class);
 
-        // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
         http.authenticationProvider(authenticationProvider());
 
         return http.build();
     }
 
-    // metoda u kojoj se definisu putanje za igorisanje autentifikacije
+//    // metoda u kojoj se definisu putanje za igorisanje autentifikacije
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/api/users/login")
+//                .requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico",
+//                        "/**/*.html", "/**/*.css", "/**/*.js");
+//
+//    }
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/api/users/login")
-                .requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico",
-                        "/**/*.html", "/**/*.css", "/**/*.js");
-
+        return (web) -> web.ignoring().requestMatchers(HttpMethod.GET, "/group", "post");
     }
 }

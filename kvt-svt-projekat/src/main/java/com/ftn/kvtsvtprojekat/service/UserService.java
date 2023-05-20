@@ -10,9 +10,7 @@ public interface UserService {
 
     User findOneById(Long id);
 
-    User createUser(UserDTO userDTO);
-
-    User updateUser(User user);
+    User save(UserDTO userDTO);
 
     User deleteUser(Long id);
 

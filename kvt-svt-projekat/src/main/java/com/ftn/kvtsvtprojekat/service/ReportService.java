@@ -9,9 +9,7 @@ public interface ReportService {
 
     Report findOneById(Long id);
 
-    Report addReport(Report report);
+    Report save(Report report);
 
-    Report updateReport(Report report);
-
-    Report deleteReport(Long id);
+    Report delete(Long id);
 }

@@ -2,8 +2,8 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.repository.PostRepository;
-import com.ftn.kvtsvtprojekat.repository.PostRepository;
 import com.ftn.kvtsvtprojekat.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +12,11 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     public final PostRepository postRepository;
+    private final ModelMapper modelMapper;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -28,17 +30,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post addPost(Post post){
+    public Post save(Post post){
         return postRepository.save(post);
     }
 
     @Override
-    public Post updatePost(Post post){
-        return postRepository.save(post);
-    }
-
-    @Override
-    public Post deletePost(Long id){
+    public Post delete(Long id){
         return postRepository.deletePostById(id);
     }
 }

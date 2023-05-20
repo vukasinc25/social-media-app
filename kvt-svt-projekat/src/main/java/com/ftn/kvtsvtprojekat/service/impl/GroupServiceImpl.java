@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Group;
 import com.ftn.kvtsvtprojekat.repository.GroupRepository;
 import com.ftn.kvtsvtprojekat.service.GroupService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class GroupServiceImpl implements GroupService {
 
     public final GroupRepository groupRepository;
 
-    public GroupServiceImpl(GroupRepository groupRepository) {
+    public GroupServiceImpl(GroupRepository groupRepository, ModelMapper modelMapper) {
         this.groupRepository = groupRepository;
     }
 
@@ -27,17 +28,12 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group addGroup(Group group){
+    public Group save(Group group){
         return groupRepository.save(group);
     }
 
     @Override
-    public Group updateGroup(Group group){
-        return groupRepository.save(group);
-    }
-
-    @Override
-    public Group deleteGroup(Long id){
-        return groupRepository.deleteGroupById(id);
+    public void delete(Long id){
+        groupRepository.deleteById(id);
     }
 }

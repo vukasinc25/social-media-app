@@ -9,9 +9,7 @@ public interface ReactionService {
 
     Reaction findOneById(Long id);
 
-    Reaction addReaction(Reaction reaction);
+    Reaction save(Reaction reaction);
 
-    Reaction updateReaction(Reaction reaction);
-
-    Reaction deleteReaction(Long id);
+    Reaction delete(Long id);
 }

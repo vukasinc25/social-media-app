@@ -10,9 +10,7 @@ public interface BannedService {
 
     Banned findOneById(Long id);
 
-    Banned addBanned(Banned banned);
+    Banned save(Banned banned);
 
-    Banned updateBanned(Banned banned);
-
-    Banned deleteBanned(Long id);
+    Banned delete(Long id);
 }

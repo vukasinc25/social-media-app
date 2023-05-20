@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 @AllArgsConstructor
 public class Image {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
     @NotNull

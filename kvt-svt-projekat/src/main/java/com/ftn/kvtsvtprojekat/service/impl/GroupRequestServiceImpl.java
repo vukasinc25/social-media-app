@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.GroupRequest;
 import com.ftn.kvtsvtprojekat.repository.GroupRequestRepository;
 import com.ftn.kvtsvtprojekat.service.GroupRequestService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 public class GroupRequestServiceImpl implements GroupRequestService {
     
     public final GroupRequestRepository groupRequestRepository;
+    private final ModelMapper modelMapper;
 
-    public GroupRequestServiceImpl(GroupRequestRepository groupRequestRepository) {
+    public GroupRequestServiceImpl(GroupRequestRepository groupRequestRepository, ModelMapper modelMapper) {
         this.groupRequestRepository = groupRequestRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -27,17 +30,12 @@ public class GroupRequestServiceImpl implements GroupRequestService {
     }
 
     @Override
-    public GroupRequest addGroupRequest(GroupRequest groupRequest){
+    public GroupRequest save(GroupRequest groupRequest){
         return groupRequestRepository.save(groupRequest);
     }
 
     @Override
-    public GroupRequest updateGroupRequest(GroupRequest groupRequest){
-        return groupRequestRepository.save(groupRequest);
-    }
-
-    @Override
-    public GroupRequest deleteGroupRequest(Long id){
+    public GroupRequest delete(Long id){
         return groupRequestRepository.deleteGroupRequestById(id);
     }
 }

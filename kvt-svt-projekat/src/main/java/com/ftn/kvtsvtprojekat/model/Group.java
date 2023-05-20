@@ -15,8 +15,10 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
+@Table(name = "groupp")
 public class Group {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
     @NotNull

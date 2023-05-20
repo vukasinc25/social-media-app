@@ -10,9 +10,7 @@ public interface GroupService {
 
     Group findOneById(Long id);
 
-    Group addGroup(Group group);
+    Group save(Group group);
 
-    Group updateGroup(Group group);
-
-    Group deleteGroup(Long id);
+    void delete(Long id);
 }

@@ -10,9 +10,7 @@ public interface ImageService {
 
     Image findOneById(Long id);
 
-    Image addImage(Image image);
+    Image save(Image image);
 
-    Image updateImage(Image image);
-
-    Image deleteImage(Long id);
+    Image delete(Long id);
 }

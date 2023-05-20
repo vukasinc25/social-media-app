@@ -10,9 +10,7 @@ public interface GroupAdminService {
 
     GroupAdmin findOneById(Long id);
 
-    GroupAdmin addGroupAdmin(GroupAdmin groupAdmin);
+    GroupAdmin save(GroupAdmin groupAdmin);
 
-    GroupAdmin updateGroupAdmin(GroupAdmin groupAdmin);
-
-    GroupAdmin deleteGroupAdmin(Long id);
+    GroupAdmin delete(Long id);
 }

@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Reaction;
 import com.ftn.kvtsvtprojekat.repository.ReactionRepository;
 import com.ftn.kvtsvtprojekat.service.ReactionService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,28 +12,31 @@ import java.util.List;
 public class ReactionServiceImpl implements ReactionService {
     
     public final ReactionRepository reactionRepository;
+    private final ModelMapper modelMapper;
 
-    public ReactionServiceImpl(ReactionRepository reactionRepository) {
+
+    public ReactionServiceImpl(ReactionRepository reactionRepository, ModelMapper modelMapper) {
         this.reactionRepository = reactionRepository;
+        this.modelMapper = modelMapper;
     }
 
+    @Override
     public List<Reaction> findAll(){
         return reactionRepository.findAll();
     }
 
+    @Override
     public Reaction findOneById(Long id){
         return reactionRepository.findReactionById(id);
     }
 
-    public Reaction addReaction(Reaction reaction){
+    @Override
+    public Reaction save(Reaction reaction){
         return reactionRepository.save(reaction);
     }
 
-    public Reaction updateReaction(Reaction reaction){
-        return reactionRepository.save(reaction);
-    }
-
-    public Reaction deleteReaction(Long id){
+    @Override
+    public Reaction delete(Long id){
         return reactionRepository.deleteReactionById(id);
     }
 }

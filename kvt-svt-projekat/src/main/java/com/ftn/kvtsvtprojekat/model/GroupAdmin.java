@@ -1,9 +1,6 @@
 package com.ftn.kvtsvtprojekat.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -14,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class GroupAdmin {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
 

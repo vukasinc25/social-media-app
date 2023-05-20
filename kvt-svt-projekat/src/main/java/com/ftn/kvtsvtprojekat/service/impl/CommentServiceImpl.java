@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.repository.CommentRepository;
 import com.ftn.kvtsvtprojekat.service.CommentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     
     public final CommentRepository commentRepository;
+    private final ModelMapper modelMapper;
 
-    public CommentServiceImpl(CommentRepository commentRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -27,17 +30,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment addComment(Comment comment){
+    public Comment save(Comment comment){
         return commentRepository.save(comment);
     }
 
     @Override
-    public Comment updateComment(Comment comment){
-        return commentRepository.save(comment);
-    }
-
-    @Override
-    public Comment deleteComment(Long id){
+    public Comment delete(Long id){
         return commentRepository.deleteCommentById(id);
     }
 }

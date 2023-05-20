@@ -10,9 +10,7 @@ public interface FriendRequestService {
 
     FriendRequest findOneById(Long id);
 
-    FriendRequest addFriendRequest(FriendRequest friendRequest);
+    FriendRequest save(FriendRequest friendRequest);
 
-    FriendRequest updateFriendRequest(FriendRequest friendRequest);
-
-    FriendRequest deleteFriendRequest(Long id);
+    FriendRequest delete(Long id);
 }

@@ -9,9 +9,7 @@ public interface PostService {
 
     Post findOneById(Long id);
 
-    Post addPost(Post post);
+    Post save(Post post);
 
-    Post updatePost(Post post);
-
-    Post deletePost(Long id);
+    Post delete(Long id);
 }

@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.FriendRequest;
 import com.ftn.kvtsvtprojekat.repository.FriendRequestRepository;
 import com.ftn.kvtsvtprojekat.service.FriendRequestService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 public class FriendRequestServiceImpl implements FriendRequestService {
     
     public final FriendRequestRepository friendRequestRepository;
+    private final ModelMapper modelMapper;
 
-    public FriendRequestServiceImpl(FriendRequestRepository friendRequestRepository) {
+    public FriendRequestServiceImpl(FriendRequestRepository friendRequestRepository, ModelMapper modelMapper) {
         this.friendRequestRepository = friendRequestRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -27,17 +30,12 @@ public class FriendRequestServiceImpl implements FriendRequestService {
     }
 
     @Override
-    public FriendRequest addFriendRequest(FriendRequest friendRequest){
+    public FriendRequest save(FriendRequest friendRequest){
         return friendRequestRepository.save(friendRequest);
     }
 
     @Override
-    public FriendRequest updateFriendRequest(FriendRequest friendRequest){
-        return friendRequestRepository.save(friendRequest);
-    }
-
-    @Override
-    public FriendRequest deleteFriendRequest(Long id){
+    public FriendRequest delete(Long id){
         return friendRequestRepository.deleteFriendRequestById(id);
     }
 }

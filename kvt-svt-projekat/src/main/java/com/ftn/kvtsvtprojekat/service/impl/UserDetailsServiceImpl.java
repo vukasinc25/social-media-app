@@ -2,6 +2,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
@@ -23,7 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private ModelMapper modelMapper;
     /*
     @Autowired
     public UserDetailsServiceImpl(UserService userService){

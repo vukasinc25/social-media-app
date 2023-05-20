@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Banned;
 import com.ftn.kvtsvtprojekat.repository.BannedRepository;
 import com.ftn.kvtsvtprojekat.service.BannedService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 public class BannedServiceImpl implements BannedService {
 
     public final BannedRepository bannedRepository;
+    private final ModelMapper modelMapper;
 
-    public BannedServiceImpl(BannedRepository bannedRepository) {
+    public BannedServiceImpl(BannedRepository bannedRepository, ModelMapper modelMapper) {
         this.bannedRepository = bannedRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -27,17 +30,12 @@ public class BannedServiceImpl implements BannedService {
     }
 
     @Override
-    public Banned addBanned(Banned banned){
+    public Banned save(Banned banned){
         return bannedRepository.save(banned);
     }
 
     @Override
-    public Banned updateBanned(Banned banned){
-        return bannedRepository.save(banned);
-    }
-
-    @Override
-    public Banned deleteBanned(Long id){
+    public Banned delete(Long id){
         return bannedRepository.deleteBannedById(id);
     }
 }

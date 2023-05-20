@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.GroupAdmin;
 import com.ftn.kvtsvtprojekat.repository.GroupAdminRepository;
 import com.ftn.kvtsvtprojekat.service.GroupAdminService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 public class GroupAdminServiceImpl implements GroupAdminService {
 
     public final GroupAdminRepository groupAdminRepository;
+    private final ModelMapper modelMapper;
 
-    public GroupAdminServiceImpl(GroupAdminRepository groupAdminRepository) {
+    public GroupAdminServiceImpl(GroupAdminRepository groupAdminRepository, ModelMapper modelMapper) {
         this.groupAdminRepository = groupAdminRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -26,17 +29,12 @@ public class GroupAdminServiceImpl implements GroupAdminService {
     }
 
     @Override
-    public GroupAdmin addGroupAdmin(GroupAdmin groupAdmin) {
+    public GroupAdmin save(GroupAdmin groupAdmin) {
         return groupAdminRepository.save(groupAdmin);
     }
 
     @Override
-    public GroupAdmin updateGroupAdmin(GroupAdmin groupAdmin) {
-        return groupAdminRepository.save(groupAdmin);
-    }
-
-    @Override
-    public GroupAdmin deleteGroupAdmin(Long id) {
+    public GroupAdmin delete(Long id) {
         return groupAdminRepository.deleteGroupAdminById(id);
     }
 

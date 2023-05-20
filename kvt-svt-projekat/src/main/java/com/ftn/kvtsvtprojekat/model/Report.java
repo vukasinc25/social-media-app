@@ -1,10 +1,7 @@
 package com.ftn.kvtsvtprojekat.model;
 
 import com.ftn.kvtsvtprojekat.model.enums.ReportReason;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Report {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
     @NotNull

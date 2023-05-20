@@ -10,9 +10,7 @@ public interface GroupRequestService {
 
     GroupRequest findOneById(Long id);
 
-    GroupRequest addGroupRequest(GroupRequest groupRequest);
+    GroupRequest save(GroupRequest groupRequest);
 
-    GroupRequest updateGroupRequest(GroupRequest groupRequest);
-
-    GroupRequest deleteGroupRequest(Long id);
+    GroupRequest delete(Long id);
 }

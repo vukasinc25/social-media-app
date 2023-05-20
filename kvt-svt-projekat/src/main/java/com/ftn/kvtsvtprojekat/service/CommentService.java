@@ -10,9 +10,7 @@ public interface CommentService {
 
     Comment findOneById(Long id);
 
-    Comment addComment(Comment comment);
+    Comment save(Comment comment);
 
-    Comment updateComment(Comment comment);
-
-    Comment deleteComment(Long id);
+    Comment delete(Long id);
 }

@@ -3,10 +3,11 @@ package com.ftn.kvtsvtprojekat.controller;
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.dto.JwtAuthenticationRequest;
 import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
-import com.ftn.kvtsvtprojekat.model.dto.UserTokenState;
+import com.ftn.kvtsvtprojekat.model.dto.UserToken;
 import com.ftn.kvtsvtprojekat.security.TokenUtils;
 import com.ftn.kvtsvtprojekat.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,20 +26,26 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    public final UserService userService;
-    public final AuthenticationManager authenticationManager;
-    public final TokenUtils tokenUtils;
-
-    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenUtils tokenUtils) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.tokenUtils = tokenUtils;
-    }
+    @Autowired
+    public UserService userService;
+    @Autowired
+    public AuthenticationManager authenticationManager;
+    @Autowired
+    public TokenUtils tokenUtils;
+//    public final UserService userService;
+//    public final AuthenticationManager authenticationManager;
+//    public final TokenUtils tokenUtils;
+//
+//    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenUtils tokenUtils) {
+//        this.userService = userService;
+//        this.authenticationManager = authenticationManager;
+//        this.tokenUtils = tokenUtils;
+//    }
 
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> create(@RequestBody @Validated UserDTO newUser){
 
-        User createdUser = userService.createUser(newUser);
+        User createdUser = userService.save(newUser);
 
         if(createdUser == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
@@ -49,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserTokenState> createAuthenticationToken(
+    public ResponseEntity<UserToken> createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
 
         // Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
@@ -67,17 +74,17 @@ public class UserController {
         int expiresIn = tokenUtils.getExpiredIn();
 
         // Vrati token kao odgovor na uspesnu autentifikaciju
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+        return ResponseEntity.ok(new UserToken(jwt, expiresIn));
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public List<User> loadAll() {
         return this.userService.findAll();
     }
 
     @GetMapping("/whoami")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public User user(Principal user) {
         return this.userService.findByUsername(user.getName());
     }

@@ -5,14 +5,10 @@ import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
 import com.ftn.kvtsvtprojekat.model.enums.Roles;
 import com.ftn.kvtsvtprojekat.repository.UserRepository;
 import com.ftn.kvtsvtprojekat.service.UserService;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,10 +17,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -38,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(UserDTO userDTO) {
+    public User save(UserDTO userDTO) {
 
         Optional<User> user = Optional.ofNullable(userRepository.findUserByUsername(userDTO.getUsername()));
 
@@ -52,11 +50,6 @@ public class UserServiceImpl implements UserService {
         newUser = userRepository.save(newUser);
 
         return newUser;
-    }
-
-    @Override
-    public User updateUser(User user){
-        return userRepository.save(user);
     }
 
     @Override
