@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ftn</groupId>
-	<artifactId>kvt-svt-projekat</artifactId>
+	<artifactId>kvt-svt-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kvt-svt-projekat</name>
 	<description>Social Media Site</description>
