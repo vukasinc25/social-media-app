@@ -11,5 +11,5 @@ public interface ReactionService {
 
     Reaction save(Reaction reaction);
 
-    Reaction delete(Long id);
+    void delete(Long id);
 }

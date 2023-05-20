@@ -12,5 +12,5 @@ public interface FriendRequestService {
 
     FriendRequest save(FriendRequest friendRequest);
 
-    FriendRequest delete(Long id);
+    void delete(Long id);
 }

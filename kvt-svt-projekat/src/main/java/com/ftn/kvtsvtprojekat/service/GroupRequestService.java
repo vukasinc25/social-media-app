@@ -12,5 +12,5 @@ public interface GroupRequestService {
 
     GroupRequest save(GroupRequest groupRequest);
 
-    GroupRequest delete(Long id);
+    void delete(Long id);
 }

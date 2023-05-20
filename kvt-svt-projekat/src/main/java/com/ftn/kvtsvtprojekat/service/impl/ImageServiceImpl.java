@@ -35,7 +35,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image delete(Long id){
-        return imageRepository.deleteImageById(id);
+    public void delete(Long id){
+        imageRepository.deleteById(id);
     }
 }

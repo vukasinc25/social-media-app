@@ -12,5 +12,5 @@ public interface GroupAdminService {
 
     GroupAdmin save(GroupAdmin groupAdmin);
 
-    GroupAdmin delete(Long id);
+    void delete(Long id);
 }

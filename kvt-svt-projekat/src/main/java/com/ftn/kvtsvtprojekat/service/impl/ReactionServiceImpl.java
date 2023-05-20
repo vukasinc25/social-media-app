@@ -36,7 +36,7 @@ public class ReactionServiceImpl implements ReactionService {
     }
 
     @Override
-    public Reaction delete(Long id){
-        return reactionRepository.deleteReactionById(id);
+    public void delete(Long id){
+        reactionRepository.deleteById(id);
     }
 }

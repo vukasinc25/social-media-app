@@ -35,7 +35,7 @@ public class FriendRequestServiceImpl implements FriendRequestService {
     }
 
     @Override
-    public FriendRequest delete(Long id){
-        return friendRequestRepository.deleteFriendRequestById(id);
+    public void delete(Long id){
+        friendRequestRepository.deleteById(id);
     }
 }

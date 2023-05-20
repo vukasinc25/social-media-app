@@ -35,7 +35,7 @@ public class BannedServiceImpl implements BannedService {
     }
 
     @Override
-    public Banned delete(Long id){
-        return bannedRepository.deleteBannedById(id);
+    public void delete(Long id){
+        bannedRepository.deleteById(id);
     }
 }

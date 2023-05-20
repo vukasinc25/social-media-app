@@ -26,21 +26,15 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    public UserService userService;
-    @Autowired
-    public AuthenticationManager authenticationManager;
-    @Autowired
-    public TokenUtils tokenUtils;
-//    public final UserService userService;
-//    public final AuthenticationManager authenticationManager;
-//    public final TokenUtils tokenUtils;
-//
-//    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenUtils tokenUtils) {
-//        this.userService = userService;
-//        this.authenticationManager = authenticationManager;
-//        this.tokenUtils = tokenUtils;
-//    }
+    public final UserService userService;
+    public final AuthenticationManager authenticationManager;
+    public final TokenUtils tokenUtils;
+
+    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenUtils tokenUtils) {
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.tokenUtils = tokenUtils;
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> create(@RequestBody @Validated UserDTO newUser){

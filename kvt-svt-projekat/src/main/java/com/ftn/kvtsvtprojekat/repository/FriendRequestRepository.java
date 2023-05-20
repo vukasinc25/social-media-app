@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FriendRequestRepository extends JpaRepository<FriendRequest,Long> {
     FriendRequest findFriendRequestById(Long id);
-
-    FriendRequest deleteFriendRequestById(Long id);
 }

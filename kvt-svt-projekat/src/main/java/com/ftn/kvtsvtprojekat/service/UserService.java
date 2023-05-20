@@ -12,7 +12,7 @@ public interface UserService {
 
     User save(UserDTO userDTO);
 
-    User deleteUser(Long id);
+    void deleteUser(Long id);
 
     User findByUsername(String username);
 }

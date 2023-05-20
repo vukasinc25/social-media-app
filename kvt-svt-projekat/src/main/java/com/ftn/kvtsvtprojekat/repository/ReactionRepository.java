@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReactionRepository extends JpaRepository<Reaction, Long> {
     Reaction findReactionById(Long id);
-
-    Reaction deleteReactionById(Long id);
 }

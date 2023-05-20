@@ -59,18 +59,10 @@ public class WebSecurityConfig {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
-        http.authorizeRequests()
-                .requestMatchers(HttpMethod.GET, "/group/*").permitAll()
-                .requestMatchers(HttpMethod.POST, "/group/*").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/group/*").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/group/*").permitAll()
-                .requestMatchers(HttpMethod.GET, "/post/*").permitAll()
-                .requestMatchers(HttpMethod.POST, "/post/*").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/post/*").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/post/**").permitAll()
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/group", "/api/group/**", "/api/post", "/api/post/**", "/api/comment", "/api/comment/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/clubs/{id}/**").access("@webSecurity.checkClubId(authentication,request,#id)")
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
                 // koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
                 // samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin:

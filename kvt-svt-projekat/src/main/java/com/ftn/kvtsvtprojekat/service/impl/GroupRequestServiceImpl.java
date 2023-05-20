@@ -35,7 +35,7 @@ public class GroupRequestServiceImpl implements GroupRequestService {
     }
 
     @Override
-    public GroupRequest delete(Long id){
-        return groupRequestRepository.deleteGroupRequestById(id);
+    public void delete(Long id){
+        groupRequestRepository.deleteById(id);
     }
 }

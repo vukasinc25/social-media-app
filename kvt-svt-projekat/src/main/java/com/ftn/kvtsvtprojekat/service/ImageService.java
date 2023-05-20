@@ -12,5 +12,5 @@ public interface ImageService {
 
     Image save(Image image);
 
-    Image delete(Long id);
+    void delete(Long id);
 }

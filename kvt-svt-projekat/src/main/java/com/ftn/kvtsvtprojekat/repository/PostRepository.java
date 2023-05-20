@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Post findPostById(Long id);
-
-    Post deletePostById(Long id);
 }

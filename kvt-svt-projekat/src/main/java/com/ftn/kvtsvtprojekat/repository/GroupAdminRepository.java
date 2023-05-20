@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GroupAdminRepository extends JpaRepository<GroupAdmin,Long> {
     GroupAdmin findGroupAdminById(Long id);
-
-    GroupAdmin deleteGroupAdminById(Long id);
 }

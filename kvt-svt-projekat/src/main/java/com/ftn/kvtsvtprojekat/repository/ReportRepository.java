@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface ReportRepository extends JpaRepository<Report,Long> {
     Report findReportById(Long id);
 
-    Report deleteReportById(Long id);
 }

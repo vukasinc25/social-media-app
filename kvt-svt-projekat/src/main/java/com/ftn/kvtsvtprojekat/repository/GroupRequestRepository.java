@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GroupRequestRepository extends JpaRepository<GroupRequest,Long> {
     GroupRequest findGroupRequestById(Long id);
-
-    GroupRequest deleteGroupRequestById(Long id);
 }
