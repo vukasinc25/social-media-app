@@ -1,6 +1,8 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Comment;
+import com.ftn.kvtsvtprojekat.model.Comment;
+import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.repository.CommentRepository;
 import com.ftn.kvtsvtprojekat.service.CommentService;
 import org.modelmapper.ModelMapper;
@@ -12,11 +14,9 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     
     public final CommentRepository commentRepository;
-    private final ModelMapper modelMapper;
 
-    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper) {
+    public CommentServiceImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -36,6 +36,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void delete(Long id){
-        commentRepository.deleteById(id);
+        Comment comment = commentRepository.findCommentById(id);
+        comment.setIsDeleted(true);
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public List<Comment> findByPost(Post post) {
+         return commentRepository.findAllByPost(post);
+
     }
 }

@@ -18,10 +18,10 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NotNull
     private ReportReason reportReason;
     private LocalDateTime reportTime;
     private Boolean isAccepted;
+    private Boolean isDeleted;
 
     @OneToOne
     private User byUser;

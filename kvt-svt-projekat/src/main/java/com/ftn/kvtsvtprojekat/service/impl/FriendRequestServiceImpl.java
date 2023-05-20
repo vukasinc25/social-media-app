@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.FriendRequest;
+import com.ftn.kvtsvtprojekat.model.FriendRequest;
 import com.ftn.kvtsvtprojekat.repository.FriendRequestRepository;
 import com.ftn.kvtsvtprojekat.service.FriendRequestService;
 import org.modelmapper.ModelMapper;
@@ -36,6 +37,8 @@ public class FriendRequestServiceImpl implements FriendRequestService {
 
     @Override
     public void delete(Long id){
-        friendRequestRepository.deleteById(id);
+        FriendRequest friendRequest = friendRequestRepository.findFriendRequestById(id);
+        friendRequest.setIsDeleted(true);
+        friendRequestRepository.save(friendRequest);
     }
 }

@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Reaction;
+import com.ftn.kvtsvtprojekat.model.Reaction;
 import com.ftn.kvtsvtprojekat.repository.ReactionRepository;
 import com.ftn.kvtsvtprojekat.service.ReactionService;
 import org.modelmapper.ModelMapper;
@@ -12,12 +13,9 @@ import java.util.List;
 public class ReactionServiceImpl implements ReactionService {
     
     public final ReactionRepository reactionRepository;
-    private final ModelMapper modelMapper;
-
-
+    
     public ReactionServiceImpl(ReactionRepository reactionRepository, ModelMapper modelMapper) {
         this.reactionRepository = reactionRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -37,6 +35,8 @@ public class ReactionServiceImpl implements ReactionService {
 
     @Override
     public void delete(Long id){
-        reactionRepository.deleteById(id);
+        Reaction reaction = reactionRepository.findReactionById(id);
+        reaction.setIsDeleted(true);
+        reactionRepository.save(reaction);
     }
 }

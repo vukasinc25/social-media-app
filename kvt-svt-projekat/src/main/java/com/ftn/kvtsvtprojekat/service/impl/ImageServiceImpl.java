@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Image;
+import com.ftn.kvtsvtprojekat.model.Image;
 import com.ftn.kvtsvtprojekat.repository.ImageRepository;
 import com.ftn.kvtsvtprojekat.service.ImageService;
 import org.modelmapper.ModelMapper;
@@ -12,11 +13,9 @@ import java.util.List;
 public class ImageServiceImpl implements ImageService {
     
     public final ImageRepository imageRepository;
-    private final ModelMapper modelMapper;
 
-    public ImageServiceImpl(ImageRepository imageRepository, ModelMapper modelMapper) {
+    public ImageServiceImpl(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -36,6 +35,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void delete(Long id){
-        imageRepository.deleteById(id);
+        Image image = imageRepository.findImageById(id);
+        image.setIsDeleted(true);
+        imageRepository.save(image);
     }
 }

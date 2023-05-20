@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Report;
+import com.ftn.kvtsvtprojekat.model.Report;
 import com.ftn.kvtsvtprojekat.repository.ReportRepository;
 import com.ftn.kvtsvtprojekat.service.ReportService;
 import org.modelmapper.ModelMapper;
@@ -12,11 +13,9 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
 
     public final ReportRepository reportRepository;
-    private final ModelMapper modelMapper;
 
-    public ReportServiceImpl(ReportRepository reportRepository, ModelMapper modelMapper) {
+    public ReportServiceImpl(ReportRepository reportRepository) {
         this.reportRepository = reportRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -36,6 +35,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void delete(Long id){
-        reportRepository.deleteById(id);
+        Report report = reportRepository.findReportById(id);
+        report.setIsDeleted(true);
+        reportRepository.save(report);
     }
 }

@@ -12,11 +12,9 @@ import java.util.List;
 public class GroupRequestServiceImpl implements GroupRequestService {
     
     public final GroupRequestRepository groupRequestRepository;
-    private final ModelMapper modelMapper;
 
-    public GroupRequestServiceImpl(GroupRequestRepository groupRequestRepository, ModelMapper modelMapper) {
+    public GroupRequestServiceImpl(GroupRequestRepository groupRequestRepository) {
         this.groupRequestRepository = groupRequestRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override

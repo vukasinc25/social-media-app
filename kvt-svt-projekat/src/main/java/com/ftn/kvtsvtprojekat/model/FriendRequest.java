@@ -20,6 +20,7 @@ public class FriendRequest {
     private boolean approved;
     private LocalDateTime requestDate;
     private LocalDateTime responseDate;
+    private Boolean isDeleted;
 
     @OneToOne
     private User requestFrom;

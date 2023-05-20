@@ -21,29 +21,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NotNull
     private String username;
-    @NotNull
     private String password;
-    @NotNull
     private String email;
     private LocalDateTime lastLogin;
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
-    @NotNull
     private String profileImagePath;
     @Enumerated(EnumType.STRING)
     private Roles role;
+    private Boolean isDeleted;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_friends",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private Set<User> friends = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<GroupAdmin> groupAdmins = new HashSet<>();
 
 }

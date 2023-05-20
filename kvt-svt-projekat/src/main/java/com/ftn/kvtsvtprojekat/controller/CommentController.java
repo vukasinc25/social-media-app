@@ -1,8 +1,10 @@
 package com.ftn.kvtsvtprojekat.controller;
 
 import com.ftn.kvtsvtprojekat.model.Comment;
+import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.model.dto.CommentDTO;
 import com.ftn.kvtsvtprojekat.service.CommentService;
+import com.ftn.kvtsvtprojekat.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +21,33 @@ import static org.springframework.http.ResponseEntity.status;
 public class CommentController {
 
     public final CommentService commentService;
+    public final PostService postService;
     public final ModelMapper modelMapper;
 
-    public CommentController(CommentService commentService, ModelMapper modelMapper) {
+    public CommentController(CommentService commentService, PostService postService, ModelMapper modelMapper) {
         this.commentService = commentService;
+        this.postService = postService;
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CommentDTO>> getComments() {
 
         List<Comment> comments = commentService.findAll();
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
+            commentsDTO.add(commentDTO);
+        }
+
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/post/{id}")
+    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("id") Long postId) {
+
+        Post post = postService.findOneById(postId);
+        List<Comment> comments = commentService.findByPost(post);
         List<CommentDTO> commentsDTO = new ArrayList<>();
         for (Comment comment : comments) {
             CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);

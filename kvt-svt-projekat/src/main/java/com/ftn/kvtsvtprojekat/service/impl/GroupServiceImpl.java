@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Group;
+import com.ftn.kvtsvtprojekat.model.Group;
 import com.ftn.kvtsvtprojekat.repository.GroupRepository;
 import com.ftn.kvtsvtprojekat.service.GroupService;
 import org.modelmapper.ModelMapper;
@@ -34,6 +35,8 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void delete(Long id){
-        groupRepository.deleteById(id);
+        Group group = groupRepository.findGroupById(id);
+        group.setIsSuspended(true);
+        groupRepository.save(group);
     }
 }

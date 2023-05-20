@@ -1,16 +1,16 @@
 package com.ftn.kvtsvtprojekat.controller;
 
 import com.ftn.kvtsvtprojekat.model.User;
+import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.dto.JwtAuthenticationRequest;
 import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
 import com.ftn.kvtsvtprojekat.model.dto.UserToken;
 import com.ftn.kvtsvtprojekat.security.TokenUtils;
 import com.ftn.kvtsvtprojekat.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,17 +23,19 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     public final UserService userService;
     public final AuthenticationManager authenticationManager;
     public final TokenUtils tokenUtils;
+    public final ModelMapper modelMapper;
 
-    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenUtils tokenUtils) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenUtils tokenUtils, ModelMapper modelMapper) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.tokenUtils = tokenUtils;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/signup")
@@ -81,5 +83,20 @@ public class UserController {
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public User user(Principal user) {
         return this.userService.findByUsername(user.getName());
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        if(id == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        User user = userService.findOneById(id);
+
+        if (user != null) {
+            userService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 }

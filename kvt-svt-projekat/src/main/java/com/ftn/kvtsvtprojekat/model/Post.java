@@ -5,7 +5,9 @@ import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,8 +24,11 @@ public class Post {
     @OneToMany
     private List<Image> imagePaths;
     private LocalDateTime creationDate;
-    private Boolean isSuspended;
+    private Boolean isDeleted;
 
     @OneToOne
     private User user;
+
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 }

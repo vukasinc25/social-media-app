@@ -18,9 +18,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NotNull
     private String text;
-    private Boolean isSuspended;
+    private Boolean isDeleted;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "comments_replies",
@@ -28,6 +27,6 @@ public class Comment {
             inverseJoinColumns = @JoinColumn(name = "comment_child"))
     private Set<Comment> comments = new HashSet<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Post post;
 }

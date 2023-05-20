@@ -7,16 +7,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BannedServiceImpl implements BannedService {
 
     public final BannedRepository bannedRepository;
-    private final ModelMapper modelMapper;
 
-    public BannedServiceImpl(BannedRepository bannedRepository, ModelMapper modelMapper) {
+    public BannedServiceImpl(BannedRepository bannedRepository) {
         this.bannedRepository = bannedRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -36,6 +35,8 @@ public class BannedServiceImpl implements BannedService {
 
     @Override
     public void delete(Long id){
-        bannedRepository.deleteById(id);
+        Banned banned = bannedRepository.findBannedById(id);
+        banned.setIsDeleted(true);
+        bannedRepository.save(banned);
     }
 }

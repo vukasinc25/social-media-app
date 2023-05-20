@@ -18,12 +18,10 @@ public class Reaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NotNull
     private ReactionType reactionType;
-    @NotNull
     private LocalDateTime reactionTime;
+    private Boolean isDeleted;
 
-    @NotNull
     @OneToOne
     private User user;
 

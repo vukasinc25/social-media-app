@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Post;
+import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.repository.PostRepository;
 import com.ftn.kvtsvtprojekat.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -12,11 +13,9 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     public final PostRepository postRepository;
-    private final ModelMapper modelMapper;
 
-    public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper) {
+    public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -35,7 +34,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post delete(Long id){
-        return postRepository.deleteById(id);
+    public void delete(Long id){
+        Post post = postRepository.findPostById(id);
+        post.setIsDeleted(true);
+        postRepository.save(post);
     }
 }

@@ -14,6 +14,7 @@ public class GroupAdmin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
+    private Boolean isDeleted;
 
     @OneToOne
     private User user;

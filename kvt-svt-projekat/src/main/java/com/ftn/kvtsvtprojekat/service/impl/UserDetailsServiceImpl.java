@@ -24,14 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;
-    @Autowired
-    private ModelMapper modelMapper;
-    /*
-    @Autowired
-    public UserDetailsServiceImpl(UserService userService){
-        this.userService = userService;
-    }
-*/
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

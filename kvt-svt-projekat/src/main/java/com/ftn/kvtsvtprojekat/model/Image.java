@@ -15,8 +15,8 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NotNull
     private String path;
+    private Boolean isDeleted;
 
     @OneToOne
     private Post post;

@@ -17,6 +17,7 @@ public class Banned {
     @Column(nullable = false, updatable = false)
     private Long id;
     private LocalDateTime banTime;
+    private Boolean isDeleted;
 
     @OneToOne
     private User user;
