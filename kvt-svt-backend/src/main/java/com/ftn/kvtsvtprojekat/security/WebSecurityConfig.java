@@ -89,6 +89,6 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(HttpMethod.GET, "/group", "post");
+        return (web) -> web.ignoring().requestMatchers("/group/**", "/post/**","/user/**");
     }
 }
