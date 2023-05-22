@@ -1,0 +1,11 @@
+<div class="sidebar-view-group">
+    <div style="color: black; font-weight: bold">Browse Groups</div>
+    <hr />
+    <span *ngFor="let group of groups">
+        <span class="group-text"><a href="/group/{{group.id}}">{{group.name}}</a></span>
+        <hr />
+    </span>
+    <div style="text-align: center" *ngIf="displayViewAll">
+        <a style="font-weight: bold" routerLink="/list-groups">View All</a>
+    </div>
+</div>

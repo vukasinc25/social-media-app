@@ -3,6 +3,6 @@ VALUES ('email', 'name', 0, now(), 'lastname', '$2a$10$WyGU0850Gt6l9niernBpb.58p
 
 INSERT INTO groupp VALUES (DEFAULT, null, 'opis', null, 'naziv', null);
 
-INSERT INTO post VALUES (DEFAULT, 'azaza', now(), 0, null);
+INSERT INTO post (content, creation_date, is_deleted, user_id) VALUES ('azaza', now(), 0, null);
 
 INSERT INTO comment VALUES (DEFAULT, 0, 'text', 1);

@@ -29,6 +29,9 @@ public class Post {
     @OneToOne
     private User user;
 
+    @OneToOne
+    private Group group;
+
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 }

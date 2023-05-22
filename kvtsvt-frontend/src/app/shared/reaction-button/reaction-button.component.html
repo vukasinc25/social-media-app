@@ -1,0 +1,19 @@
+<!-- Section to Display Votes-->
+<div class="col-md-1">
+    <div class="d-flex flex-column votebox">
+    <div class="p-2 votecount">{{post.voteCount}}</div>
+    <div class="p-2">
+        <fa-icon (click)="likePost()" class="like" [icon]="faThumbsUp" [style.color]="post.like ? 'green':''">
+        </fa-icon>
+    </div>
+
+    <div class="p-2">
+        <fa-icon (click)="dislikePost()" class="dislike" [icon]="faThumbsDown" [style.color]="post.dislike ? 'red':''">
+        </fa-icon>
+    </div>
+    <div class="p-2">
+        <fa-icon (click)="heartPost()" class="heart" [icon]="faHeart" [style.color]="post.heart ? 'red':''">
+        </fa-icon>
+    </div>
+    </div>
+</div>

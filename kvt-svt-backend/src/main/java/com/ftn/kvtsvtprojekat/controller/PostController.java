@@ -1,7 +1,9 @@
 package com.ftn.kvtsvtprojekat.controller;
 
+import com.ftn.kvtsvtprojekat.model.Group;
 import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.model.dto.PostDTO;
+import com.ftn.kvtsvtprojekat.service.GroupService;
 import com.ftn.kvtsvtprojekat.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -19,15 +21,31 @@ import static org.springframework.http.ResponseEntity.status;
 public class PostController {
 
     private final PostService postService;
+    private final GroupService groupService;
     public final ModelMapper modelMapper;
 
-    public PostController(PostService postService, ModelMapper modelMapper) {
+    public PostController(PostService postService, GroupService groupService, ModelMapper modelMapper) {
         this.postService = postService;
+        this.groupService = groupService;
         this.modelMapper = modelMapper;
     }
 
+    @GetMapping("/byGroup/{id}")
+    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("id") Long groupId) {
+
+        Group group = groupService.findOneById(groupId);
+        List<Post> posts = postService.findAllByGroup(group);
+        List<PostDTO> postsDTO = new ArrayList<>();
+        for (Post post : posts) {
+            PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+            postsDTO.add(postDTO);
+        }
+
+        return new ResponseEntity<>(postsDTO, HttpStatus.OK);
+    }
+
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getPosts() {
+    public ResponseEntity<List<PostDTO>> getPostsByGroup() {
 
         List<Post> posts = postService.findAll();
         List<PostDTO> postsDTO = new ArrayList<>();
