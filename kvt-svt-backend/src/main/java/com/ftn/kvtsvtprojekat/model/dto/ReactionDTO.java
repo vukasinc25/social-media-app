@@ -5,9 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostDTO {
+public class ReactionDTO {
     private Long id;
-    private String content;
+    private String reactionType;
+    private Boolean isDeleted;
     private Long userId;
-    private Long groupId;
+    private Long postId;
+    private Long commentId;
 }

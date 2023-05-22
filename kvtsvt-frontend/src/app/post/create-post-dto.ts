@@ -1,4 +1,6 @@
 export interface CreatePostDto {
+  id?: number;
   content: string;
-  groupName: string;
+  userId: number;
+  groupId: number;
 }

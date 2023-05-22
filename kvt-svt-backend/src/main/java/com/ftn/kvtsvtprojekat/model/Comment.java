@@ -29,4 +29,7 @@ public class Comment {
 
     @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Post post;
+
+    @OneToOne
+    private User user;
 }

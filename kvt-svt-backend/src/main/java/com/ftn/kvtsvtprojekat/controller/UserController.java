@@ -2,6 +2,7 @@ package com.ftn.kvtsvtprojekat.controller;
 
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.User;
+import com.ftn.kvtsvtprojekat.model.dto.AuthenticationResponse;
 import com.ftn.kvtsvtprojekat.model.dto.JwtAuthenticationRequest;
 import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
 import com.ftn.kvtsvtprojekat.model.dto.UserToken;
@@ -20,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -52,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserToken> createAuthenticationToken(
+    public AuthenticationResponse createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
 
         // Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
@@ -70,7 +72,12 @@ public class UserController {
         int expiresIn = tokenUtils.getExpiredIn();
 
         // Vrati token kao odgovor na uspesnu autentifikaciju
-        return ResponseEntity.ok(new UserToken(jwt, expiresIn));
+
+        return AuthenticationResponse.builder()
+                .authenticationToken(jwt)
+                .expiresAt(Instant.ofEpochSecond(expiresIn))
+                .username(user.getUsername())
+                .build();
     }
 
     @GetMapping("/all")

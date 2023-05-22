@@ -2,9 +2,11 @@ package com.ftn.kvtsvtprojekat.controller;
 
 import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.model.Post;
+import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.dto.CommentDTO;
 import com.ftn.kvtsvtprojekat.service.CommentService;
 import com.ftn.kvtsvtprojekat.service.PostService;
+import com.ftn.kvtsvtprojekat.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,13 @@ public class CommentController {
 
     public final CommentService commentService;
     public final PostService postService;
+    public final UserService userService;
     public final ModelMapper modelMapper;
 
-    public CommentController(CommentService commentService, PostService postService, ModelMapper modelMapper) {
+    public CommentController(CommentService commentService, PostService postService, UserService userService, ModelMapper modelMapper) {
         this.commentService = commentService;
         this.postService = postService;
+        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
@@ -70,20 +74,22 @@ public class CommentController {
         return status(HttpStatus.OK).body(commentDTO);
     }
 
-    @PostMapping(value = "/create", consumes = "application/json")
+    @PostMapping(value = "/create")
     public ResponseEntity<Comment> createComment(@Valid @RequestBody CommentDTO commentDTO) {
+
         Comment comment = modelMapper.map(commentDTO, Comment.class);
         commentService.save(comment);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}", consumes = "application/json")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<CommentDTO> updateComment(@PathVariable("id") Long id, @RequestBody CommentDTO commentDTO) {
         Comment comment = commentService.findOneById(id);
         if(comment == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         comment.setText(commentDTO.getText());
+        comment.setIsDeleted(commentDTO.getIsDeleted());
 
         commentService.save(comment);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -97,7 +103,8 @@ public class CommentController {
         Comment comment = commentService.findOneById(id);
 
         if (comment != null) {
-            commentService.delete(id);
+            comment.setIsDeleted(true);
+            commentService.save(comment);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

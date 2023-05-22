@@ -31,7 +31,7 @@ public class PostController {
     }
 
     @GetMapping("/byGroup/{id}")
-    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("id") Long groupId) {
+    public ResponseEntity<List<PostDTO>> getPostsByGroup(@PathVariable("id") Long groupId) {
 
         Group group = groupService.findOneById(groupId);
         List<Post> posts = postService.findAllByGroup(group);
@@ -45,7 +45,7 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getPostsByGroup() {
+    public ResponseEntity<List<PostDTO>> getPosts() {
 
         List<Post> posts = postService.findAll();
         List<PostDTO> postsDTO = new ArrayList<>();

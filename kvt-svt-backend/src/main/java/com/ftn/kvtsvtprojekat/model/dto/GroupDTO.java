@@ -19,4 +19,6 @@ public class GroupDTO {
     private String name;
     @NotBlank
     private String description;
+    private Boolean isSuspended;
+    private String suspensionReason;
 }

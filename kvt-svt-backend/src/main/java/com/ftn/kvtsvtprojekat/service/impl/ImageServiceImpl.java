@@ -2,6 +2,8 @@ package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.Image;
 import com.ftn.kvtsvtprojekat.model.Image;
+import com.ftn.kvtsvtprojekat.model.Post;
+import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.repository.ImageRepository;
 import com.ftn.kvtsvtprojekat.service.ImageService;
 import org.modelmapper.ModelMapper;
@@ -21,6 +23,16 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<Image> findAll(){
         return imageRepository.findAll();
+    }
+
+    @Override
+    public List<Image> findAllByPost(Post post) {
+        return imageRepository.findAllByPost(post);
+    }
+
+    @Override
+    public Image findOneByUser(User user) {
+        return imageRepository.findOneByUser(user);
     }
 
     @Override

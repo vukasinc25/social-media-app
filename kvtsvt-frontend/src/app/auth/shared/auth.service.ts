@@ -63,6 +63,7 @@ export class AuthService {
   }
 
   logout() {
+    this.localStorage.clear('userId');
     this.localStorage.clear('authenticationToken');
     this.localStorage.clear('username');
     this.localStorage.clear('expiresAt');
@@ -77,6 +78,10 @@ export class AuthService {
 
   getUserName() {
     return this.localStorage.retrieve('username');
+  }
+
+  getUserId() {
+    return this.localStorage.retrieve('userId');
   }
 
   getJwtToken() {

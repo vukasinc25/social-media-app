@@ -12,9 +12,9 @@
   
             <input type="text" class="form-control" [formControlName]="'url'" style="margin-top: 5px" placeholder="URL">
   
-            <select class="form-control" style="margin-top: 10px" [formControlName]="'groupName'">
+            <select class="form-control" style="margin-top: 10px" [formControlName]="'groupId'">
               <option value="" selected disabled>Select Group</option>
-              <option *ngFor="let group of groups">{{group.name}}</option>
+              <option *ngFor="let group of groups" value="{{group.id}}">{{group.name}}</option>
             </select>
   
             <editor [formControlName]="'description'" [init]="{

@@ -37,6 +37,7 @@ public class GroupServiceImpl implements GroupService {
     public void delete(Long id){
         Group group = groupRepository.findGroupById(id);
         group.setIsSuspended(true);
+        group.setSuspensionReason("Suspension Reason");
         groupRepository.save(group);
     }
 }

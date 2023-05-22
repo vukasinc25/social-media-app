@@ -6,6 +6,7 @@ import { throwError } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/shared/auth.service';
 
 @Component({
   selector: 'app-create-post',
@@ -20,19 +21,19 @@ export class CreatePostComponent implements OnInit {
   constructor(
     private router: Router,
     private postService: PostService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private authService: AuthService
   ) {
     this.postPayload = {
-      groupName: '',
       content: '',
+      userId: 0,
+      groupId: 0,
     };
   }
 
   ngOnInit() {
     this.createPostForm = new FormGroup({
-      postName: new FormControl('', Validators.required),
-      groupName: new FormControl('', Validators.required),
-      url: new FormControl('', Validators.required),
+      groupId: new FormControl(''),
       description: new FormControl('', Validators.required),
     });
     this.groupService.getAllGroups().subscribe(
@@ -46,8 +47,9 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost() {
-    this.postPayload.groupName = this.createPostForm.get('groupName')?.value;
     this.postPayload.content = this.createPostForm.get('content')?.value;
+    this.postPayload.userId = this.authService.getUserId();
+    this.postPayload.groupId = this.createPostForm.get('groupId')?.value;
 
     this.postService.createPost(this.postPayload).subscribe(
       (data) => {
