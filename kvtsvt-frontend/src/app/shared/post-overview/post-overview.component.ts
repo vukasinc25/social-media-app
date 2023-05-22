@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { PostModel } from './../../post/post-model';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class PostOverviewComponent implements OnInit {
   faComments = faComments;
-  @Input() posts: PostModel[];
+  @Input() posts: PostModel[] = [];
 
   constructor(private router: Router) {}
 

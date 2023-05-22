@@ -34,8 +34,9 @@ export class CreateGroupComponent {
   }
 
   createGroup() {
-    this.groupModel.name = this.createGroupForm.get('name').value;
-    this.groupModel.description = this.createGroupForm.get('description').value;
+    this.groupModel.name = this.createGroupForm.get('name')?.value;
+    this.groupModel.description =
+      this.createGroupForm.get('description')?.value;
     this.groupService.createGroup(this.groupModel).subscribe(
       (data) => {
         this.router.navigateByUrl('/group/all');

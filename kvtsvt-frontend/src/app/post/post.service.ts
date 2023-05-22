@@ -1,3 +1,4 @@
+import { CreatePostDto } from './create-post-dto';
 import { PostModel } from './post-model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -10,13 +11,11 @@ export class PostService {
   constructor(private http: HttpClient) {}
 
   getAllPosts(): Observable<Array<PostModel>> {
-    return this.http.get<Array<PostModel>>(
-      'http://localhost:8080/api/posts/all'
-    );
+    return this.http.get<Array<PostModel>>('http://localhost:8080/api/post');
   }
 
   createPost(postDto: CreatePostDto): Observable<any> {
-    return this.http.post('http://localhost:8080/api/post/create', postPayload);
+    return this.http.post('http://localhost:8080/api/post/create', postDto);
   }
 
   getPost(id: number): Observable<PostModel> {
@@ -25,7 +24,7 @@ export class PostService {
 
   getAllPostsByUser(username: string): Observable<PostModel[]> {
     return this.http.get<PostModel[]>(
-      'http://localhost:8080/api/post/by-user/' + username
+      'http://localhost:8080/api/post/byUser/' + username
     );
   }
 }

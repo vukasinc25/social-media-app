@@ -1,7 +1,7 @@
-export class PostModel {
+export interface PostModel {
   id: number;
-  postName: string;
   description: string;
   userName: string;
   groupName: string;
+  commentCount: number;
 }

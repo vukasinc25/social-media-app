@@ -1,3 +1,6 @@
+import { PostModel } from './../post-model';
+import { CommentPayload } from './../comment/comment-payload';
+import { CommentService } from './../comment/comment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from './../post.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,10 +14,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ViewPostComponent implements OnInit {
   postId: number;
-  post: PostModel;
+  post!: PostModel;
   commentForm: FormGroup;
   commentPayload: CommentPayload;
-  comments: CommentPayload[];
+  comments: CommentPayload[] = [];
 
   constructor(
     private postService: PostService,
@@ -22,7 +25,7 @@ export class ViewPostComponent implements OnInit {
     private commentService: CommentService,
     private router: Router
   ) {
-    this.postId = this.activateRoute.snapshot.params.id;
+    this.postId = this.activateRoute.snapshot.params['id'];
 
     this.commentForm = new FormGroup({
       text: new FormControl('', Validators.required),
@@ -39,10 +42,10 @@ export class ViewPostComponent implements OnInit {
   }
 
   postComment() {
-    this.commentPayload.text = this.commentForm.get('text').value;
+    this.commentPayload.text = this.commentForm.get('text')?.value;
     this.commentService.postComment(this.commentPayload).subscribe(
       (data) => {
-        this.commentForm.get('text').setValue('');
+        this.commentForm.get('text')?.setValue('');
         this.getCommentsForPost();
       },
       (error) => {

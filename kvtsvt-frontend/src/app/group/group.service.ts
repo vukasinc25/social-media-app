@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GroupService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getAllGroups(): Observable<Array<GroupModel>> {
     return this.http.get<Array<GroupModel>>('http://localhost:8080/group/all');

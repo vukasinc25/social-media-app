@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GroupSidebarComponent {
   groups: Array<GroupModel> = [];
-  displayViewAll: boolean;
+  displayViewAll: boolean = false;
 
   constructor(private groupService: GroupService) {
     this.groupService.getAllGroups().subscribe((data) => {

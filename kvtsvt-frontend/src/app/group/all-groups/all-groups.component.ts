@@ -1,6 +1,7 @@
 import { GroupModel } from './../group-model';
 import { GroupService } from './../group.service';
 import { Component } from '@angular/core';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-all-groups',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./all-groups.component.css'],
 })
 export class AllGroupsComponent {
-  groups: Array<GroupModel>;
+  groups: Array<GroupModel> = [];
   constructor(private groupService: GroupService) {}
 
   ngOnInit() {

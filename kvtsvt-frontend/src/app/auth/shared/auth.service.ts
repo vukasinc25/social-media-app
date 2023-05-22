@@ -34,14 +34,17 @@ export class AuthService {
       )
       .pipe(
         map((data) => {
-          console.log('Login sucessfulf');
+          console.log('Login sucessfull');
           this.localStorage.store(
             'authenticationToken',
             data.authenticationToken
           );
           this.localStorage.store('username', data.username);
-          this.localStorage.store('refreshToken', data.refreshToken);
           this.localStorage.store('expiresAt', data.expiresAt);
+
+          console.log(this.localStorage.retrieve('username'));
+          console.log(this.localStorage.retrieve('authenticationToken'));
+          console.log(this.localStorage.retrieve('expiresAt'));
         })
       );
   }
