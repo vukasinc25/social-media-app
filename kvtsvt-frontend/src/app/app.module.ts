@@ -23,6 +23,9 @@ import { CreateGroupComponent } from './group/create-group/create-group.componen
 import { CreatePostComponent } from './post/create-post/create-post.component';
 import { AllGroupsComponent } from './group/all-groups/all-groups.component';
 import { ViewPostComponent } from './post/view-post/view-post.component';
+import { ChangePasswordComponent } from './auth/change-password/change-password.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserProfileComponent } from './auth/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,8 @@ import { ViewPostComponent } from './post/view-post/view-post.component';
     CreatePostComponent,
     AllGroupsComponent,
     ViewPostComponent,
+    ChangePasswordComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,7 @@ import { ViewPostComponent } from './post/view-post/view-post.component';
     ToastrModule.forRoot(),
     FontAwesomeModule,
     EditorModule,
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

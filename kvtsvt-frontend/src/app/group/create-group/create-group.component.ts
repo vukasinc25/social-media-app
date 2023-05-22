@@ -39,7 +39,7 @@ export class CreateGroupComponent {
       this.createGroupForm.get('description')?.value;
     this.groupService.createGroup(this.groupModel).subscribe(
       (data) => {
-        this.router.navigateByUrl('/group/all');
+        this.router.navigateByUrl('/all-groups');
       },
       (error) => {
         throwError(error);

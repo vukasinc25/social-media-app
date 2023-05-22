@@ -10,12 +10,12 @@ export class GroupService {
   constructor(private http: HttpClient) {}
 
   getAllGroups(): Observable<Array<GroupModel>> {
-    return this.http.get<Array<GroupModel>>('http://localhost:8080/group/all');
+    return this.http.get<Array<GroupModel>>('http://localhost:8080/api/group');
   }
 
   createGroup(groupmodel: GroupModel): Observable<GroupModel> {
     return this.http.post<GroupModel>(
-      'http://localhost:8080/group/create',
+      'http://localhost:8080/api/group/create',
       groupmodel
     );
   }

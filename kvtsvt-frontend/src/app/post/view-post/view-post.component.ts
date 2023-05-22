@@ -14,6 +14,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ViewPostComponent implements OnInit {
   postId: number;
+  userId: number;
   post!: PostModel;
   commentForm: FormGroup;
   commentPayload: CommentPayload;
@@ -26,13 +27,16 @@ export class ViewPostComponent implements OnInit {
     private router: Router
   ) {
     this.postId = this.activateRoute.snapshot.params['id'];
+    this.userId = this.activateRoute.snapshot.params['userId'];
 
     this.commentForm = new FormGroup({
       text: new FormControl('', Validators.required),
     });
     this.commentPayload = {
       text: '',
+      isDeleted: false,
       postId: this.postId,
+      userId: this.userId,
     };
   }
 

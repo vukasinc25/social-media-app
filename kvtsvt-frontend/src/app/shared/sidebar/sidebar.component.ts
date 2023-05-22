@@ -12,10 +12,10 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {}
 
   goToCreatePost() {
-    this.router.navigateByUrl('/post/create');
+    this.router.navigateByUrl('/create-post');
   }
 
   goToCreateGroup() {
-    this.router.navigateByUrl('/group/create');
+    this.router.navigateByUrl('/create-group');
   }
 }

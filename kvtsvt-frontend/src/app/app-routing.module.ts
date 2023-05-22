@@ -7,6 +7,7 @@ import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
+import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'create-group', component: CreateGroupComponent },
   { path: 'all-groups', component: AllGroupsComponent },
   { path: 'view-post/:id', component: ViewPostComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
 ];
 
 @NgModule({

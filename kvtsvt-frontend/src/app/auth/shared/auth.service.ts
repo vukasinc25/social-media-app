@@ -1,7 +1,8 @@
+import { PasswordModel } from './../change-password/password-model';
 import { LoginRequest } from './../login/login-request-model';
 import { RegisterRequestModel } from './../register/register-request-model';
 import { LocalStorageService } from 'ngx-webstorage';
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { LoginResponse } from '../login/login-response-model';
@@ -11,6 +12,9 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
+  @Output() loggedIn: EventEmitter<boolean> = new EventEmitter();
+  @Output() username: EventEmitter<string> = new EventEmitter();
+
   constructor(
     private httpClient: HttpClient,
     private localStorage: LocalStorageService,
@@ -39,6 +43,7 @@ export class AuthService {
             'authenticationToken',
             data.authenticationToken
           );
+          this.localStorage.store('userId', data.id);
           this.localStorage.store('username', data.username);
           this.localStorage.store('expiresAt', data.expiresAt);
 
@@ -49,10 +54,18 @@ export class AuthService {
       );
   }
 
+  changePassword(passwordModel: PasswordModel) {
+    return this.httpClient.post(
+      'http://localhost:8080/api/user/' + this.localStorage.retrieve('userId'),
+      passwordModel,
+      { responseType: 'text' }
+    );
+  }
+
   logout() {
-    // this.userService.currentUser = null;
-    this.localStorage.retrieve('authenticationToken');
-    this.router.navigate(['/login']);
+    this.localStorage.clear('authenticationToken');
+    this.localStorage.clear('username');
+    this.localStorage.clear('expiresAt');
   }
 
   tokenIsPresent() {
@@ -62,7 +75,17 @@ export class AuthService {
     );
   }
 
+  getUserName() {
+    return this.localStorage.retrieve('username');
+  }
+
   getJwtToken() {
+    // console.log(this.localStorage.retrieve('authenticationToken'));
     return this.localStorage.retrieve('authenticationToken');
+  }
+
+  isLoggedIn(): boolean {
+    // console.log(this.getJwtToken());
+    return this.getJwtToken() != null;
   }
 }

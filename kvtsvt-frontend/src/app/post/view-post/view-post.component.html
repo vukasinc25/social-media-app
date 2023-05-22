@@ -4,25 +4,25 @@
       <div class="col-md-9">
         <div class="row post">
           <div class="col-md-1">
-            <!-- <app-reaction-button [post]="post"></app-reaction-button> -->
+            <app-reaction-button [post]="post"></app-reaction-button>
           </div>
           <div class="col-md-11">
             <span>
-              <span class="subreddit-text"><a class="post-url" href="">{{post.groupName}}</a></span>
+              <span class="subreddit-text"><a class="post-url" href="">{{post.groupId}}</a></span>
               <span> . Posted
                 by              
-                <a class="username" href="">{{post.userName}}</a>
+                <a class="username" href="">{{post.userId}}</a>
               </span>
             </span>
             <hr />
             <!-- <a routerLink="post.url" class="post-title">{{post.postName}}</a> -->
             <div>
-              <p class="post-text" [innerHtml]="post.description"></p>
+              <p class="post-text" [innerHtml]="post.content"></p>
             </div>
             <div class="post-comment">
               <form [formGroup]="commentForm" (ngSubmit)="postComment()">
                 <div class="form-group">
-                  <textarea class="form-control" [formControlName]="'text'" placeholder="Your Thoughts?"></textarea>
+                  <textarea class="form-control" [formControlName]="'text'" placeholder="Leave a comment"></textarea>
                 </div>
                 <button type="submit" class="login float-right">Comment</button>
               </form>
@@ -30,7 +30,7 @@
             <div style="margin-top: 60px;" *ngFor="let comment of comments">
               <div class="comment">
                 <div class="username">
-                  <a routerLink="/user/comment.username">{{comment.username}}</a>
+                  <a routerLink="/user/comment.username">{{comment.userId}}</a>
                 </div>
                 <!-- <div>
                   <p>{{comment.duration}}</p>

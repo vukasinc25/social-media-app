@@ -17,6 +17,6 @@ export class PostOverviewComponent implements OnInit {
   ngOnInit(): void {}
 
   goToPost(id: number): void {
-    this.router.navigateByUrl('/post/' + id);
+    this.router.navigateByUrl('/view-post/' + id);
   }
 }
