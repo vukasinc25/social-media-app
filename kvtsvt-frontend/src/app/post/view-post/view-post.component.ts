@@ -58,6 +58,14 @@ export class ViewPostComponent implements OnInit {
     );
   }
 
+  selectPost() {
+    this.router.navigateByUrl('edit-post/' + this.postId);
+  }
+
+  deletePost() {
+    this.postService.deletePost(this.postId);
+  }
+
   private getPostById() {
     this.postService.getPost(this.postId).subscribe(
       (data) => {

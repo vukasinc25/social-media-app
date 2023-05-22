@@ -39,14 +39,16 @@ export class AuthService {
       .pipe(
         map((data) => {
           console.log('Login sucessfull');
+
           this.localStorage.store(
             'authenticationToken',
             data.authenticationToken
           );
-          this.localStorage.store('userId', data.id);
+          this.localStorage.store('userId', data.userId);
           this.localStorage.store('username', data.username);
           this.localStorage.store('expiresAt', data.expiresAt);
 
+          console.log(this.localStorage.retrieve('userId'));
           console.log(this.localStorage.retrieve('username'));
           console.log(this.localStorage.retrieve('authenticationToken'));
           console.log(this.localStorage.retrieve('expiresAt'));
@@ -55,7 +57,7 @@ export class AuthService {
   }
 
   changePassword(passwordModel: PasswordModel) {
-    return this.httpClient.post(
+    return this.httpClient.put(
       'http://localhost:8080/api/user/' + this.localStorage.retrieve('userId'),
       passwordModel,
       { responseType: 'text' }

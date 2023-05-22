@@ -1,5 +1,5 @@
 export interface LoginResponse {
-  id: number;
+  userId: number;
   authenticationToken: string;
   refreshToken: string;
   expiresAt: Date;

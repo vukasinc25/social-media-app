@@ -10,7 +10,7 @@ public interface UserService {
 
     User findOneById(Long id);
 
-    User save(UserDTO userDTO);
+    User save(User user);
 
     void delete(Long id);
 

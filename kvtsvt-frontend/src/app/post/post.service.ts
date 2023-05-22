@@ -27,4 +27,8 @@ export class PostService {
       'http://localhost:8080/api/post/byUser/' + username
     );
   }
+
+  deletePost(postId: number) {
+    return this.http.delete<any>('http://localhost:8080/api/post/' + postId);
+  }
 }

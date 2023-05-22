@@ -97,7 +97,8 @@ public class PostController {
         Post post = postService.findOneById(id);
 
         if (post != null) {
-            postService.delete(id);
+            post.setIsDeleted(true);
+            postService.save(post);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

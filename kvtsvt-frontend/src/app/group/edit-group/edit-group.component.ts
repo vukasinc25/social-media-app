@@ -8,11 +8,11 @@ import { AuthService } from 'src/app/auth/shared/auth.service';
 import { GroupAdminModel } from '../group-admin-model';
 
 @Component({
-  selector: 'app-create-group',
-  templateUrl: './create-group.component.html',
-  styleUrls: ['./create-group.component.css'],
+  selector: 'app-edit-group',
+  templateUrl: './edit-group.component.html',
+  styleUrls: ['./edit-group.component.css'],
 })
-export class CreateGroupComponent {
+export class EditGroupComponent {
   createGroupForm: FormGroup;
   groupModel: GroupModel;
   groupAdminModel: GroupAdminModel;
@@ -45,7 +45,7 @@ export class CreateGroupComponent {
     this.router.navigateByUrl('/');
   }
 
-  createGroup() {
+  editGroup() {
     this.groupModel.name = this.createGroupForm.get('name')?.value;
     this.groupModel.description =
       this.createGroupForm.get('description')?.value;

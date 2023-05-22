@@ -18,8 +18,8 @@ import static org.springframework.http.ResponseEntity.status;
 @RequestMapping("/api/group")
 public class GroupController {
 
-    public final GroupService groupService;
-    public final ModelMapper modelMapper;
+    private final GroupService groupService;
+    private final ModelMapper modelMapper;
 
     public GroupController(GroupService groupService, ModelMapper modelMapper) {
         this.groupService = groupService;
@@ -80,7 +80,8 @@ public class GroupController {
         Group group = groupService.findOneById(id);
 
         if (group != null) {
-            groupService.delete(id);
+            group.setIsSuspended(true);
+            groupService.save(group);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

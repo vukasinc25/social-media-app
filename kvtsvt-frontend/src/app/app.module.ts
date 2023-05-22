@@ -26,6 +26,8 @@ import { ViewPostComponent } from './post/view-post/view-post.component';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './auth/user-profile/user-profile.component';
+import { EditGroupComponent } from './group/edit-group/edit-group.component';
+import { EditPostComponent } from './post/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { UserProfileComponent } from './auth/user-profile/user-profile.component
     ViewPostComponent,
     ChangePasswordComponent,
     UserProfileComponent,
+    EditGroupComponent,
+    EditPostComponent,
   ],
   imports: [
     BrowserModule,

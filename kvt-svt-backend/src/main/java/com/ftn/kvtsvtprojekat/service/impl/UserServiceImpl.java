@@ -35,20 +35,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserDTO userDTO) {
+    public User save(User user) {
 
-        Optional<User> user = Optional.ofNullable(userRepository.findUserByUsername(userDTO.getUsername()));
-
-        if(user.isPresent()){
-            return null;
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(user.getRole() != Roles.ADMIN){
+            user.setRole(Roles.USER);
         }
-        User newUser = new User();
-        newUser.setUsername(userDTO.getUsername());
-        newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        newUser.setRole(Roles.USER);
-        newUser = userRepository.save(newUser);
 
-        return newUser;
+        return userRepository.save(user);
     }
 
     @Override

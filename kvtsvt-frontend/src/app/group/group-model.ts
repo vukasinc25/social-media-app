@@ -1,5 +1,5 @@
 export interface GroupModel {
-  id?: string;
+  id?: number;
   name?: string;
   description?: string;
   isSuspended?: boolean;

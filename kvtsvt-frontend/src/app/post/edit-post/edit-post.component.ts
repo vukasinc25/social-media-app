@@ -3,18 +3,20 @@ import { GroupModel } from './../../group/group-model';
 import { GroupService } from './../../group/group.service';
 import { PostService } from './../post.service';
 import { throwError } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/shared/auth.service';
+import { PostModel } from '../post-model';
 
 @Component({
-  selector: 'app-create-post',
-  templateUrl: './create-post.component.html',
-  styleUrls: ['./create-post.component.css'],
+  selector: 'app-edit-post',
+  templateUrl: './edit-post.component.html',
+  styleUrls: ['./edit-post.component.css'],
 })
-export class CreatePostComponent implements OnInit {
-  createPostForm!: FormGroup;
+export class EditPostComponent implements OnInit {
+  @Input() post!: PostModel;
+  editPostForm!: FormGroup;
   postPayload: CreatePostDto;
   groups: Array<GroupModel> = [];
 
@@ -32,7 +34,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createPostForm = new FormGroup({
+    this.editPostForm = new FormGroup({
       groupId: new FormControl(''),
       content: new FormControl('', Validators.required),
     });
@@ -46,10 +48,10 @@ export class CreatePostComponent implements OnInit {
     );
   }
 
-  createPost() {
-    this.postPayload.content = this.createPostForm.get('content')?.value;
+  editPost() {
+    this.postPayload.content = this.editPostForm.get('content')?.value;
     this.postPayload.userId = this.authService.getUserId();
-    this.postPayload.groupId = this.createPostForm.get('groupId')?.value;
+    this.postPayload.groupId = this.editPostForm.get('groupId')?.value;
 
     this.postService.createPost(this.postPayload).subscribe(
       (data) => {

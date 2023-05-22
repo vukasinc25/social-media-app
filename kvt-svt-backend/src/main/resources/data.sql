@@ -6,3 +6,5 @@ INSERT INTO groupp (creation_date, description, is_suspended, name, suspension_r
 INSERT INTO post (content, creation_date, is_deleted, user_id, group_id) VALUES ('azaza', now(), 0, 1, 1);
 
 INSERT INTO comment (is_deleted, text, post_id, user_id) VALUES (false, 'comment text', 1, 1);
+
+INSERT INTO group_admin (is_deleted, group_id, user_id) VALUES (false, 1, 1);

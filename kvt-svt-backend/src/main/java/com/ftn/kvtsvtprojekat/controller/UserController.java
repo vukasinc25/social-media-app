@@ -2,10 +2,9 @@ package com.ftn.kvtsvtprojekat.controller;
 
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.User;
-import com.ftn.kvtsvtprojekat.model.dto.AuthenticationResponse;
-import com.ftn.kvtsvtprojekat.model.dto.JwtAuthenticationRequest;
-import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
-import com.ftn.kvtsvtprojekat.model.dto.UserToken;
+import com.ftn.kvtsvtprojekat.model.User;
+import com.ftn.kvtsvtprojekat.model.User;
+import com.ftn.kvtsvtprojekat.model.dto.*;
 import com.ftn.kvtsvtprojekat.security.TokenUtils;
 import com.ftn.kvtsvtprojekat.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
+
+import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/api/user")
@@ -43,7 +44,8 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> create(@RequestBody @Validated UserDTO newUser){
 
-        User createdUser = userService.save(newUser);
+        User createdUser = modelMapper.map(newUser, User.class);
+        userService.save(createdUser);
 
         if(createdUser == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
@@ -71,13 +73,41 @@ public class UserController {
         String jwt = tokenUtils.generateToken(user);
         int expiresIn = tokenUtils.getExpiredIn();
 
+        User user2 = userService.findByUsername(user.getUsername());
+        Long userId = user2.getId();
+
         // Vrati token kao odgovor na uspesnu autentifikaciju
 
         return AuthenticationResponse.builder()
+                .userId(userId)
                 .authenticationToken(jwt)
                 .expiresAt(Instant.ofEpochSecond(expiresIn))
                 .username(user.getUsername())
                 .build();
+    }
+
+    @PutMapping(value = "/{id}", consumes = "application/json")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserDTO userDTO) {
+        User user = userService.findOneById(id);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(userDTO.getPassword());
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/findByUsername", params = "username", consumes = "application/json")
+    public ResponseEntity<UserDTO> getUser(@RequestParam String username) {
+        User user = userService.findByUsername(username);
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+
+        return status(HttpStatus.OK).body(userDTO);
     }
 
     @GetMapping("/all")

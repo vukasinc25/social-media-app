@@ -9,17 +9,21 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 import { UserProfileComponent } from './auth/user-profile/user-profile.component';
+import { EditGroupComponent } from './group/edit-group/edit-group.component';
+import { EditPostComponent } from './post/edit-post/edit-post.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'create-post', component: CreatePostComponent },
   { path: 'create-group', component: CreateGroupComponent },
+  { path: 'edit-group', component: EditGroupComponent },
   { path: 'all-groups', component: AllGroupsComponent },
+  { path: 'create-post', component: CreatePostComponent },
   { path: 'view-post/:id', component: ViewPostComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'user-profile/:name', component: UserProfileComponent },
+  { path: 'edit-post/:postId', component: EditPostComponent },
 ];
 
 @NgModule({

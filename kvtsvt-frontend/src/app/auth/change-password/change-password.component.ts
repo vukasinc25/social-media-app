@@ -41,7 +41,7 @@ export class ChangePasswordComponent implements OnInit {
     this.password = this.changePasswordForm.get('password')?.value;
     this.passwordRepeat = this.changePasswordForm.get('passwordRepeat')?.value;
 
-    if (this.password != this.passwordRepeat) {
+    if (this.password == this.passwordRepeat) {
       this.passwordModel.password = this.password;
 
       this.authService.changePassword(this.passwordModel).subscribe(
