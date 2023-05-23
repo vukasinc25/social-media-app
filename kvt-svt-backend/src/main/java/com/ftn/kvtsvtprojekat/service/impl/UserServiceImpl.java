@@ -1,17 +1,13 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
 import com.ftn.kvtsvtprojekat.model.User;
-import com.ftn.kvtsvtprojekat.model.User;
-import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
 import com.ftn.kvtsvtprojekat.model.enums.Roles;
 import com.ftn.kvtsvtprojekat.repository.UserRepository;
 import com.ftn.kvtsvtprojekat.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,12 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getRole() != Roles.ADMIN){
-            user.setRole(Roles.USER);
-        }
-
         return userRepository.save(user);
     }
 

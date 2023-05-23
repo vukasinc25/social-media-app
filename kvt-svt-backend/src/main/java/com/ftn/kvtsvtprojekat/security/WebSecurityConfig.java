@@ -62,6 +62,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
                 .requestMatchers("/api/group", "/api/group/**", "/api/post", "/api/post/**", "/api/comment", "/api/comment/**", "/api/user/**", "/api/image/**",
                         "api/groupAdmin", "api/groupAdmin/**", "api/groupRequest", "api/groupRequest/**").permitAll()
+//                .requestMatchers("/api/user/**").permitAll()
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
                 // koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
                 // samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin:
@@ -90,6 +91,6 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/group/**", "/post/**","/user/**");
+        return (web) -> web.ignoring().requestMatchers("api/group/**", "api/post/**","api/user/**");
     }
 }

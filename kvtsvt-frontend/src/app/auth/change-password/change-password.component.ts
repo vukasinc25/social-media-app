@@ -16,6 +16,7 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm!: FormGroup;
   passwordModel!: PasswordModel;
   isError!: boolean;
+  passwordOld: string = '';
   password: string = '';
   passwordRepeat: string = '';
 
@@ -26,22 +27,26 @@ export class ChangePasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.passwordModel = {
+      passwordOld: '',
       password: '',
     };
   }
 
   ngOnInit() {
     this.changePasswordForm = new FormGroup({
+      passwordOld: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       passwordRepeat: new FormControl('', Validators.required),
     });
   }
 
   changePassword() {
+    this.passwordOld = this.changePasswordForm.get('passwordOld')?.value;
     this.password = this.changePasswordForm.get('password')?.value;
     this.passwordRepeat = this.changePasswordForm.get('passwordRepeat')?.value;
 
     if (this.password == this.passwordRepeat) {
+      this.passwordModel.passwordOld = this.passwordOld;
       this.passwordModel.password = this.password;
 
       this.authService.changePassword(this.passwordModel).subscribe(
@@ -56,7 +61,7 @@ export class ChangePasswordComponent implements OnInit {
         }
       );
     } else {
-      console.log('Passwords not maching');
+      console.log(' not maching');
     }
   }
 }

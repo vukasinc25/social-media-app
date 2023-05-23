@@ -59,8 +59,7 @@ export class AuthService {
   changePassword(passwordModel: PasswordModel) {
     return this.httpClient.put(
       'http://localhost:8080/api/user/' + this.localStorage.retrieve('userId'),
-      passwordModel,
-      { responseType: 'text' }
+      passwordModel
     );
   }
 

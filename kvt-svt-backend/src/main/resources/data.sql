@@ -1,5 +1,5 @@
 INSERT INTO user (email, first_name, is_deleted, last_login, last_name, password, profile_image_path, role, username)
-VALUES ('email', 'name', 0, now(), 'lastname', '$2a$10$WyGU0850Gt6l9niernBpb.58pCPz8XXEaI4qvOyj5rdEYIygCat/u', 'picture', 'ADMIN', 'admin');
+VALUES ('email', 'name', 0, now(), 'lastname', '$2a$10$Nbp4OrkSAiEoAQDAJDx49e6DTqbkT19X9MjdKCn3HbtlJW6D69VhW', 'picture', 'ADMIN', 'admin');
 
 INSERT INTO groupp (creation_date, description, is_suspended, name, suspension_reason) VALUES (now(), 'group description', false, 'Group1', null);
 

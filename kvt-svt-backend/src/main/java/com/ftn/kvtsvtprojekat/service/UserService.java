@@ -1,7 +1,6 @@
 package com.ftn.kvtsvtprojekat.service;
 
 import com.ftn.kvtsvtprojekat.model.User;
-import com.ftn.kvtsvtprojekat.model.dto.UserDTO;
 
 import java.util.List;
 
