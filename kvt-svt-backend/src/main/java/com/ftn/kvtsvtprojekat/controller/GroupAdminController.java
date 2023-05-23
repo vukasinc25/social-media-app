@@ -55,6 +55,7 @@ public class GroupAdminController {
     @PostMapping(value = "/create", consumes = "application/json")
     public ResponseEntity<GroupAdmin> createGroupAdmin(@Valid @RequestBody GroupAdminDTO groupAdminDTO) {
         GroupAdmin groupAdmin = modelMapper.map(groupAdminDTO, GroupAdmin.class);
+        groupAdmin.setIsDeleted(false);
         groupAdminService.save(groupAdmin);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

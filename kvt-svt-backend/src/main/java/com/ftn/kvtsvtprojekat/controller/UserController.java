@@ -1,9 +1,11 @@
 package com.ftn.kvtsvtprojekat.controller;
 
+import com.ftn.kvtsvtprojekat.model.UserFriend;
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.dto.*;
 import com.ftn.kvtsvtprojekat.model.enums.Roles;
 import com.ftn.kvtsvtprojekat.security.TokenUtils;
+import com.ftn.kvtsvtprojekat.service.UserFriendService;
 import com.ftn.kvtsvtprojekat.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
@@ -18,11 +20,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.springframework.http.ResponseEntity.status;
 
@@ -31,13 +34,15 @@ import static org.springframework.http.ResponseEntity.status;
 public class UserController {
 
     public final UserService userService;
+    private final UserFriendService userFriendService;
     public final AuthenticationManager authenticationManager;
     public final TokenUtils tokenUtils;
     public final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenUtils tokenUtils, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, UserFriendService userFriendService, AuthenticationManager authenticationManager, TokenUtils tokenUtils, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.userFriendService = userFriendService;
         this.authenticationManager = authenticationManager;
         this.tokenUtils = tokenUtils;
         this.modelMapper = modelMapper;
@@ -145,6 +150,71 @@ public class UserController {
 
         if (user != null) {
             userService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        }
+    }
+
+    //---USER FRIEND---//
+    @GetMapping("/userFriend/all")
+    public ResponseEntity<List<UserFriendDTO>> getUserFriends() {
+
+        List<UserFriend> userFriends = userFriendService.findAll();
+        List<UserFriendDTO> userFriendsDTO = new ArrayList<>();
+        for (UserFriend userFriend : userFriends) {
+            if (!userFriend.getIsDeleted() ) {
+                UserFriendDTO userFriendDTO = modelMapper.map(userFriend, UserFriendDTO.class);
+                userFriendsDTO.add(userFriendDTO);
+            }
+        }
+        return new ResponseEntity<>(userFriendsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/userFriend/deleted")
+    public ResponseEntity<List<UserFriendDTO>> getUserFriendsDeleted() {
+
+        List<UserFriend> userFriends = userFriendService.findAll();
+        List<UserFriendDTO> userFriendsDTO = new ArrayList<>();
+        for (UserFriend userFriend : userFriends) {
+            if (userFriend.getIsDeleted()) {
+                UserFriendDTO userFriendDTO = modelMapper.map(userFriend, UserFriendDTO.class);
+                userFriendsDTO.add(userFriendDTO);
+            }
+        }
+        return new ResponseEntity<>(userFriendsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/userFriend/{id}")
+    public ResponseEntity<UserFriendDTO> getUserFriend(@PathVariable("id") Long id) {
+        UserFriend userFriend = userFriendService.findOneById(id);
+
+        if (userFriend == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserFriendDTO userFriendDTO = modelMapper.map(userFriend, UserFriendDTO.class);
+
+        return status(HttpStatus.OK).body(userFriendDTO);
+    }
+
+    @PostMapping(value = "/userFriend/create", consumes = "application/json")
+    public ResponseEntity<UserFriend> createUserFriend(@Valid @RequestBody UserFriendDTO userFriendDTO) {
+        UserFriend userFriend = modelMapper.map(userFriendDTO, UserFriend.class);
+        userFriendService.save(userFriend);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/userFriend/{id}")
+    public ResponseEntity<Void> deleteUserFriend(@PathVariable Long id) {
+        if(id == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        UserFriend userFriend = userFriendService.findOneById(id);
+
+        if (userFriend != null) {
+            userFriend.setIsDeleted(true);
+            userFriendService.save(userFriend);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

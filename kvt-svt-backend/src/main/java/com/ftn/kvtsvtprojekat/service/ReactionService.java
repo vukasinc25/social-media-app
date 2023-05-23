@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.service;
 
+import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.model.Reaction;
 
@@ -9,6 +10,8 @@ public interface ReactionService {
     List<Reaction> findAll();
 
     List<Reaction> findAllByPost(Post post);
+
+    List<Reaction> findAllByComment(Comment comment);
 
     Reaction findOneById(Long id);
 

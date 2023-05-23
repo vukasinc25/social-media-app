@@ -15,9 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class GroupDTO {
 
     private Long id;
-    @NotBlank
     private String name;
-    @NotBlank
     private String description;
     private Boolean isSuspended;
     private String suspensionReason;

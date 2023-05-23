@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.controller;
 
+import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.model.Reaction;
 import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.model.dto.ReactionDTO;
@@ -38,6 +39,20 @@ public class ReactionController {
 
         Post post = postService.findOneById(postId);
         List<Reaction> reactions = reactionService.findAllByPost(post);
+        List<ReactionDTO> reactionsDTO = new ArrayList<>();
+        for (Reaction reaction : reactions) {
+            ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);
+            reactionsDTO.add(reactionDTO);
+        }
+
+        return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/byComment/{id}")
+    public ResponseEntity<List<ReactionDTO>> getReactionsForComment(@PathVariable("id") Long commentId) {
+
+        Comment comment = postService.findOneById(commentId);
+        List<Reaction> reactions = reactionService.findAllBy(comment);
         List<ReactionDTO> reactionsDTO = new ArrayList<>();
         for (Reaction reaction : reactions) {
             ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);

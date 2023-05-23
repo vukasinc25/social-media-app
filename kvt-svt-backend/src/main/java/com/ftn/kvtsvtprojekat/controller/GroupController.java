@@ -26,16 +26,32 @@ public class GroupController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<GroupDTO>> getGroups() {
 
         List<Group> groups = groupService.findAll();
         List<GroupDTO> groupsDTO = new ArrayList<>();
         for (Group group : groups) {
-            GroupDTO groupDTO = modelMapper.map(group, GroupDTO.class);
-            groupsDTO.add(groupDTO);
+            if (!group.getIsSuspended()) {
+                GroupDTO groupDTO = modelMapper.map(group, GroupDTO.class);
+                groupsDTO.add(groupDTO);
+            }
         }
 
+        return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/deleted")
+    public ResponseEntity<List<GroupDTO>> getGroupsDeleted() {
+
+        List<Group> groups = groupService.findAll();
+        List<GroupDTO> groupsDTO = new ArrayList<>();
+        for (Group group : groups) {
+            if (group.getIsSuspended()) {
+                GroupDTO groupDTO = modelMapper.map(group, GroupDTO.class);
+                groupsDTO.add(groupDTO);
+            }
+        }
         return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
     }
 

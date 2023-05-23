@@ -37,8 +37,10 @@ public class PostController {
         List<Post> posts = postService.findAllByGroup(group);
         List<PostDTO> postsDTO = new ArrayList<>();
         for (Post post : posts) {
-            PostDTO postDTO = modelMapper.map(post, PostDTO.class);
-            postsDTO.add(postDTO);
+            if(!post.getIsDeleted()) {
+                PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+                postsDTO.add(postDTO);
+            }
         }
 
         return new ResponseEntity<>(postsDTO, HttpStatus.OK);
@@ -50,8 +52,10 @@ public class PostController {
         List<Post> posts = postService.findAll();
         List<PostDTO> postsDTO = new ArrayList<>();
         for (Post post : posts) {
-            PostDTO postDTO = modelMapper.map(post, PostDTO.class);
-            postsDTO.add(postDTO);
+            if(!post.getIsDeleted()) {
+                PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+                postsDTO.add(postDTO);
+            }
         }
 
         return new ResponseEntity<>(postsDTO, HttpStatus.OK);

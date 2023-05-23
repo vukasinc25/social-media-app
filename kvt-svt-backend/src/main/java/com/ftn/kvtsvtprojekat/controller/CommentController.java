@@ -40,8 +40,25 @@ public class CommentController {
         List<Comment> comments = commentService.findAll();
         List<CommentDTO> commentsDTO = new ArrayList<>();
         for (Comment comment : comments) {
-            CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
-            commentsDTO.add(commentDTO);
+            if(!comment.getIsDeleted()){
+                CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
+                commentsDTO.add(commentDTO);
+            }
+        }
+
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/deleted")
+    public ResponseEntity<List<CommentDTO>> getCommentsDeleted() {
+
+        List<Comment> comments = commentService.findAll();
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+        for (Comment comment : comments) {
+            if(comment.getIsDeleted()){
+                CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
+                commentsDTO.add(commentDTO);
+            }
         }
 
         return new ResponseEntity<>(commentsDTO, HttpStatus.OK);

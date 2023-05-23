@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,8 @@ public class GroupRequestRequestController {
     @PostMapping(value = "/create")
     public ResponseEntity<GroupRequest> createGroupRequest(@Valid @RequestBody GroupRequestDTO groupDTO) {
         GroupRequest group = modelMapper.map(groupDTO, GroupRequest.class);
+        LocalDateTime time = LocalDateTime.now();
+        group.setRequestDate(time);
         groupRequestService.save(group);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -66,6 +69,8 @@ public class GroupRequestRequestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         group.setApproved(true);
+        LocalDateTime time = LocalDateTime.now();
+        group.setResponseDate(time);
         groupRequestService.save(group);
 
         return new ResponseEntity<>(HttpStatus.OK);
