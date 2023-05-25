@@ -4,6 +4,7 @@ import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.enums.Roles;
 import com.ftn.kvtsvtprojekat.repository.UserRepository;
 import com.ftn.kvtsvtprojekat.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> searchByName(String firstname, String lastname) {
+        return userRepository.findByFirstNameContainingOrLastNameContaining(firstname, lastname);
+    }
+
+    @Override
     public User findOneById(Long id){
         return userRepository.findUserById(id);
     }
@@ -43,6 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User findByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }

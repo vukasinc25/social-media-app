@@ -11,9 +11,9 @@
               <span class="subreddit-text"><a class="post-url" href="">{{post.groupId}}</a></span>
               <span> . Posted
                 by              
-                <a class="username" href="">{{post.userId}}</a>
-                <button (click)="selectPost()">EDIT</button>
-                <button (click)="deletePost()">DELETE</button>
+                <a class="username" href="">{{user.username}}</a>
+                <button *ngIf="post.userId === loggedUserId" (click)="selectPost()">EDIT</button>
+                <button *ngIf="post.userId === loggedUserId" (click)="deletePost()">DELETE</button>
               </span>
             </span>
             <hr />

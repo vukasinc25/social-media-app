@@ -21,9 +21,9 @@ export class CommentService {
     );
   }
 
-  getAllCommentsByUser(name: string) {
+  getAllCommentsByUser(id: number) {
     return this.httpClient.get<CommentPayload[]>(
-      'http://localhost:8080/api/comments/by-user/' + name
+      'http://localhost:8080/api/comment/byUser/' + id
     );
   }
 }

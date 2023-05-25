@@ -47,11 +47,13 @@ export class AuthService {
           this.localStorage.store('userId', data.userId);
           this.localStorage.store('username', data.username);
           this.localStorage.store('expiresAt', data.expiresAt);
+          this.localStorage.store('role', data.role);
 
           console.log(this.localStorage.retrieve('userId'));
           console.log(this.localStorage.retrieve('username'));
           console.log(this.localStorage.retrieve('authenticationToken'));
           console.log(this.localStorage.retrieve('expiresAt'));
+          console.log(this.localStorage.retrieve('role'));
         })
       );
   }
@@ -60,6 +62,12 @@ export class AuthService {
     return this.httpClient.put(
       'http://localhost:8080/api/user/' + this.localStorage.retrieve('userId'),
       passwordModel
+    );
+  }
+
+  getUser(id: number): Observable<RegisterRequestModel> {
+    return this.httpClient.get<RegisterRequestModel>(
+      'http://localhost:8080/api/user/' + id
     );
   }
 

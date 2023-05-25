@@ -34,6 +34,8 @@ export class CreateGroupComponent {
       description: '',
     };
     this.groupAdminModel = {
+      id: '',
+      isDeleted: false,
       userId: 0,
       groupId: 0,
     };

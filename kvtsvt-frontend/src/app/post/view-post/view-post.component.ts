@@ -6,6 +6,9 @@ import { PostService } from './../post.service';
 import { Component, OnInit } from '@angular/core';
 import { throwError } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { LocalStorageService } from 'ngx-webstorage';
+import { AuthService } from 'src/app/auth/shared/auth.service';
+import { RegisterRequestModel } from 'src/app/auth/register/register-request-model';
 
 @Component({
   selector: 'app-view-post',
@@ -14,7 +17,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ViewPostComponent implements OnInit {
   postId: number;
-  userId: number;
+  userId: number = 0;
+  user!: RegisterRequestModel;
+  loggedUserId: number;
   post!: PostModel;
   commentForm: FormGroup;
   commentPayload: CommentPayload;
@@ -24,10 +29,14 @@ export class ViewPostComponent implements OnInit {
     private postService: PostService,
     private activateRoute: ActivatedRoute,
     private commentService: CommentService,
+    private localStorage: LocalStorageService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.postId = this.activateRoute.snapshot.params['id'];
-    this.userId = this.activateRoute.snapshot.params['userId'];
+    this.loggedUserId = this.localStorage.retrieve('userId');
+
+    console.log(this.postId);
 
     this.commentForm = new FormGroup({
       text: new FormControl('', Validators.required),
@@ -36,16 +45,19 @@ export class ViewPostComponent implements OnInit {
       text: '',
       isDeleted: false,
       postId: this.postId,
-      userId: this.userId,
+      userId: 0,
     };
   }
 
   ngOnInit(): void {
     this.getPostById();
+    this.userId = this.post.userId;
     this.getCommentsForPost();
+    this.getUser();
   }
 
   postComment() {
+    this.commentPayload.userId = this.post.userId;
     this.commentPayload.text = this.commentForm.get('text')?.value;
     this.commentService.postComment(this.commentPayload).subscribe(
       (data) => {
@@ -63,7 +75,14 @@ export class ViewPostComponent implements OnInit {
   }
 
   deletePost() {
-    this.postService.deletePost(this.postId);
+    this.postService.deletePost(this.postId).subscribe(
+      (data) => {
+        this.router.navigateByUrl('/');
+      },
+      (error) => {
+        throwError(error);
+      }
+    );
   }
 
   private getPostById() {
@@ -86,5 +105,11 @@ export class ViewPostComponent implements OnInit {
         throwError(error);
       }
     );
+  }
+
+  getUser() {
+    this.authService.getUser(this.userId).subscribe((data) => {
+      this.user = data;
+    });
   }
 }

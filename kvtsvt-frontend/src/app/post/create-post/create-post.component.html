@@ -12,19 +12,7 @@
               <option *ngFor="let group of groups" value="{{group.id}}">{{group.name}}</option>
             </select>
   
-            <editor [formControlName]="'content'" [init]="{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                          'advlist autolink lists link image charmap print preview anchor',
-                          'searchreplace visualblocks code fullscreen',
-                          'insertdatetime media table paste code help wordcount'
-                        ],
-                        toolbar:
-                          'undo redo | formatselect | bold italic backcolor | \
-                          alignleft aligncenter alignright alignjustify | \
-                          bullist numlist outdent indent | removeformat | help'
-                      }"></editor>
+            <input [formControlName]="'content'">
             <span>
               <div style="margin-top: 5px" class="float-right">
                 <button (click)="discardPost()" class="btnDiscard">Discard</button>

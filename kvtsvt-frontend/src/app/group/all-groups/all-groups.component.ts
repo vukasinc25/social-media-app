@@ -1,6 +1,6 @@
 import { GroupModel } from './../group-model';
 import { GroupService } from './../group.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { throwError } from 'rxjs';
 
 @Component({
@@ -8,7 +8,7 @@ import { throwError } from 'rxjs';
   templateUrl: './all-groups.component.html',
   styleUrls: ['./all-groups.component.css'],
 })
-export class AllGroupsComponent {
+export class AllGroupsComponent implements OnInit {
   groups: Array<GroupModel> = [];
   constructor(private groupService: GroupService) {}
 

@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.controller;
 
+import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.model.UserFriend;
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.dto.*;
@@ -85,6 +86,7 @@ public class UserController {
 
         User user2 = userService.findByUsername(user.getUsername());
         Long userId = user2.getId();
+        String role = String.valueOf(user2.getRole());
         LocalDateTime time = LocalDateTime.now();
         user2.setLastLogin(time);
         userService.save(user2);
@@ -96,6 +98,7 @@ public class UserController {
                 .authenticationToken(jwt)
                 .expiresAt(Instant.ofEpochSecond(expiresIn))
                 .username(user.getUsername())
+                .role(role)
                 .build();
     }
 
@@ -114,6 +117,19 @@ public class UserController {
         else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UserRegisterDTO> getUser(@PathVariable("id") Long id) {
+        User user = userService.findOneById(id);
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserRegisterDTO userDTO = modelMapper.map(user, UserRegisterDTO.class);
+
+        return status(HttpStatus.OK).body(userDTO);
     }
 
     @GetMapping(value = "/findByUsername", params = "username", consumes = "application/json")
@@ -154,6 +170,22 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UserRegisterDTO>> Search(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
+
+        List<User> users = userService.searchByName(userRegisterDTO.getFirstName(), userRegisterDTO.getLastName());
+        System.out.println(userRegisterDTO.getFirstName());
+        System.out.println(userRegisterDTO.getLastName());
+        List<UserRegisterDTO> usersDTO = new ArrayList<>();
+        for (User user : users) {
+            if(!user.getIsDeleted()) {
+                UserRegisterDTO userDTO = modelMapper.map(user, UserRegisterDTO.class);
+                usersDTO.add(userDTO);
+            }
+        }
+        return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
     //---USER FRIEND---//

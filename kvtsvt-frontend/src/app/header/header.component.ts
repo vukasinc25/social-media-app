@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   faUser = faUser;
   isLoggedIn!: boolean;
   username!: string;
+  id: number = 0;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -24,10 +25,11 @@ export class HeaderComponent implements OnInit {
     );
     this.isLoggedIn = this.authService.isLoggedIn();
     this.username = this.authService.getUserName();
+    this.id = this.authService.getUserId();
   }
 
   goToUserProfile() {
-    this.router.navigateByUrl('/user-profile/' + this.username);
+    this.router.navigateByUrl('/user-profile/' + this.id);
   }
 
   changePassword() {

@@ -34,6 +34,7 @@ export class EditGroupComponent {
       description: '',
     };
     this.groupAdminModel = {
+      isDeleted: false,
       userId: 0,
       groupId: 0,
     };

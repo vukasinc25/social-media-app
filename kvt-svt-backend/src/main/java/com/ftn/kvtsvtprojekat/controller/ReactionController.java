@@ -25,13 +25,13 @@ public class ReactionController {
     private final ModelMapper modelMapper;
     private final ReactionService reactionService;
     private final PostService postService;
-    private final CommentService commentService;
+//    private final CommentService commentService;
 
     public ReactionController(ModelMapper modelMapper, ReactionService reactionService, PostService postService, CommentService commentService) {
         this.modelMapper = modelMapper;
         this.reactionService = reactionService;
         this.postService = postService;
-        this.commentService = commentService;
+//        this.commentService = commentService;
     }
 
     @GetMapping("/byPost/{id}")
@@ -48,19 +48,19 @@ public class ReactionController {
         return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/byComment/{id}")
-    public ResponseEntity<List<ReactionDTO>> getReactionsForComment(@PathVariable("id") Long commentId) {
-
-        Comment comment = postService.findOneById(commentId);
-        List<Reaction> reactions = reactionService.findAllBy(comment);
-        List<ReactionDTO> reactionsDTO = new ArrayList<>();
-        for (Reaction reaction : reactions) {
-            ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);
-            reactionsDTO.add(reactionDTO);
-        }
-
-        return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
-    }
+//    @GetMapping("/byComment/{id}")
+//    public ResponseEntity<List<ReactionDTO>> getReactionsForComment(@PathVariable("id") Long commentId) {
+//
+//        Comment comment = commentService.findOneById(commentId);
+//        List<Reaction> reactions = reactionService.findAllBy(comment);
+//        List<ReactionDTO> reactionsDTO = new ArrayList<>();
+//        for (Reaction reaction : reactions) {
+//            ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);
+//            reactionsDTO.add(reactionDTO);
+//        }
+//
+//        return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
+//    }
 
     //TODO Sve reakcije po komentaru
 

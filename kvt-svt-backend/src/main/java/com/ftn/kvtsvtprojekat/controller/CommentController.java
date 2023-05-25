@@ -34,6 +34,22 @@ public class CommentController {
         this.modelMapper = modelMapper;
     }
 
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<CommentDTO>> getChildComments(@PathVariable("id") Long parentId) {
+
+        Comment commentParent = commentService.findOneById(parentId);
+        List<Comment> comments = commentService.findAllByParentComment(commentParent);
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+        for (Comment comment : comments) {
+            if(!comment.getIsDeleted()){
+                CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
+                commentsDTO.add(commentDTO);
+            }
+        }
+
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<CommentDTO>> getComments() {
 
@@ -56,6 +72,22 @@ public class CommentController {
         List<CommentDTO> commentsDTO = new ArrayList<>();
         for (Comment comment : comments) {
             if(comment.getIsDeleted()){
+                CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
+                commentsDTO.add(commentDTO);
+            }
+        }
+
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/byUser/{id}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByUser(@PathVariable("id") Long userId) {
+
+        User user = userService.findOneById(userId);
+        List<Comment> comments = commentService.findAllByUser(user);
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+        for (Comment comment : comments) {
+            if(!comment.getIsDeleted()){
                 CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
                 commentsDTO.add(commentDTO);
             }

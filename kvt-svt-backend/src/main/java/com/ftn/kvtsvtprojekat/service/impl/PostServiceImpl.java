@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Group;
 import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.model.Post;
+import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.repository.PostRepository;
 import com.ftn.kvtsvtprojekat.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAllByGroup(Group group) {
         return postRepository.findAllByGroup(group);
+    }
+
+    @Override
+    public List<Post> findAllByUser(User user) {
+        return postRepository.findAllByUser(user);
     }
 
     @Override

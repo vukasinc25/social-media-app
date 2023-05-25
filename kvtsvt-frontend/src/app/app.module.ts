@@ -28,6 +28,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './auth/user-profile/user-profile.component';
 import { EditGroupComponent } from './group/edit-group/edit-group.component';
 import { EditPostComponent } from './post/edit-post/edit-post.component';
+import { ViewGroupComponent } from './group/view-group/view-group.component';
+import { ViewGroupSidebarComponent } from './shared/view-group-sidebar/view-group-sidebar.component';
+import { ViewCommentComponent } from './comment/view-comment/view-comment.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,9 @@ import { EditPostComponent } from './post/edit-post/edit-post.component';
     UserProfileComponent,
     EditGroupComponent,
     EditPostComponent,
+    ViewGroupComponent,
+    ViewGroupSidebarComponent,
+    ViewCommentComponent,
   ],
   imports: [
     BrowserModule,

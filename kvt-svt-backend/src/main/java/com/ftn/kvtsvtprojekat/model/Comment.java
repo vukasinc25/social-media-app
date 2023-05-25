@@ -21,11 +21,14 @@ public class Comment {
     private String text;
     private Boolean isDeleted;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "comments_replies",
-            joinColumns = @JoinColumn(name = "comment_parent"),
-            inverseJoinColumns = @JoinColumn(name = "comment_child"))
-    private Set<Comment> comments = new HashSet<>();
+    @OneToOne
+    private Comment parentComment;
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "comments_replies",
+//            joinColumns = @JoinColumn(name = "comment_parent"),
+//            inverseJoinColumns = @JoinColumn(name = "comment_child"))
+//    private Set<Comment> comments = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Post post;

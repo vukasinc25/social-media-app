@@ -1,16 +1,21 @@
 package com.ftn.kvtsvtprojekat.controller;
 
+import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.model.Group;
 import com.ftn.kvtsvtprojekat.model.Post;
+import com.ftn.kvtsvtprojekat.model.User;
+import com.ftn.kvtsvtprojekat.model.dto.CommentDTO;
 import com.ftn.kvtsvtprojekat.model.dto.PostDTO;
 import com.ftn.kvtsvtprojekat.service.GroupService;
 import com.ftn.kvtsvtprojekat.service.PostService;
+import com.ftn.kvtsvtprojekat.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +28,13 @@ public class PostController {
     private final PostService postService;
     private final GroupService groupService;
     public final ModelMapper modelMapper;
+    private final UserService userService;
 
-    public PostController(PostService postService, GroupService groupService, ModelMapper modelMapper) {
+    public PostController(PostService postService, GroupService groupService, ModelMapper modelMapper, UserService userService) {
         this.postService = postService;
         this.groupService = groupService;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     @GetMapping("/byGroup/{id}")
@@ -46,13 +53,28 @@ public class PostController {
         return new ResponseEntity<>(postsDTO, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<PostDTO>> getPosts() {
 
         List<Post> posts = postService.findAll();
         List<PostDTO> postsDTO = new ArrayList<>();
         for (Post post : posts) {
             if(!post.getIsDeleted()) {
+                PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+                postsDTO.add(postDTO);
+            }
+        }
+        return new ResponseEntity<>(postsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/byUser/{id}")
+    public ResponseEntity<List<PostDTO>> getCommentsByUser(@PathVariable("id") Long userId) {
+
+        User user = userService.findOneById(userId);
+        List<Post> posts = postService.findAllByUser(user);
+        List<PostDTO> postsDTO = new ArrayList<>();
+        for (Post post : posts) {
+            if(!post.getIsDeleted()){
                 PostDTO postDTO = modelMapper.map(post, PostDTO.class);
                 postsDTO.add(postDTO);
             }
@@ -76,7 +98,10 @@ public class PostController {
 
     @PostMapping(value = "/create", consumes = "application/json")
     public ResponseEntity<Post> createPost(@Valid @RequestBody PostDTO postDTO) {
+        postDTO.setIsDeleted(false);
         Post post = modelMapper.map(postDTO, Post.class);
+        LocalDateTime time = LocalDateTime.now();
+        post.setCreationDate(time);
         postService.save(post);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

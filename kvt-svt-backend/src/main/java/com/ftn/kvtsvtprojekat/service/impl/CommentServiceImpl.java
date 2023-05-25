@@ -3,6 +3,7 @@ package com.ftn.kvtsvtprojekat.service.impl;
 import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.model.Post;
+import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.repository.CommentRepository;
 import com.ftn.kvtsvtprojekat.service.CommentService;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,16 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> findAll(){
         return commentRepository.findAll();
+    }
+
+    @Override
+    public List<Comment> findAllByParentComment(Comment parentComment) {
+        return commentRepository.findAllByParentComment(parentComment);
+    }
+
+    @Override
+    public List<Comment> findAllByUser(User user) {
+        return commentRepository.findAllByUser(user);
     }
 
     @Override

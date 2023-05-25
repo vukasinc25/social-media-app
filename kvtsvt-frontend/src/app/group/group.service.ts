@@ -11,7 +11,9 @@ export class GroupService {
   constructor(private http: HttpClient) {}
 
   getAllGroups(): Observable<Array<GroupModel>> {
-    return this.http.get<Array<GroupModel>>('http://localhost:8080/api/group');
+    return this.http.get<Array<GroupModel>>(
+      'http://localhost:8080/api/group/all'
+    );
   }
 
   createGroup(groupmodel: GroupModel): Observable<GroupModel> {
@@ -35,5 +37,9 @@ export class GroupService {
       'http://localhost:8080/api/groupAdmin/create',
       groupAdminModel
     );
+  }
+
+  deleteGroup(id: number) {
+    return this.http.delete('http://localhost:8080/api/group/' + id);
   }
 }

@@ -8,7 +8,7 @@
     <div>
       Your Posts:
     </div>
-    <app-post-tile [posts]="posts"></app-post-tile>
+    <app-post-overview [posts]="posts"></app-post-overview>
     <hr />
     <div>
       Your Comments:
@@ -16,10 +16,7 @@
     <div *ngFor="let comment of comments">
       <div class="comment">
         <div class="username">
-          <a routerLink="/user/comment.username">{{comment.userName}}</a>
-        </div>
-        <div>
-          <p>{{comment.duration}}</p>
+          <a routerLink="/user/comment.username">{{comment.userId}}</a>
         </div>
         <b>{{comment.text}}</b>
       </div>
