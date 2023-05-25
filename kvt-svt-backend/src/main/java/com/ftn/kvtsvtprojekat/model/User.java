@@ -40,5 +40,4 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<GroupAdmin> groupAdmins = new HashSet<>();
-
 }

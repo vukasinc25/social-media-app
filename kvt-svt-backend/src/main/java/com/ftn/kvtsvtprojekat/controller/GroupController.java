@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.controller;
 
 import com.ftn.kvtsvtprojekat.model.Group;
+import com.ftn.kvtsvtprojekat.model.GroupAdmin;
 import com.ftn.kvtsvtprojekat.model.dto.GroupDTO;
 import com.ftn.kvtsvtprojekat.service.GroupService;
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,10 +71,13 @@ public class GroupController {
     }
 
     @PostMapping(value = "/create", consumes = "application/json")
-    public ResponseEntity<Group> createGroup(@Valid @RequestBody GroupDTO groupDTO) {
+    public ResponseEntity<GroupDTO> createGroup(@Valid @RequestBody GroupDTO groupDTO) {
         Group group = modelMapper.map(groupDTO, Group.class);
+        group.setCreationDate(LocalDateTime.now());
+        group.setIsSuspended(false);
         groupService.save(group);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        GroupDTO groupDTO1 = modelMapper.map(group, GroupDTO.class);
+        return new ResponseEntity<>(groupDTO1, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")

@@ -88,9 +88,9 @@ public class WebSecurityConfig {
 //                        "/**/*.html", "/**/*.css", "/**/*.js");
 //
 //    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("api/group/**", "api/post/**","api/user/**");
-    }
+//
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers("api/group/**", "api/post/**","api/user/**");
+//    }
 }

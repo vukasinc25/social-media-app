@@ -33,6 +33,7 @@ import { ViewGroupSidebarComponent } from './shared/view-group-sidebar/view-grou
 import { ViewCommentComponent } from './comment/view-comment/view-comment.component';
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { EditUserComponent } from './auth/edit-user/edit-user.component';
+import { AdminGroupComponent } from './group/admin-group/admin-group.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { EditUserComponent } from './auth/edit-user/edit-user.component';
     ViewCommentComponent,
     EditCommentComponent,
     EditUserComponent,
+    AdminGroupComponent,
   ],
   imports: [
     BrowserModule,

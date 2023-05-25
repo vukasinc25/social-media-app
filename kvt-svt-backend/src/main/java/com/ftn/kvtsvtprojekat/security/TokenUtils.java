@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class TokenUtils<Claims> {
+public class TokenUtils {
 
     @Value("biloKojiString")
     private String secret;

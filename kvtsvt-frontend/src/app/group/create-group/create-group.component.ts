@@ -19,6 +19,8 @@ export class CreateGroupComponent {
   name = new FormControl('');
   description = new FormControl('');
   username: string = '';
+  userId: number = 0;
+  groupId: number = 0;
 
   constructor(
     private router: Router,
@@ -32,9 +34,9 @@ export class CreateGroupComponent {
     this.groupModel = {
       name: '',
       description: '',
+      adminId: 0,
     };
     this.groupAdminModel = {
-      id: '',
       isDeleted: false,
       userId: 0,
       groupId: 0,
@@ -51,19 +53,34 @@ export class CreateGroupComponent {
     this.groupModel.name = this.createGroupForm.get('name')?.value;
     this.groupModel.description =
       this.createGroupForm.get('description')?.value;
+
     this.groupService.createGroup(this.groupModel).subscribe(
       (data) => {
-        if (data.id !== undefined) {
-          this.groupAdminModel.groupId = data.id;
-        }
-        this.router.navigateByUrl('/all-groups');
+        this.groupId = data?.id ?? 0;
+        console.log(this.groupId);
+        console.log(data);
+        this.router.navigateByUrl('/');
+        this.createGroupAdmin();
       },
       (error) => {
         throwError(error);
       }
     );
+  }
 
-    this.username = this.authService.getUserName();
-    this.groupService.createGroupAdmin;
+  createGroupAdmin() {
+    this.userId = this.authService.getUserId();
+    this.groupAdminModel.groupId = this.groupId;
+    this.groupAdminModel.userId = this.userId;
+    this.groupAdminModel.isDeleted = false;
+    console.log(this.groupId);
+    this.groupService.createGroupAdmin(this.groupAdminModel).subscribe(
+      (data) => {
+        console.log('created group admin');
+      },
+      (error) => {
+        throwError(error);
+      }
+    );
   }
 }

@@ -27,14 +27,16 @@ public class GroupRequestRequestController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<GroupRequestDTO>> getGroupRequests() {
 
         List<GroupRequest> groups = groupRequestService.findAll();
         List<GroupRequestDTO> groupsDTO = new ArrayList<>();
         for (GroupRequest group : groups) {
-            GroupRequestDTO groupDTO = modelMapper.map(group, GroupRequestDTO.class);
-            groupsDTO.add(groupDTO);
+            if(!group.getIsDeleted()) {
+                GroupRequestDTO groupDTO = modelMapper.map(group, GroupRequestDTO.class);
+                groupsDTO.add(groupDTO);
+            }
         }
 
         return new ResponseEntity<>(groupsDTO, HttpStatus.OK);

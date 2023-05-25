@@ -3,7 +3,7 @@ import { GroupService } from './../group.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { GroupAdminModel } from '../group-admin-model';
 
@@ -13,56 +13,53 @@ import { GroupAdminModel } from '../group-admin-model';
   styleUrls: ['./edit-group.component.css'],
 })
 export class EditGroupComponent {
-  createGroupForm: FormGroup;
+  editGroupForm: FormGroup;
   groupModel: GroupModel;
-  groupAdminModel: GroupAdminModel;
   name = new FormControl('');
   description = new FormControl('');
   username: string = '';
+  groupId: number = 0;
 
   constructor(
     private router: Router,
     private groupService: GroupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private activateRoute: ActivatedRoute
   ) {
-    this.createGroupForm = new FormGroup({
+    this.editGroupForm = new FormGroup({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
     });
+    this.groupId = this.activateRoute.snapshot.params['id'];
     this.groupModel = {
       name: '',
       description: '',
-    };
-    this.groupAdminModel = {
-      isDeleted: false,
-      userId: 0,
-      groupId: 0,
+      adminId: 0,
     };
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.groupService.getGroup(this.groupId).subscribe((data) => {
+      this.editGroupForm.get('name')?.setValue(data.name);
+      this.editGroupForm.get('description')?.setValue(data.description);
+    });
+  }
 
   discard() {
     this.router.navigateByUrl('/');
   }
 
   editGroup() {
-    this.groupModel.name = this.createGroupForm.get('name')?.value;
-    this.groupModel.description =
-      this.createGroupForm.get('description')?.value;
-    this.groupService.createGroup(this.groupModel).subscribe(
+    this.groupModel.id = this.groupId;
+    this.groupModel.name = this.editGroupForm.get('name')?.value;
+    this.groupModel.description = this.editGroupForm.get('description')?.value;
+    this.groupService.editGroup(this.groupModel).subscribe(
       (data) => {
-        if (data.id !== undefined) {
-          this.groupAdminModel.groupId = data.id;
-        }
-        this.router.navigateByUrl('/all-groups');
+        this.router.navigateByUrl('/');
       },
       (error) => {
         throwError(error);
       }
     );
-
-    this.username = this.authService.getUserName();
-    this.groupService.createGroupAdmin;
   }
 }

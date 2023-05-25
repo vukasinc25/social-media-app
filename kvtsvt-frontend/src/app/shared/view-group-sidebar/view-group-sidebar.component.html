@@ -1,8 +1,12 @@
 <div class="sidebar">
     <img src="https://www.redditstatic.com/desktop2x/img/id-cards/home-banner@2x.png">
-    <div style="text-align: center; font-size: 1em">KVTSVT Social Media</div>
+    <div style="text-align: center; font-size: 1em">{{groupName}}</div>
+    <div style="text-align: center; font-size: 1em">{{groupDescription}}</div>
     <div style="text-align: center">
         <button class="btnCreatePost" (click)="goToCreatePost()">Create Post</button>
+    </div>
+    <div style="text-align: center">
+        <button class="btnCreateSubreddit" (click)="goToGroupAdmin()">Group Admin</button>
     </div>
     <div style="text-align: center">
         <button class="btnCreateSubreddit" (click)="goToEditGroup()">Edit Group</button>

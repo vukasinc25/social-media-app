@@ -53,12 +53,9 @@ export class EditPostComponent implements OnInit {
 
     this.postService.getPost(this.postId).subscribe((data) => {
       this.content = data.content;
-      console.log(this.content);
       this.postPayload.groupId = data.groupId;
 
-      // Move the code that relies on this.content here
       this.editPostForm.get('content')?.setValue(this.content);
-      console.log(this.content);
     });
   }
 

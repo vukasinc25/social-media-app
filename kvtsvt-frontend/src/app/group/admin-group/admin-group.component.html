@@ -1,0 +1,25 @@
+<table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Approved</th>
+        <th>Request Date</th>
+        <th>Response Date</th>
+        <th>Is Deleted</th>
+        <th>Group ID</th>
+        <th>User ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of groupRequests">
+        <td>{{ request.id }}</td>
+        <td>{{ request.approved }}</td>
+        <td>{{ request.requestDate }}</td>
+        <td>{{ request.responseDate }}</td>
+        <td>{{ request.isDeleted }}</td>
+        <td>{{ request.groupId }}</td>
+        <td>{{ request.userId }}</td>
+      </tr>
+    </tbody>
+  </table>
+  

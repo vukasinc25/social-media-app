@@ -62,6 +62,7 @@ export class ViewPostComponent implements OnInit {
     };
     this.group = {
       id: 0,
+      adminId: 0,
     };
     this.commentPayload = {
       id: 0,
