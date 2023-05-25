@@ -1,7 +1,7 @@
 export interface CommentPayload {
-  id?: number;
+  id: number;
   text: string;
   isDeleted: boolean;
-  postId: number;
+  postId?: number;
   userId: number;
 }

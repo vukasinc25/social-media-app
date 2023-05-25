@@ -1,6 +1,6 @@
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterState } from '@angular/router';
 import { CommentPayload } from 'src/app/post/comment/comment-payload';
 import { CommentService } from 'src/app/post/comment/comment.service';
 import { PostModel } from 'src/app/post/post-model';
@@ -23,7 +23,8 @@ export class UserProfileComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
     private commentService: CommentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.name = this.authService.getUserName();
     this.id = this.activatedRoute.snapshot.params['id'];
@@ -39,4 +40,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  editUser(id: number) {
+    this.router.navigateByUrl('edit-user/' + id);
+  }
 }

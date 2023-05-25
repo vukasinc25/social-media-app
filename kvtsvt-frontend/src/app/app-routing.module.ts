@@ -12,6 +12,8 @@ import { UserProfileComponent } from './auth/user-profile/user-profile.component
 import { EditGroupComponent } from './group/edit-group/edit-group.component';
 import { EditPostComponent } from './post/edit-post/edit-post.component';
 import { ViewGroupComponent } from './group/view-group/view-group.component';
+import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
+import { EditUserComponent } from './auth/edit-user/edit-user.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +21,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'user-profile/:id', component: UserProfileComponent },
+  { path: 'edit-user/:id', component: EditUserComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   //group
   { path: 'create-group', component: CreateGroupComponent },
@@ -29,6 +32,8 @@ const routes: Routes = [
   { path: 'create-post', component: CreatePostComponent },
   { path: 'view-post/:id', component: ViewPostComponent },
   { path: 'edit-post/:id', component: EditPostComponent },
+  //comment
+  { path: 'edit-comment/:id', component: EditCommentComponent },
 ];
 
 @NgModule({

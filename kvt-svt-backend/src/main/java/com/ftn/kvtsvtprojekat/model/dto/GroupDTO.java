@@ -19,4 +19,5 @@ public class GroupDTO {
     private String description;
     private Boolean isSuspended;
     private String suspensionReason;
+    private Long adminId;
 }

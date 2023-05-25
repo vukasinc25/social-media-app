@@ -16,6 +16,10 @@ export class GroupService {
     );
   }
 
+  getGroup(id: number): Observable<GroupModel> {
+    return this.http.get<GroupModel>('http://localhost:8080/api/group/' + id);
+  }
+
   createGroup(groupmodel: GroupModel): Observable<GroupModel> {
     return this.http.post<GroupModel>(
       'http://localhost:8080/api/group/create',

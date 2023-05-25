@@ -8,12 +8,12 @@
           </div>
           <div class="col-md-11">
             <span>
-              <span class="subreddit-text"><a class="post-url" href="">{{post.groupId}}</a></span>
+              <span class="subreddit-text"><a class="post-url" routerLink="/">{{group.name}}</a></span>
               <span> . Posted
                 by              
                 <a class="username" href="">{{user.username}}</a>
-                <button *ngIf="post.userId === loggedUserId" (click)="selectPost()">EDIT</button>
-                <button *ngIf="post.userId === loggedUserId" (click)="deletePost()">DELETE</button>
+                <button *ngIf="post.userId === loggedUserId" (click)="selectPost()">Edit</button>
+                <button *ngIf="post.userId === loggedUserId" (click)="deletePost()">Delete</button>
               </span>
             </span>
             <hr />

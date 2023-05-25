@@ -1,26 +1,20 @@
 <div class="container">
-    <div>
-      Welcome <b>{{name}}</b>.<br /> You have posted <b>{{postLength}}</b> time(s) and commented
-      <b>{{commentLength}}</b> time(s).
-      You can check your post and comment history below.
-    </div>
-    <hr />
-    <div>
-      Your Posts:
-    </div>
-    <app-post-overview [posts]="posts"></app-post-overview>
-    <hr />
-    <div>
-      Your Comments:
-    </div>
-    <div *ngFor="let comment of comments">
-      <div class="comment">
-        <div class="username">
-          <a routerLink="/user/comment.username">{{comment.userId}}</a>
-        </div>
-        <b>{{comment.text}}</b>
-      </div>
-      <hr />
-    </div>
+  <div>
+    <button (click)="editUser(id)">Edit</button>
   </div>
-  
+  <div>
+    Welcome <b>{{name}}</b>.<br /> You have posted <b>{{postLength}}</b> time(s) and commented
+    <b>{{commentLength}}</b> time(s).
+    You can check your post and comment history below.
+  </div>
+  <hr />
+  <div>
+    Your Posts:
+  </div>
+  <app-post-overview [posts]="posts"></app-post-overview>
+  <hr />
+  <div>
+    Your Comments:
+  </div>
+  <app-view-comment [comments]="comments"></app-view-comment>
+</div>

@@ -9,6 +9,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LocalStorageService } from 'ngx-webstorage';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { RegisterRequestModel } from 'src/app/auth/register/register-request-model';
+import { GroupService } from 'src/app/group/group.service';
+import { GroupModel } from 'src/app/group/group-model';
 
 @Component({
   selector: 'app-view-post',
@@ -20,6 +22,7 @@ export class ViewPostComponent implements OnInit {
   userId: number = 0;
   user!: RegisterRequestModel;
   loggedUserId: number;
+  group!: GroupModel;
   post!: PostModel;
   commentForm: FormGroup;
   commentPayload: CommentPayload;
@@ -30,6 +33,7 @@ export class ViewPostComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private commentService: CommentService,
     private localStorage: LocalStorageService,
+    private groupService: GroupService,
     private authService: AuthService,
     private router: Router
   ) {
@@ -41,7 +45,26 @@ export class ViewPostComponent implements OnInit {
     this.commentForm = new FormGroup({
       text: new FormControl('', Validators.required),
     });
+    this.post = {
+      id: this.activateRoute.snapshot.params['id'],
+      content: '',
+      isDeleted: false,
+      userId: 0,
+      groupId: 0,
+    };
+    this.user = {
+      id: 0,
+      firstname: '',
+      lastname: '',
+      username: '',
+      email: '',
+      password: '',
+    };
+    this.group = {
+      id: 0,
+    };
     this.commentPayload = {
+      id: 0,
       text: '',
       isDeleted: false,
       postId: this.postId,
@@ -53,7 +76,6 @@ export class ViewPostComponent implements OnInit {
     this.getPostById();
     this.userId = this.post.userId;
     this.getCommentsForPost();
-    this.getUser();
   }
 
   postComment() {
@@ -89,6 +111,8 @@ export class ViewPostComponent implements OnInit {
     this.postService.getPost(this.postId).subscribe(
       (data) => {
         this.post = data;
+        this.getUser(data.userId);
+        this.getGroup(data.groupId);
       },
       (error) => {
         throwError(error);
@@ -107,9 +131,15 @@ export class ViewPostComponent implements OnInit {
     );
   }
 
-  getUser() {
-    this.authService.getUser(this.userId).subscribe((data) => {
+  getUser(id: number) {
+    this.authService.getUser(id).subscribe((data) => {
       this.user = data;
+    });
+  }
+
+  getGroup(id: number) {
+    this.groupService.getGroup(id).subscribe((data) => {
+      this.group = data;
     });
   }
 }

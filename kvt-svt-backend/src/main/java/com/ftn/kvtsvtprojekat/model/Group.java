@@ -31,7 +31,7 @@ public class Group {
 
     @OneToMany
     private Set<Post> posts = new HashSet<>();
-    @OneToMany
-    private Set<GroupAdmin> groupAdmins = new HashSet<>();
+    @OneToOne
+    private GroupAdmin groupAdmin;
 
 }

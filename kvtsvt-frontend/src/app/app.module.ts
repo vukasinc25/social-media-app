@@ -31,6 +31,8 @@ import { EditPostComponent } from './post/edit-post/edit-post.component';
 import { ViewGroupComponent } from './group/view-group/view-group.component';
 import { ViewGroupSidebarComponent } from './shared/view-group-sidebar/view-group-sidebar.component';
 import { ViewCommentComponent } from './comment/view-comment/view-comment.component';
+import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
+import { EditUserComponent } from './auth/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { ViewCommentComponent } from './comment/view-comment/view-comment.compon
     ViewGroupComponent,
     ViewGroupSidebarComponent,
     ViewCommentComponent,
+    EditCommentComponent,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,

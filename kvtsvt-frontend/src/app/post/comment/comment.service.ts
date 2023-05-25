@@ -14,6 +14,25 @@ export class CommentService {
     );
   }
 
+  getComment(id: number): Observable<CommentPayload> {
+    return this.httpClient.get<CommentPayload>(
+      'http://localhost:8080/api/comment/' + id
+    );
+  }
+
+  updateComment(comment: CommentPayload): Observable<CommentPayload> {
+    return this.httpClient.put<CommentPayload>(
+      'http://localhost:8080/api/comment/' + comment.id,
+      comment
+    );
+  }
+
+  deleteComment(id: number): Observable<CommentPayload> {
+    return this.httpClient.delete<CommentPayload>(
+      'http://localhost:8080/api/comment/' + id
+    );
+  }
+
   postComment(commentPayload: CommentPayload): Observable<any> {
     return this.httpClient.post<any>(
       'http://localhost:8080/api/comment/create',
