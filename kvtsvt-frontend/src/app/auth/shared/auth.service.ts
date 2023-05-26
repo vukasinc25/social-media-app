@@ -71,6 +71,12 @@ export class AuthService {
     );
   }
 
+  getUsersFromGroup(groupId: number): Observable<Array<RegisterRequestModel>> {
+    return this.httpClient.get<Array<RegisterRequestModel>>(
+      'http://localhost:8080/api/user/all' + groupId
+    );
+  }
+
   logout() {
     this.localStorage.clear('userId');
     this.localStorage.clear('authenticationToken');

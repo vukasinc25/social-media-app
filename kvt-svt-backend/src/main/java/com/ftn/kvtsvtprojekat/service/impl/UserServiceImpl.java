@@ -32,6 +32,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllUsersWithGroupRequests(Long userId) {
+        return userRepository.findAllUsersWithGroupRequests(userId);
+    }
+
+    @Override
+    public List<User> findUserFriends(Long userId) {
+        return userRepository.findUserFriends(userId);
+    }
+
+    @Override
     public User findOneById(Long id){
         return userRepository.findUserById(id);
     }

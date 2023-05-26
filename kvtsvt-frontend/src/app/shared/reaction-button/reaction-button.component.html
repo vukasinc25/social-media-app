@@ -4,15 +4,18 @@
     <div class="p-2">
         <fa-icon (click)="likePost()" class="like" [icon]="faThumbsUp" [style.color]="post ? 'blue':''">
         </fa-icon>
+        <i>{{likeCount}}</i>
     </div>
     
     <div class="p-2">
         <fa-icon (click)="dislikePost()" class="dislike" [icon]="faThumbsDown" [style.color]="post? 'blue':''">
         </fa-icon>
+        <i>{{dislikeCount}}</i>
     </div>
     <div class="p-2">
         <fa-icon (click)="heartPost()" class="heart" [icon]="faHeart" [style.color]="post ? 'red':''">
         </fa-icon>
+        <i>{{heartCount}}</i>
     </div>
     </div>
 </div>

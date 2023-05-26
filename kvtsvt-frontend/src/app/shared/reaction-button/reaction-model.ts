@@ -1,7 +1,8 @@
-import { ReactionType } from './reaction-type';
-
 export interface ReactionModel {
-  reactionType: ReactionType;
-  postId: number;
+  id: number;
+  reactionType: String;
+  isDeleted: boolean;
   userId: number;
+  postId: number;
+  commentId: number;
 }

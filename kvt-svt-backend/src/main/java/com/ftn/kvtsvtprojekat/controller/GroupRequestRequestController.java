@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.http.ResponseEntity.status;
 
@@ -27,18 +28,18 @@ public class GroupRequestRequestController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<GroupRequestDTO>> getGroupRequests() {
+    @GetMapping(value = "/all/{id}")
+    public ResponseEntity<List<GroupRequestDTO>> getGroupRequests(@PathVariable("id") Long id) {
 
         List<GroupRequest> groups = groupRequestService.findAll();
         List<GroupRequestDTO> groupsDTO = new ArrayList<>();
         for (GroupRequest group : groups) {
-            if(!group.getIsDeleted()) {
+            System.out.println(group.getGroup().getId());
+            if(!group.getIsDeleted() && Objects.equals(group.getGroup().getId(), id)) {
                 GroupRequestDTO groupDTO = modelMapper.map(group, GroupRequestDTO.class);
                 groupsDTO.add(groupDTO);
             }
         }
-
         return new ResponseEntity<>(groupsDTO, HttpStatus.OK);
     }
 
@@ -55,11 +56,12 @@ public class GroupRequestRequestController {
         return status(HttpStatus.OK).body(groupDTO);
     }
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create", consumes = "application/json")
     public ResponseEntity<GroupRequest> createGroupRequest(@Valid @RequestBody GroupRequestDTO groupDTO) {
         GroupRequest group = modelMapper.map(groupDTO, GroupRequest.class);
         LocalDateTime time = LocalDateTime.now();
         group.setRequestDate(time);
+        group.setIsDeleted(false);
         groupRequestService.save(group);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

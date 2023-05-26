@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.service.impl;
 
+import com.ftn.kvtsvtprojekat.model.Comment;
 import com.ftn.kvtsvtprojekat.model.Post;
 import com.ftn.kvtsvtprojekat.model.Reaction;
 import com.ftn.kvtsvtprojekat.model.Reaction;
@@ -27,6 +28,11 @@ public class ReactionServiceImpl implements ReactionService {
     @Override
     public List<Reaction> findAllByPost(Post post) {
         return reactionRepository.findAllByPost(post);
+    }
+
+    @Override
+    public List<Reaction> findAllByComment(Comment comment) {
+        return reactionRepository.findAllByComment(comment);
     }
 
     @Override

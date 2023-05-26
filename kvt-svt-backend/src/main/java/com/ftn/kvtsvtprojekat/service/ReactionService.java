@@ -11,7 +11,7 @@ public interface ReactionService {
 
     List<Reaction> findAllByPost(Post post);
 
-   // List<Reaction> findAllByComment(Comment comment);
+    List<Reaction> findAllByComment(Comment comment);
 
     Reaction findOneById(Long id);
 

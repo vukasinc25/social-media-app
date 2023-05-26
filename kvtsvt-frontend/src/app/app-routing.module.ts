@@ -14,6 +14,7 @@ import { EditPostComponent } from './post/edit-post/edit-post.component';
 import { ViewGroupComponent } from './group/view-group/view-group.component';
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { EditUserComponent } from './auth/edit-user/edit-user.component';
+import { AdminGroupComponent } from './group/admin-group/admin-group.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'group/:id', component: ViewGroupComponent },
   { path: 'edit-group/:id', component: EditGroupComponent },
   { path: 'all-groups', component: AllGroupsComponent },
+  { path: 'group-admin/:id', component: AdminGroupComponent },
   //post
   { path: 'create-post', component: CreatePostComponent },
   { path: 'view-post/:id', component: ViewPostComponent },

@@ -132,6 +132,23 @@ public class UserController {
         return status(HttpStatus.OK).body(userDTO);
     }
 
+    @GetMapping(value = "/findUsersGroup", params = "groupId", consumes = "application/json")
+    public ResponseEntity<List<UserRegisterDTO>> getUsersFromGroup(@RequestParam Long groupId) {
+
+        List<User> users = userService.findAllUsersWithGroupRequests(groupId);
+        List<UserRegisterDTO> userRegisterDTOS = new ArrayList<>();
+
+        for (User user : users) {
+            if(!user.getIsDeleted() ){
+                UserRegisterDTO userRegisterDTO = modelMapper.map(user, UserRegisterDTO.class);
+                userRegisterDTOS.add(userRegisterDTO);
+            }
+        }
+        return status(HttpStatus.OK).body(userRegisterDTOS);
+    }
+
+
+
     @GetMapping(value = "/findByUsername", params = "username", consumes = "application/json")
     public ResponseEntity<UserLoginDTO> getUser(@RequestParam String username) {
         User user = userService.findByUsername(username);

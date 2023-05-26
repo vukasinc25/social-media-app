@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 export class GroupRequestService {
   constructor(private http: HttpClient) {}
 
-  getAllRequests(): Observable<Array<GroupRequestModel>> {
+  getAllRequests(id: number): Observable<Array<GroupRequestModel>> {
     return this.http.get<Array<GroupRequestModel>>(
-      'http://localhost:8080/api/groupRequest/all'
+      'http://localhost:8080/api/groupRequest/all/' + id
     );
   }
 

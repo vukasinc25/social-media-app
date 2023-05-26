@@ -25,13 +25,13 @@ public class ReactionController {
     private final ModelMapper modelMapper;
     private final ReactionService reactionService;
     private final PostService postService;
-//    private final CommentService commentService;
+    private final CommentService commentService;
 
     public ReactionController(ModelMapper modelMapper, ReactionService reactionService, PostService postService, CommentService commentService) {
         this.modelMapper = modelMapper;
         this.reactionService = reactionService;
         this.postService = postService;
-//        this.commentService = commentService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/byPost/{id}")
@@ -41,26 +41,29 @@ public class ReactionController {
         List<Reaction> reactions = reactionService.findAllByPost(post);
         List<ReactionDTO> reactionsDTO = new ArrayList<>();
         for (Reaction reaction : reactions) {
-            ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);
-            reactionsDTO.add(reactionDTO);
+            if(!reaction.getIsDeleted()) {
+                ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);
+                reactionsDTO.add(reactionDTO);
+            }
+        }
+        return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/byComment/{id}")
+    public ResponseEntity<List<ReactionDTO>> getReactionsForComment(@PathVariable("id") Long commentId) {
+
+        Comment comment = commentService.findOneById(commentId);
+        List<Reaction> reactions = reactionService.findAllByComment(comment);
+        List<ReactionDTO> reactionsDTO = new ArrayList<>();
+        for (Reaction reaction : reactions) {
+            if(!reaction.getIsDeleted()) {
+                ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);
+                reactionsDTO.add(reactionDTO);
+            }
         }
 
         return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
     }
-
-//    @GetMapping("/byComment/{id}")
-//    public ResponseEntity<List<ReactionDTO>> getReactionsForComment(@PathVariable("id") Long commentId) {
-//
-//        Comment comment = commentService.findOneById(commentId);
-//        List<Reaction> reactions = reactionService.findAllBy(comment);
-//        List<ReactionDTO> reactionsDTO = new ArrayList<>();
-//        for (Reaction reaction : reactions) {
-//            ReactionDTO reactionDTO = modelMapper.map(reaction, ReactionDTO.class);
-//            reactionsDTO.add(reactionDTO);
-//        }
-//
-//        return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
-//    }
 
     //TODO Sve reakcije po komentaru
 
@@ -81,6 +84,7 @@ public class ReactionController {
     public ResponseEntity<Reaction> createReaction(@Valid @RequestBody ReactionDTO reactionDTO) {
 
         Reaction reaction = modelMapper.map(reactionDTO, Reaction.class);
+        reaction.setIsDeleted(false);
         reactionService.save(reaction);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -18,3 +18,6 @@ INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALU
 # INSERT INTO comments_replies (comment_parent, comment_child) VALUES (1, 2);
 
 INSERT INTO group_admin (is_deleted, group_id, user_id) VALUES (false, 1, 1);
+INSERT INTO group_request (approved, is_deleted, request_date, response_date, group_id, user_id) VALUES (false, false, now(), null, 1, 1);
+
+INSERT INTO user_friends (is_deleted, friend_id, user_id) VALUES (false, 2, 1);
