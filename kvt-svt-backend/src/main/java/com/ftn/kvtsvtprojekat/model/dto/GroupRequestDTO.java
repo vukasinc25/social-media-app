@@ -12,7 +12,7 @@ public class GroupRequestDTO {
     private Boolean approved;
     private LocalDateTime requestDate;
     private LocalDateTime responseDate;
-    private Boolean isDeleted;
+    private Boolean isBanned;
     private Long groupId;
     private Long userId;
 }

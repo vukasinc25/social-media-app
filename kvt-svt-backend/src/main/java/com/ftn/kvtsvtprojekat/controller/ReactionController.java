@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +66,6 @@ public class ReactionController {
         return new ResponseEntity<>(reactionsDTO, HttpStatus.OK);
     }
 
-    //TODO Sve reakcije po komentaru
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReactionDTO> getReaction(@PathVariable("id") Long id) {
         Reaction reaction = reactionService.findOneById(id);
@@ -85,6 +84,7 @@ public class ReactionController {
 
         Reaction reaction = modelMapper.map(reactionDTO, Reaction.class);
         reaction.setIsDeleted(false);
+        reaction.setReactionTime(LocalDateTime.now());
         reactionService.save(reaction);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -101,19 +101,30 @@ public class ReactionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteReaction(@PathVariable Long id) {
-        if(id == null) {
+    @PutMapping(value = "/delete")
+    public ResponseEntity<Void> deleteReaction(@RequestBody ReactionDTO reactionDTO) {
+        if(reactionDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Reaction reaction = reactionService.findOneById(id);
 
-        if (reaction != null) {
-            reaction.setIsDeleted(true);
-            reactionService.save(reaction);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        if(reactionDTO.getPostId() != null) {
+            Reaction reaction = reactionService.findOneByPostIdAndUserId(reactionDTO.getPostId(), reactionDTO.getUserId());
+            if (reaction != null) {
+                reactionService.delete(reaction.getId());
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+            }
+        } else if (reactionDTO.getCommentId() != null) {
+            Reaction reaction = reactionService.findOneByCommentIdAndUserId(reactionDTO.getCommentId(), reactionDTO.getUserId());
+            if (reaction != null) {
+                reactionService.delete(reaction.getId());
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+            }
         }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

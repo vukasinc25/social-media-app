@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReactionModel } from './reaction-button/reaction-model';
 import { Observable } from 'rxjs';
+import { ReactionDeleteModel } from './reaction-button/reaction-delete-model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,10 @@ export class ReactionService {
     );
   }
 
-  deleteReaction(postId: number) {
-    return this.http.delete('http://localhost:8080/api/reaction/' + postId);
+  deleteReaction(reactionModel: ReactionDeleteModel): Observable<any> {
+    return this.http.put(
+      'http://localhost:8080/api/reaction/delete',
+      reactionModel
+    );
   }
 }

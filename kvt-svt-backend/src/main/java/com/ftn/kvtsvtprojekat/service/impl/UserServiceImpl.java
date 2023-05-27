@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> searchByName(String firstname, String lastname) {
-        return userRepository.findByFirstNameContainingOrLastNameContaining(firstname, lastname);
+        return userRepository.findByFirstnameContainingOrLastnameContaining(firstname, lastname);
     }
 
     @Override

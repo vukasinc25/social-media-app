@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ReactionService } from '../reaction.service';
 import { CommentPayload } from 'src/app/post/comment/comment-payload';
+import { ReactionDeleteModel } from './reaction-delete-model';
 
 @Component({
   selector: 'app-reaction-button',
@@ -23,6 +24,7 @@ export class ReactionButtonComponent implements OnInit {
   @Input() post!: PostModel;
   @Input() comment!: CommentPayload;
   reactionModel: ReactionModel;
+  reactionDeleteModel: ReactionDeleteModel;
   faThumbsUp = faThumbsUp;
   faThumbsDown = faThumbsDown;
   faHeart = faHeart;
@@ -36,6 +38,10 @@ export class ReactionButtonComponent implements OnInit {
   dislikeCount: number = 0;
   heartCount: number = 0;
 
+  isLiked: boolean = false;
+  isDisliked: boolean = false;
+  isHearted: boolean = false;
+
   constructor(
     private reactionService: ReactionService,
     private authService: AuthService,
@@ -44,10 +50,11 @@ export class ReactionButtonComponent implements OnInit {
     this.reactionModel = {
       id: 0,
       reactionType: '',
-      postId: 0,
       userId: 0,
-      commentId: 0,
       isDeleted: false,
+    };
+    this.reactionDeleteModel = {
+      userId: 0,
     };
     this.authService.loggedIn.subscribe(
       (data: boolean) => (this.isLoggedIn = data)
@@ -64,6 +71,23 @@ export class ReactionButtonComponent implements OnInit {
     this.likeColor = '';
   }
 
+  unlikeAnything() {
+    this.reactionDeleteModel.userId = this.authService.getUserId();
+    if (this.post !== undefined) {
+      this.reactionDeleteModel.postId = this.post.id;
+    } else if (this.comment !== undefined) {
+      this.reactionDeleteModel.commentId = this.comment.id;
+    }
+    this.reactionService
+      .deleteReaction(this.reactionDeleteModel)
+      .subscribe((data) => {
+        this.updateVoteDetails();
+        this.isLiked = false;
+        this.isDisliked = false;
+        this.isHearted = false;
+      });
+  }
+
   dislikePost() {
     this.reactionModel.reactionType = 'DISLIKE';
     this.vote();
@@ -77,8 +101,14 @@ export class ReactionButtonComponent implements OnInit {
   }
 
   private vote() {
+    console.log(this.comment);
     this.reactionModel.userId = this.authService.getUserId();
-    this.reactionModel.postId = this.post.id;
+    if (this.post !== undefined) {
+      this.reactionModel.postId = this.post.id;
+    } else if (this.comment !== undefined) {
+      this.reactionModel.commentId = this.comment.id;
+    }
+
     this.reactionService.vote(this.reactionModel).subscribe(
       () => {
         this.updateVoteDetails();
@@ -93,13 +123,25 @@ export class ReactionButtonComponent implements OnInit {
     if (this.post !== undefined) {
       this.reactionService.getAllReactionsByPost(this.post.id).subscribe(
         (data) => {
+          this.likeCount = 0;
+          this.dislikeCount = 0;
+          this.heartCount = 0;
           for (const element of data) {
             if (element.reactionType === 'LIKE') {
               this.likeCount++;
+              if (element.userId === this.authService.getUserId()) {
+                this.isLiked = true;
+              }
             } else if (element.reactionType === 'DISLIKE') {
               this.dislikeCount++;
+              if (element.userId === this.authService.getUserId()) {
+                this.isDisliked = true;
+              }
             } else if (element.reactionType === 'HEART') {
               this.heartCount++;
+              if (element.userId === this.authService.getUserId()) {
+                this.isHearted = true;
+              }
             }
           }
         },
@@ -111,13 +153,25 @@ export class ReactionButtonComponent implements OnInit {
       this.reactionService
         .getAllReactionsByComment(this.comment.id)
         .subscribe((data) => {
+          this.likeCount = 0;
+          this.dislikeCount = 0;
+          this.heartCount = 0;
           for (const element of data) {
             if (element.reactionType === 'LIKE') {
               this.likeCount++;
+              if (element.userId === this.authService.getUserId()) {
+                this.isLiked = true;
+              }
             } else if (element.reactionType === 'DISLIKE') {
               this.dislikeCount++;
+              if (element.userId === this.authService.getUserId()) {
+                this.isDisliked = true;
+              }
             } else if (element.reactionType === 'HEART') {
               this.heartCount++;
+              if (element.userId === this.authService.getUserId()) {
+                this.isHearted = true;
+              }
             }
           }
         });

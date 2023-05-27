@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findUserByUsername(String username);
 
-    List<User> findByFirstNameContainingOrLastNameContaining(String firstname, String lastname);
+    List<User> findByFirstnameContainingOrLastnameContaining(String firstname, String lastname);
 
     @Query("SELECT DISTINCT u FROM User u JOIN FETCH GroupRequest gr WHERE gr.user.id = u.id AND gr.group.id = :userId AND gr.approved = true")
     List<User> findAllUsersWithGroupRequests(@Param("userId") Long userId);

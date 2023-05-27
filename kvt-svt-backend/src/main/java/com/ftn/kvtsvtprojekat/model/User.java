@@ -25,8 +25,8 @@ public class User {
     private String password;
     private String email;
     private LocalDateTime lastLogin;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String profileImagePath;
     @Enumerated(EnumType.STRING)
     private Roles role;

@@ -35,7 +35,7 @@ public class GroupRequestRequestController {
         List<GroupRequestDTO> groupsDTO = new ArrayList<>();
         for (GroupRequest group : groups) {
             System.out.println(group.getGroup().getId());
-            if(!group.getIsDeleted() && Objects.equals(group.getGroup().getId(), id)) {
+            if(Objects.equals(group.getGroup().getId(), id)) {
                 GroupRequestDTO groupDTO = modelMapper.map(group, GroupRequestDTO.class);
                 groupsDTO.add(groupDTO);
             }
@@ -61,7 +61,7 @@ public class GroupRequestRequestController {
         GroupRequest group = modelMapper.map(groupDTO, GroupRequest.class);
         LocalDateTime time = LocalDateTime.now();
         group.setRequestDate(time);
-        group.setIsDeleted(false);
+        group.setIsBanned(false);
         groupRequestService.save(group);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -80,6 +80,23 @@ public class GroupRequestRequestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/ban/{id}")
+    public ResponseEntity<GroupRequestDTO> banUnbanUser(@PathVariable("id") Long id) {
+        GroupRequest group = groupRequestService.findOneById(id);
+        if(group == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(group.getIsBanned()){
+            group.setIsBanned(false);
+            groupRequestService.save(group);
+        } else {
+            group.setIsBanned(true);
+            groupRequestService.save(group);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteGroupRequest(@PathVariable Long id) {
         if(id == null) {
@@ -88,8 +105,8 @@ public class GroupRequestRequestController {
         GroupRequest group = groupRequestService.findOneById(id);
 
         if (group != null) {
-            group.setIsDeleted(true);
-            groupRequestService.save(group);
+//            group.setIsDeleted(true);
+            groupRequestService.delete(group.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

@@ -1,25 +1,66 @@
 <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Approved</th>
-        <th>Request Date</th>
-        <th>Response Date</th>
-        <th>Is Deleted</th>
-        <th>Group ID</th>
-        <th>User ID</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let request of groupRequests">
-        <td>{{ request.id }}</td>
-        <td>{{ request.approved }}</td>
-        <td>{{ request.requestDate }}</td>
-        <td>{{ request.responseDate }}</td>
-        <td>{{ request.isDeleted }}</td>
-        <td>{{ request.groupId }}</td>
-        <td>{{ request.userId }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Approved</th>
+      <th>Request Date</th>
+      <th>Response Date</th>
+      <th>Group ID</th>
+      <th>User ID</th>
+      <th>Accept</th>
+      <th>Decline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let request of groupRequests">
+      <td>{{ request.id }}</td>
+      <td>{{ request.approved }}</td>
+      <td>{{ request.requestDate }}</td>
+      <td>{{ request.responseDate }}</td>
+      <td>{{ request.groupId }}</td>
+      <td>{{ request.userId }}</td>
+      <td>
+        <button (click)="acceptRequest(request.id)">Accept</button>
+      </td>
+      <td>
+        <button (click)="declineRequest(request.id)">Decline</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br><br>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Approved</th>
+      <th>Request Date</th>
+      <th>Response Date</th>
+      <th>Banned</th>
+      <th>Group ID</th>
+      <th>User ID</th>
+      <th>Ban</th>
+      <th>Unban</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let request of groupUsers">
+      <td>{{ request.id }}</td>
+      <td>{{ request.approved }}</td>
+      <td>{{ request.requestDate }}</td>
+      <td>{{ request.responseDate }}</td>
+      <td>{{ request.isBanned }}</td>
+      <td>{{ request.groupId }}</td>
+      <td>{{ request.userId }}</td>
+      <td>
+        <button *ngIf="!request.isBanned" (click)="banUser(request.userId)">Ban</button>
+      </td>
+      <td>
+        <button *ngIf="request.isBanned" (click)="banUser(request.userId)">Unban</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
   

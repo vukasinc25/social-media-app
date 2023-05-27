@@ -3,6 +3,6 @@ export interface ReactionModel {
   reactionType: String;
   isDeleted: boolean;
   userId: number;
-  postId: number;
-  commentId: number;
+  postId?: number;
+  commentId?: number;
 }

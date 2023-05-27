@@ -1,0 +1,23 @@
+<table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Is Deleted</th>
+        <th>User ID</th>
+        <th>Group ID</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let groupAdmin of groupAdmins">
+        <td>{{ groupAdmin.id }}</td>
+        <td>{{ groupAdmin.isDeleted }}</td>
+        <td>{{ groupAdmin.userId }}</td>
+        <td>{{ groupAdmin.groupId }}</td>
+        <td>
+            <button (click)="removeAdmin(groupAdmin.id)">Remove</button>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+  

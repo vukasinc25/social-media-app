@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { GroupAdminModel } from './group-admin-model';
 import { GroupRequestModel } from './group-request-model';
 import { Observable } from 'rxjs';
+import { group } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +23,17 @@ export class GroupRequestService {
     );
   }
 
-  editGroup(groupReustModel: GroupRequestModel): Observable<any> {
+  approveGR(groupReustModel: GroupRequestModel): Observable<any> {
     return this.http.put<any>(
       'http://localhost:8080/api/groupRequest/' + groupReustModel.id,
       groupReustModel
+    );
+  }
+
+  banGR(groupRequestModel: GroupRequestModel) {
+    return this.http.put(
+      'http://localhost:8080/api/groupRequest/ban/' + groupRequestModel.id,
+      groupRequestModel
     );
   }
 

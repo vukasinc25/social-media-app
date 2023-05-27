@@ -34,6 +34,7 @@ import { ViewCommentComponent } from './comment/view-comment/view-comment.compon
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { EditUserComponent } from './auth/edit-user/edit-user.component';
 import { AdminGroupComponent } from './group/admin-group/admin-group.component';
+import { AdminPageComponent } from './auth/admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { AdminGroupComponent } from './group/admin-group/admin-group.component';
     EditCommentComponent,
     EditUserComponent,
     AdminGroupComponent,
+    AdminPageComponent,
   ],
   imports: [
     BrowserModule,

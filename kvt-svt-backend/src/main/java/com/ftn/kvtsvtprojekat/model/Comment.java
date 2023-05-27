@@ -21,7 +21,7 @@ public class Comment {
     private String text;
     private Boolean isDeleted;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Comment parentComment;
 
 //    @ManyToMany(cascade = CascadeType.ALL)
@@ -30,9 +30,9 @@ public class Comment {
 //            inverseJoinColumns = @JoinColumn(name = "comment_child"))
 //    private Set<Comment> comments = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private Post post;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private User user;
 }

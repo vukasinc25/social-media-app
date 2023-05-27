@@ -73,7 +73,7 @@ export class AuthService {
 
   getUsersFromGroup(groupId: number): Observable<Array<RegisterRequestModel>> {
     return this.httpClient.get<Array<RegisterRequestModel>>(
-      'http://localhost:8080/api/user/all' + groupId
+      'http://localhost:8080/api/user/findUsersGroup/' + groupId
     );
   }
 

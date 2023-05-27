@@ -29,7 +29,7 @@ public class Group {
     private Boolean isSuspended;
     private String suspensionReason;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Post> posts = new HashSet<>();
 //    @OneToOne
 //    private User user;

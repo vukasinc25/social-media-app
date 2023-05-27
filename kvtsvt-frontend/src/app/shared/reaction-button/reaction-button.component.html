@@ -2,19 +2,21 @@
     <div class="d-flex flex-column votebox">
     <!-- <div class="p-2 votecount">{{post.voteCount}}</div> -->
     <div class="p-2">
-        <fa-icon (click)="likePost()" class="like" [icon]="faThumbsUp" [style.color]="post ? 'blue':''">
-        </fa-icon>
+        <fa-icon *ngIf="!isLiked && !isHearted && !isDisliked" (click)="likePost()" class="like" [icon]="faThumbsUp" [style.color]="'blue'"></fa-icon>
+        <fa-icon *ngIf="isLiked && !isHearted && !isDisliked" (click)="unlikeAnything()" class="like" [icon]="faThumbsUp" [style.color]="'gray'"></fa-icon>
         <i>{{likeCount}}</i>
     </div>
     
     <div class="p-2">
-        <fa-icon (click)="dislikePost()" class="dislike" [icon]="faThumbsDown" [style.color]="post? 'blue':''">
+        <fa-icon *ngIf="!isDisliked && !isHearted && !isLiked" (click)="dislikePost()" class="dislike" [icon]="faThumbsDown" [style.color]="post? 'blue':''">
         </fa-icon>
+        <fa-icon *ngIf="isDisliked && !isHearted && !isLiked" (click)="unlikeAnything()" class="like" [icon]="faThumbsDown" [style.color]="'gray'"></fa-icon>
         <i>{{dislikeCount}}</i>
     </div>
     <div class="p-2">
-        <fa-icon (click)="heartPost()" class="heart" [icon]="faHeart" [style.color]="post ? 'red':''">
+        <fa-icon *ngIf="!isHearted && !isDisliked && !isLiked" (click)="heartPost()" class="heart" [icon]="faHeart" [style.color]="post ? 'red':''">
         </fa-icon>
+        <fa-icon *ngIf="isHearted && !isDisliked && !isLiked" (click)="unlikeAnything()" class="like" [icon]="faHeart" [style.color]="'gray'"></fa-icon>
         <i>{{heartCount}}</i>
     </div>
     </div>

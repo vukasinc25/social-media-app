@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 public class UserRegisterDTO {
     private String username;
     private String email;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String password;
 }

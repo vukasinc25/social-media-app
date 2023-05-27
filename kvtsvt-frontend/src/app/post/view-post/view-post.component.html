@@ -26,21 +26,12 @@
                 <div class="form-group">
                   <textarea class="form-control" [formControlName]="'text'" placeholder="Leave a comment"></textarea>
                 </div>
+                <br>
                 <button type="submit" class="login float-right">Comment</button>
               </form>
             </div>
-            <div style="margin-top: 60px;" *ngFor="let comment of comments">
-              <div class="comment">
-                <div class="username">
-                  <a routerLink="/user/comment.username">{{comment.userId}}</a>
-                </div>
-                <!-- <div>
-                  <p>{{comment.duration}}</p>
-                </div> -->
-                <b>{{comment.text}}</b>
-              </div>
-              <hr />
-            </div>
+            <br>
+            <app-view-comment [comments]="comments"></app-view-comment>
           </div>
         </div>
       </div>

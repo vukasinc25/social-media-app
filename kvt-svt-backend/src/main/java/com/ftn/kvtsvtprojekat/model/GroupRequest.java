@@ -19,7 +19,7 @@ public class GroupRequest {
     private Boolean approved;
     private LocalDateTime requestDate;
     private LocalDateTime responseDate;
-    private Boolean isDeleted;
+    private Boolean isBanned;
 
     @OneToOne
     private Group group;

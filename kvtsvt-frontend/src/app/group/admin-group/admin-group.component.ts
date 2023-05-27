@@ -13,6 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AdminGroupComponent implements OnInit {
   groupRequests: Array<GroupRequestModel> = [];
+  groupUsers: Array<GroupRequestModel> = [];
+  groupRequest: GroupRequestModel;
   users: Array<RegisterRequestModel> = [];
   id: number = 0;
   constructor(
@@ -22,18 +24,70 @@ export class AdminGroupComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.id = this.activatedRoute.snapshot.params['id'];
+    console.log(this.id);
+    this.groupRequest = {
+      id: 0,
+      approved: false,
+      isBanned: false,
+      groupId: 0,
+      userId: 0,
+    };
   }
 
   ngOnInit(): void {
+    this.getGroupRequests();
+    this.getUsersFromGroup();
+  }
+
+  getGroupRequests() {
     this.groupRequestService.getAllRequests(this.id).subscribe((data) => {
-      this.groupRequests = data;
+      for (const request of data) {
+        if (!request.approved) {
+          this.groupRequests = data;
+        }
+      }
     });
-    // this.groupRequestService.getRequest(this.id).subscribe((data) => {});
   }
 
   getUsersFromGroup() {
-    this.authService.getUsersFromGroup(this.id).subscribe((data) => {
-      this.users = data;
+    this.groupRequestService.getAllRequests(this.id).subscribe((data) => {
+      for (const request of data) {
+        if (request.approved) {
+          this.groupUsers = data;
+        }
+      }
+    });
+  }
+
+  // getUsersFromGroup() {
+  //   this.groupRequestService.getAllRequests(this.id).subscribe((data) => {
+  //     for (const request of data) {
+  //       this.authService.getUser(request.userId).subscribe((user) => {
+  //         this.users.push(user);
+  //       });
+  //     }
+  //   });
+  // }
+
+  banUser(id: number) {
+    this.groupRequest.id = id;
+    this.groupRequestService.banGR(this.groupRequest).subscribe(() => {
+      this.getUsersFromGroup();
+    });
+  }
+
+  unbanUser(id: number) {}
+
+  acceptRequest(id: number) {
+    this.groupRequest.id = id;
+    this.groupRequestService.approveGR(this.groupRequest).subscribe(() => {
+      this.ngOnInit();
+    });
+  }
+
+  declineRequest(id: number) {
+    this.groupRequestService.deleteGroup(id).subscribe(() => {
+      this.ngOnInit();
     });
   }
 }

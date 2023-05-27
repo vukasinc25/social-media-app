@@ -1,11 +1,12 @@
 <div *ngFor="let comment of comments">
   <div class="comment">
     <div class="reaction-buttons">
-      <app-reaction-button></app-reaction-button>
+      <app-reaction-button [comment]="comment"></app-reaction-button>
     </div>
     <div class="username">
       <a routerLink="/user/comment.username">{{comment.userId}}</a>
     </div>
+    <br><br>
     <div class="comment-text">
       <b>{{comment.text}}</b>
     </div>

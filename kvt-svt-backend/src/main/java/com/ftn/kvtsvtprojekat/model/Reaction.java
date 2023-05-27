@@ -22,11 +22,11 @@ public class Reaction {
     private LocalDateTime reactionTime;
     private Boolean isDeleted;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Post post;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Comment comment;
 }

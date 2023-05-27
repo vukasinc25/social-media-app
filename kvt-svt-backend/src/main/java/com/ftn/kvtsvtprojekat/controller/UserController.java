@@ -132,8 +132,8 @@ public class UserController {
         return status(HttpStatus.OK).body(userDTO);
     }
 
-    @GetMapping(value = "/findUsersGroup", params = "groupId", consumes = "application/json")
-    public ResponseEntity<List<UserRegisterDTO>> getUsersFromGroup(@RequestParam Long groupId) {
+    @GetMapping(value = "/findUsersGroup/{groupId}")
+    public ResponseEntity<List<UserRegisterDTO>> getUsersFromGroup(@PathVariable Long groupId) {
 
         List<User> users = userService.findAllUsersWithGroupRequests(groupId);
         List<UserRegisterDTO> userRegisterDTOS = new ArrayList<>();
@@ -192,9 +192,7 @@ public class UserController {
     @GetMapping("/search")
     public ResponseEntity<List<UserRegisterDTO>> Search(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
 
-        List<User> users = userService.searchByName(userRegisterDTO.getFirstName(), userRegisterDTO.getLastName());
-        System.out.println(userRegisterDTO.getFirstName());
-        System.out.println(userRegisterDTO.getLastName());
+        List<User> users = userService.searchByName(userRegisterDTO.getFirstname(), userRegisterDTO.getLastname());
         List<UserRegisterDTO> usersDTO = new ArrayList<>();
         for (User user : users) {
             if(!user.getIsDeleted()) {

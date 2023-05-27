@@ -21,7 +21,7 @@ public class Post {
     @Column(nullable = false, updatable = false)
     private Long id;
     private String content;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Image> imagePaths;
     private LocalDateTime creationDate;
     private Boolean isDeleted;
@@ -32,6 +32,6 @@ public class Post {
     @OneToOne
     private Group group;
 
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet<>();
 }

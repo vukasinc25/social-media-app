@@ -41,6 +41,16 @@ public class ReactionServiceImpl implements ReactionService {
     }
 
     @Override
+    public Reaction findOneByPostIdAndUserId(Long postId, Long userId) {
+        return reactionRepository.findOneByPostIdAndUserId(postId, userId);
+    }
+
+    @Override
+    public Reaction findOneByCommentIdAndUserId(Long commentId, Long userId) {
+        return reactionRepository.findOneByCommentIdAndUserId(commentId, userId);
+    }
+
+    @Override
     public Reaction save(Reaction reaction){
         return reactionRepository.save(reaction);
     }
@@ -48,7 +58,6 @@ public class ReactionServiceImpl implements ReactionService {
     @Override
     public void delete(Long id){
         Reaction reaction = reactionRepository.findReactionById(id);
-        reaction.setIsDeleted(true);
-        reactionRepository.save(reaction);
+        reactionRepository.delete(reaction);
     }
 }

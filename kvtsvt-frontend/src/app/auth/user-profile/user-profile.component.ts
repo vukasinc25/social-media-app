@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
   comments: CommentPayload[] = [];
   postLength: number = 0;
   commentLength: number = 0;
+  loggedId: number = 0;
   id: number = 0;
 
   constructor(
@@ -26,6 +27,7 @@ export class UserProfileComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
+    this.loggedId = this.authService.getUserId();
     this.name = this.authService.getUserName();
     this.id = this.activatedRoute.snapshot.params['id'];
 

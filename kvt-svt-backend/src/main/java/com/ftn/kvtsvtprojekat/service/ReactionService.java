@@ -15,6 +15,10 @@ public interface ReactionService {
 
     Reaction findOneById(Long id);
 
+    Reaction findOneByPostIdAndUserId(Long postId, Long userId);
+
+    Reaction findOneByCommentIdAndUserId(Long commentId, Long userId);
+
     Reaction save(Reaction reaction);
 
     void delete(Long id);
