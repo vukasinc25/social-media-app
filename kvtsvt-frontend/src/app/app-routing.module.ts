@@ -15,6 +15,7 @@ import { ViewGroupComponent } from './group/view-group/view-group.component';
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { EditUserComponent } from './auth/edit-user/edit-user.component';
 import { AdminGroupComponent } from './group/admin-group/admin-group.component';
+import { AdminPageComponent } from './auth/admin-page/admin-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,8 @@ const routes: Routes = [
   { path: 'user-profile/:id', component: UserProfileComponent },
   { path: 'edit-user/:id', component: EditUserComponent },
   { path: 'change-password', component: ChangePasswordComponent },
+  { path: 'admin', component: AdminPageComponent },
+
   //group
   { path: 'create-group', component: CreateGroupComponent },
   { path: 'group/:id', component: ViewGroupComponent },

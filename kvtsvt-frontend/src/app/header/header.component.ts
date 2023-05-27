@@ -36,6 +36,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/change-password');
   }
 
+  adminPage() {
+    this.router.navigateByUrl('/admin');
+  }
+
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;

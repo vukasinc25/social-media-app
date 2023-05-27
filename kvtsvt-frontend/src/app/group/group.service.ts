@@ -43,7 +43,17 @@ export class GroupService {
     );
   }
 
-  deleteGroup(id: number) {
-    return this.http.delete('http://localhost:8080/api/group/' + id);
+  getAllGroupAdmins(): Observable<GroupAdminModel[]> {
+    return this.http.get<GroupAdminModel[]>(
+      'http://localhost:8080/api/groupAdmin'
+    );
+  }
+
+  removeGroupAdmin(id: number) {
+    return this.http.delete('http://localhost:8080/api/groupAdmin/' + id);
+  }
+
+  deleteGroup(groupModel: GroupModel) {
+    return this.http.put('http://localhost:8080/api/group/delete', groupModel);
   }
 }

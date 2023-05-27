@@ -1,5 +1,5 @@
 export interface GroupAdminModel {
-  id?: string;
+  id: number;
   isDeleted: boolean;
   userId: number;
   groupId: number;

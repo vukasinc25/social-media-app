@@ -16,8 +16,38 @@
         <td>{{ groupAdmin.groupId }}</td>
         <td>
             <button (click)="removeAdmin(groupAdmin.id)">Remove</button>
-          </td>
+        </td>
       </tr>
     </tbody>
   </table>
+
+<br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Is Suspended</th>
+      <th>Suspension Reason</th>
+      <th>Suspend</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let group of groups">
+      <td>{{ group.id }}</td>
+      <td>{{ group.name }}</td>
+      <td>{{ group.description }}</td>
+      <td>{{ group.isSuspended ? 'Yes' : 'No' }}</td>
+      <td>
+        <input type="text" #suspensionInput [value]="group.suspensionReason">
+      </td>
+      <td>
+        <button (click)="suspendGroup(group.id, suspensionInput.value)">Suspend</button>
+    </td>
+    </tr>
+  </tbody>
+</table>
+
   

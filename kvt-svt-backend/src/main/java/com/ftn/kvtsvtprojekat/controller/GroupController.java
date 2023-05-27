@@ -93,15 +93,16 @@ public class GroupController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteGroup(@PathVariable Long id) {
-        if(id == null) {
+    @PutMapping(value = "/delete")
+    public ResponseEntity<Void> deleteGroup(@RequestBody GroupDTO groupDTO) {
+        if(groupDTO.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Group group = groupService.findOneById(id);
+        Group group = groupService.findOneById(groupDTO.getId());
 
         if (group != null) {
             group.setIsSuspended(true);
+            group.setSuspensionReason(groupDTO.getSuspensionReason());
             groupService.save(group);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

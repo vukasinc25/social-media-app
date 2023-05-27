@@ -40,9 +40,9 @@ export class ViewGroupSidebarComponent implements OnInit {
     this.router.navigateByUrl('/group-admin/' + this.groupId);
   }
 
-  deleteGroup() {
-    this.groupService.deleteGroup(this.groupId).subscribe((data) => {
-      this.router.navigateByUrl('/');
-    });
-  }
+  // deleteGroup() {
+  //   this.groupService.deleteGroup(this.groupId).subscribe((data) => {
+  //     this.router.navigateByUrl('/');
+  //   });
+  // }
 }

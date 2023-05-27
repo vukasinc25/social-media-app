@@ -69,8 +69,8 @@ public class GroupAdminController {
         GroupAdmin groupAdmin = groupAdminService.findOneById(id);
 
         if (groupAdmin != null) {
-            groupAdmin.setIsDeleted(true);
-            groupAdminService.save(groupAdmin);
+//            groupAdmin.setIsDeleted(true);
+            groupAdminService.delete(groupAdmin.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

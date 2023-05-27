@@ -32,11 +32,13 @@ export class CreateGroupComponent {
       description: new FormControl('', Validators.required),
     });
     this.groupModel = {
+      id: 0,
       name: '',
       description: '',
       adminId: 0,
     };
     this.groupAdminModel = {
+      id: 0,
       isDeleted: false,
       userId: 0,
       groupId: 0,

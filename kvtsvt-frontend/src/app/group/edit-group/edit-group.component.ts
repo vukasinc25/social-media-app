@@ -32,6 +32,7 @@ export class EditGroupComponent {
     });
     this.groupId = this.activateRoute.snapshot.params['id'];
     this.groupModel = {
+      id: 0,
       name: '',
       description: '',
       adminId: 0,

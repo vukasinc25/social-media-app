@@ -1,5 +1,5 @@
 export interface GroupModel {
-  id?: number;
+  id: number;
   name?: string;
   description?: string;
   adminId: number;
