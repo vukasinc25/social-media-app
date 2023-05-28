@@ -82,7 +82,7 @@ public class FriendRequestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @DeleteMapping(value = "/accept/{id}")
     public ResponseEntity<FriendRequestDTO> updateFriendRequest(@PathVariable("id") Long id) {
         FriendRequest group = friendRequestService.findOneById(id);
         if(group == null){
@@ -95,7 +95,7 @@ public class FriendRequestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Void> deleteFriendRequest(@PathVariable Long id) {
         if(id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

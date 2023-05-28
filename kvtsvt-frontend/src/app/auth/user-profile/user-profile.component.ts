@@ -114,4 +114,8 @@ export class UserProfileComponent implements OnInit {
       this.getFriendRequests();
     });
   }
+
+  openProfile(id: number) {
+    this.router.navigateByUrl('user-profile/' + id);
+  }
 }

@@ -4,5 +4,6 @@ export interface RegisterRequestModel {
   username: string;
   firstname: string;
   lastname: string;
+  // profileImagePath?: string;
   password: string;
 }

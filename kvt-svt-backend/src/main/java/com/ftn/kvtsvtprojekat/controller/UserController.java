@@ -60,7 +60,8 @@ public class UserController {
         createdUser.setIsDeleted(false);
 
         userService.save(createdUser);
-
+        User user2 = userService.findByUsername(newUser.getUsername());
+        newUser.setId(user2.getId());
         if(createdUser == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }

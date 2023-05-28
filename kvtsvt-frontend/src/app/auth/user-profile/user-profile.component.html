@@ -8,6 +8,7 @@
   <br><br>
   <!-- <table *ngIf="id == loggedId"></table> -->
   <table>
+    <caption>Friend Request</caption>
     <thead>
       <tr>
         <th>Approved</th>
@@ -24,7 +25,9 @@
         <td>{{ request.approved }}</td>
         <td>{{ request.requestDate }}</td>
         <td>{{ request.responseDate }}</td>
-        <td>{{ request.requestFromId }}</td>
+        <td >
+          <button type="button" class="custom-button" (click)="openProfile(request.requestFromId)">{{ request.requestFromId }}</button>
+        </td>
         <td>{{ request.requestForId }}</td>
         <td>
           <button type="button" class="custom-button" (click)="acceptRequest(request.id)">Accept</button>
@@ -35,7 +38,8 @@
       </tr>
     </tbody>
   </table>
-  
+  <br><br>
+  <!-- <img src="{{user.}}"> -->
   <div>
     <br /> Posted <b>{{postLength}}</b> time(s) and commented
     <b>{{commentLength}}</b> time(s).

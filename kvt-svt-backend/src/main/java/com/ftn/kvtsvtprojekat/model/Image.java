@@ -16,7 +16,7 @@ public class Image {
     @Column(nullable = false, updatable = false)
     private Long id;
     private String path;
-    private Boolean isDeleted;
+//    private Boolean isDeleted;
 
     @OneToOne
     private Post post;

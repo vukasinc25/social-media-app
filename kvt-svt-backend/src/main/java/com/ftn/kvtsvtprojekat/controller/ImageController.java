@@ -49,13 +49,15 @@ public class ImageController {
     }
 
     @GetMapping("/byUser/{id}")
-    public ResponseEntity<ImageDTO> getImagesForUser(@PathVariable("id") Long postId) {
+    public ResponseEntity<ImageDTO> getImagesForUser(@PathVariable("id") Long userId) {
 
-        User user = userService.findOneById(postId);
+        User user = userService.findOneById(userId);
         Image image = imageService.findOneByUser(user);
-        ImageDTO imageDTO = modelMapper.map(image, ImageDTO.class);
-
-        return new ResponseEntity<>(imageDTO, HttpStatus.OK);
+        if(image != null){
+            ImageDTO imageDTO = modelMapper.map(image, ImageDTO.class);
+            return new ResponseEntity<>(imageDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/{id}")

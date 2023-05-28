@@ -47,6 +47,16 @@
                                 </span>                                 
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">Picture</label>
+                            <div class="col-md-6">
+                                <input type="text" [formControlName]="'profileImagePath'"class="form-control" required autofocus>
+                                <span *ngIf="!registerForm.get('profileImagePath')?.valid && registerForm.get('profileImagePath')?.touched">
+                                    Please provide a valid picture
+                                </span>                                 
+                            </div>
+                        </div>
  
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>

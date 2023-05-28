@@ -13,4 +13,6 @@ import org.springframework.stereotype.Service;
 public class ImageDTO {
     private Long id;
     private String path;
+    private Long postId;
+    private Long userId;
 }

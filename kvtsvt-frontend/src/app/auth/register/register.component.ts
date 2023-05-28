@@ -1,9 +1,11 @@
+import { ImageModel } from './../shared/image-model';
 import { RegisterRequestModel } from './register-request-model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../shared/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ImageService } from '../shared/image.service';
 
 @Component({
   selector: 'app-register',
@@ -13,12 +15,20 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   registerRequestModel!: RegisterRequestModel;
+  ImageModel: ImageModel;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private imageService: ImageService
   ) {
+    this.ImageModel = {
+      id: 0,
+      path: '',
+      postId: 0,
+      userId: 0,
+    };
     this.registerRequestModel = {
       id: 0,
       email: '',
@@ -35,6 +45,7 @@ export class RegisterComponent implements OnInit {
       username: new FormControl('', Validators.required),
       firstname: new FormControl('', Validators.required),
       lastname: new FormControl('', Validators.required),
+      profileImagePath: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
   }
@@ -50,12 +61,17 @@ export class RegisterComponent implements OnInit {
     this.registerRequestModel.password =
       this.registerForm.get('password')?.value;
 
+    this.ImageModel.path = this.registerForm.get('profileImagePath')?.value;
+
     this.authService.register(this.registerRequestModel).subscribe(
       (data) => {
+        this.ImageModel.userId = data.id;
+        console.log(data.id);
+        console.log('sadasdsadasdasd');
+        this.imageService.createImage(this.ImageModel).subscribe();
         this.router.navigate(['/login'], {
           queryParams: { registered: 'true' },
         });
-        console.log(data);
       },
       () => {
         this.toastr.error('Registration failed');
