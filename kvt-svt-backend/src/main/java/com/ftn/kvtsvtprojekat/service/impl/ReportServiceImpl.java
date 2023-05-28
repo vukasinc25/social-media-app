@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void delete(Long id){
         Report report = reportRepository.findReportById(id);
-        report.setIsDeleted(true);
-        reportRepository.save(report);
+//        report.setIsDeleted(true);
+        reportRepository.delete(report);
     }
 }

@@ -14,6 +14,10 @@
       <button *ngIf="comment.userId === loggedUserId" (click)="editComment(comment.id)">Edit</button>
       <button *ngIf="comment.userId === loggedUserId" (click)="deleteComment(comment.id)">Delete</button>
     </div>
+    <button (click)="showReport()">Report</button>
+    <div>
+      <app-create-report *ngIf="showReporter" [comment]="comment"></app-create-report>
+    </div>
   </div>
   <hr/>
 </div>

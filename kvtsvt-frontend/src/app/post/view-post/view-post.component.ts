@@ -27,6 +27,7 @@ export class ViewPostComponent implements OnInit {
   commentForm: FormGroup;
   commentPayload: CommentPayload;
   comments: CommentPayload[] = [];
+  showReporter: boolean = false;
 
   constructor(
     private postService: PostService,
@@ -77,6 +78,14 @@ export class ViewPostComponent implements OnInit {
     this.getPostById();
     this.userId = this.post.userId;
     this.getCommentsForPost();
+  }
+
+  showReport() {
+    if (!this.showReporter) {
+      this.showReporter = true;
+    } else {
+      this.showReporter = false;
+    }
   }
 
   postComment() {

@@ -8,6 +8,10 @@
     Check the history below
   </div>
   <hr />
+  <button (click)="showReport()">Report</button>
+    <div>
+      <app-create-report *ngIf="showReporter" [user]="user"></app-create-report>
+    </div>
   <div>
     Your Posts:
   </div>

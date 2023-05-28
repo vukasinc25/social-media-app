@@ -13,6 +13,7 @@ import { CommentService } from 'src/app/post/comment/comment.service';
 export class ViewCommentComponent implements OnInit {
   @Input() comments: CommentPayload[] = [];
   loggedUserId: number;
+  showReporter: boolean = false;
   constructor(
     private router: Router,
     private localStorage: LocalStorageService,
@@ -25,6 +26,14 @@ export class ViewCommentComponent implements OnInit {
 
   editComment(id: number) {
     this.router.navigateByUrl('edit-comment/' + id);
+  }
+
+  showReport() {
+    if (!this.showReporter) {
+      this.showReporter = true;
+    } else {
+      this.showReporter = false;
+    }
   }
 
   deleteComment(id: number) {

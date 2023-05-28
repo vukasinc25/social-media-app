@@ -21,10 +21,12 @@ public class Report {
     private ReportReason reportReason;
     private LocalDateTime reportTime;
     private Boolean isAccepted;
-    private Boolean isDeleted;
+//    private Boolean isDeleted;
 
     @OneToOne
     private User byUser;
+    @OneToOne
+    private Group group;
     @OneToOne
     private User reportedUser;
     @OneToOne

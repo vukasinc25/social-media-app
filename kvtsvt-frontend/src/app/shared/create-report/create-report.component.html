@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+      <hr />
+      <div class="create-post-container col-md-9">
+        <form class="post-form" [formGroup]="createReportForm" (ngSubmit)="submitReport()">
+          <div class="form-group">
+            <div class="create-post-heading">Create Report</div>
+            <hr />
+
+            <select class="form-control" style="margin-top: 10px" [formControlName]="'reportReason'">
+                <option value="" selected disabled>Select Report Type</option>
+                <option value="BREAKES_RULES">BREAKES RULES</option>
+                <option value="HARASSMENT">HARASSMENT</option>
+                <option value="HATE">HATE</option>
+                <option value="SHARING_PERSONAL_INFORMATION">SHARING PERSONAL INFORMATION</option>
+                <option value="IMPERSONATION">IMPERSONATION</option>
+                <option value="COPYRIGHT">COPYRIGHT</option>
+                <option value="TRADEMARK">TRADEMARK</option>
+                <option value="SPAM">SPAM</option>
+                <option value="SELF_HARM">SELF HARM</option>
+                <option value="OTHER">OTHER</option>
+              </select>
+              
+            
+            <!-- <input [formControlName]="'reportReason'"> -->
+            <span>
+              <div style="margin-top: 5px" class="float-right">
+                <!-- <button (click)="discardReport()" class="btnDiscard">Discard</button> -->
+                <button class="btnCreatePost">Report</button>
+              </div>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
