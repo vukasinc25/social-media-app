@@ -12,9 +12,9 @@
               <span> . Posted
                 by              
                 <a class="username" href="">{{user.username}}</a>
-                <button *ngIf="post.userId === loggedUserId" (click)="selectPost()">Edit</button>
-                <button *ngIf="post.userId === loggedUserId" (click)="deletePost()">Delete</button>
-                <button (click)="showReport()">Report</button>
+                <button type="button" class="custom-button" *ngIf="post.userId === loggedUserId" (click)="selectPost()">Edit</button>
+                <button type="button" class="custom-button" *ngIf="post.userId === loggedUserId" (click)="deletePost()">Delete</button>
+                <button type="button" class="custom-button" (click)="showReport()">Report</button>
               </span>
               <div>
                 <app-create-report *ngIf="showReporter" [post]="post"></app-create-report>

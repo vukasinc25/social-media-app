@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.registerRequestModel = {
+      id: 0,
       email: '',
       username: '',
       firstname: '',

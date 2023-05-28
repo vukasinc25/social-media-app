@@ -17,4 +17,5 @@ public class AuthenticationResponse {
     private Instant expiresAt;
     private String username;
     private String role;
+    private Boolean isBlocked;
 }

@@ -1,6 +1,7 @@
 package com.ftn.kvtsvtprojekat.controller;
 
 import com.ftn.kvtsvtprojekat.model.Post;
+import com.ftn.kvtsvtprojekat.model.Report;
 import com.ftn.kvtsvtprojekat.model.UserFriend;
 import com.ftn.kvtsvtprojekat.model.User;
 import com.ftn.kvtsvtprojekat.model.dto.*;
@@ -27,6 +28,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.http.ResponseEntity.status;
 
@@ -99,8 +101,22 @@ public class UserController {
                 .expiresAt(Instant.ofEpochSecond(expiresIn))
                 .username(user.getUsername())
                 .role(role)
+                .isBlocked(user2.getIsDeleted())
                 .build();
     }
+
+
+    @DeleteMapping(value = "/block/{id}")
+    public ResponseEntity<UserPasswordDTO> blockUser(@PathVariable("id") Long id) {
+        User user = userService.findOneById(id);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        user.setIsDeleted(!user.getIsDeleted());
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<UserPasswordDTO> updatePassword(@PathVariable("id") Long id, @RequestBody UserPasswordDTO userPasswordDTO) {
@@ -147,7 +163,19 @@ public class UserController {
         return status(HttpStatus.OK).body(userRegisterDTOS);
     }
 
+    @GetMapping("/blocked")
+    public ResponseEntity<List<UserRegisterDTO>> getBlockedUsers() {
 
+        List<User> reports = userService.findAll();
+        List<UserRegisterDTO> reportsDTO = new ArrayList<>();
+        for (User report : reports) {
+            if(report.getIsDeleted()) {
+                UserRegisterDTO reportDTO = modelMapper.map(report, UserRegisterDTO.class);
+                reportsDTO.add(reportDTO);
+            }
+        }
+        return new ResponseEntity<>(reportsDTO, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/findByUsername", params = "username", consumes = "application/json")
     public ResponseEntity<UserLoginDTO> getUser(@RequestParam String username) {
@@ -189,9 +217,15 @@ public class UserController {
         }
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<List<UserRegisterDTO>> Search(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
 
+        if(Objects.equals(userRegisterDTO.getFirstname(), "")){
+            userRegisterDTO.setFirstname("eiwqopewiqpoewqiepwoqiewqpoieqpoeiwqpoeiqepoqiepqoeiqpoeiqpoeiwqpoeiwqpeowqieqwpoeiqwpo");
+        }
+        if(Objects.equals(userRegisterDTO.getLastname(), "")){
+            userRegisterDTO.setLastname("eiwqopewiqpoewqiepwoqiewqpoieqpoeiwqpoeiqepoqiepqoeiqpoeiqpoeiwqpoeiwqpeowqieqwpoeiqwpo");
+        }
         List<User> users = userService.searchByName(userRegisterDTO.getFirstname(), userRegisterDTO.getLastname());
         List<UserRegisterDTO> usersDTO = new ArrayList<>();
         for (User user : users) {

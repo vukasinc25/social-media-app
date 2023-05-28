@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class UserRegisterDTO {
+    private Long id;
     private String username;
     private String email;
     private String firstname;

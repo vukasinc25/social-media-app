@@ -5,6 +5,7 @@ import { LoginRequest } from './login-request-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { throwError } from 'rxjs';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private toastr: ToastrService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private localStorageService: LocalStorageService
   ) {
     this.loginRequestModel = {
       username: '',
@@ -48,9 +50,13 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.loginRequestModel).subscribe(
       (data) => {
-        this.isError = false;
-        this.router.navigateByUrl('');
-        this.toastr.success('Login Successful');
+        if (this.localStorageService.retrieve('isBlocked')) {
+          this.isError = true;
+          this.toastr.error('User is blocked');
+        } else {
+          this.toastr.success('Login successful');
+          this.router.navigate(['/']);
+        }
       },
       (error) => {
         this.isError = true;

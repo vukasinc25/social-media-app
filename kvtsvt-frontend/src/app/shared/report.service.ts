@@ -9,13 +9,6 @@ import { ReportModel } from './create-report/report-model';
 export class ReportService {
   constructor(private http: HttpClient) {}
 
-  vote(reportModel: ReportModel): Observable<any> {
-    return this.http.post(
-      'http://localhost:8080/api/report/create',
-      reportModel
-    );
-  }
-
   getAllReportsByPost(id: number): Observable<Array<ReportModel>> {
     return this.http.get<Array<ReportModel>>(
       'http://localhost:8080/api/report/byPost/' + id
@@ -26,6 +19,10 @@ export class ReportService {
     return this.http.get<ReportModel[]>(
       'http://localhost:8080/api/report/byComment/' + id
     );
+  }
+
+  getAll(): Observable<ReportModel[]> {
+    return this.http.get<ReportModel[]>('http://localhost:8080/api/report/all');
   }
 
   createReport(reportModel: ReportModel): Observable<any> {
@@ -46,10 +43,7 @@ export class ReportService {
     return this.http.get<ReportModel>('http://localhost:8080/api/report/' + id);
   }
 
-  deleteReport(reportModel: ReportModel): Observable<any> {
-    return this.http.put(
-      'http://localhost:8080/api/report/delete',
-      reportModel
-    );
+  deleteReport(id: number): Observable<any> {
+    return this.http.delete('http://localhost:8080/api/report/' + id);
   }
 }

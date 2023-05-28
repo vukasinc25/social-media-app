@@ -16,6 +16,14 @@ header{
     text-decoration: none;
 }
 
+.search-form {
+    margin-right: 20px;
+  }
+  
+  .profile-section {
+    margin-left: 20px;
+  }
+
 .login, .sign-up{    
     background-color: transparent;
     border-color: #0079D3;

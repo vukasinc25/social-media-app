@@ -1,5 +1,5 @@
 export interface RegisterRequestModel {
-  id?: number;
+  id: number;
   email: string;
   username: string;
   firstname: string;

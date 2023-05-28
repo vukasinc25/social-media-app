@@ -38,7 +38,6 @@ public class FriendRequestServiceImpl implements FriendRequestService {
     @Override
     public void delete(Long id){
         FriendRequest friendRequest = friendRequestRepository.findFriendRequestById(id);
-        friendRequest.setIsDeleted(true);
-        friendRequestRepository.save(friendRequest);
+        friendRequestRepository.delete(friendRequest);
     }
 }

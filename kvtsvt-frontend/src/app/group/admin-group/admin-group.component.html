@@ -1,4 +1,5 @@
 <table>
+  <caption>Group Requests</caption>
   <thead>
     <tr>
       <th>ID</th>
@@ -31,6 +32,8 @@
 
 <br><br>
 <table>
+  <caption>Grup Members</caption>
+  <caption></caption>
   <thead>
     <tr>
       <th>ID</th>
@@ -62,5 +65,29 @@
     </tr>
   </tbody>
 </table>
-
+<br>
+<br>
+<table>
+  <caption>Reports</caption>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Report Reason</th>
+      <th>Accepted</th>
+      <th>By User ID</th>
+      <th>Post ID</th>
+      <th>Comment ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let report of reports">
+      <td>{{ report.id }}</td>
+      <td>{{ report.reportReason }}</td>
+      <td>{{ report.isAccepted }}</td>
+      <td>{{ report.byUserId }}</td>
+      <td><a *ngIf="report.postId" (click)="openPost(report.postId, report.id)">{{ report.postId }}</a></td>
+      <td><a *ngIf="report.commentId" (click)="openComment(report.commentId, report.id)">{{ report.commentId }}</a></td>
+    </tr>
+  </tbody>
+</table>
   

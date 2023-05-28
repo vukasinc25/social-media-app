@@ -15,7 +15,15 @@
                 </span>
             </a>
         </div>
-        <div class="flex-grow-1 float-right">
+        <div class="d-flex search-form">
+            <form [formGroup]="searchForm" (ngSubmit)="search()" class="d-flex">
+              <input type="text" formControlName="firstname" class="form-control mr-sm-2" placeholder="Firstname">
+              <input type="text" formControlName="lastname" class="form-control mr-sm-2" placeholder="Lastname">
+              <button type="submit" class="btn btn-primary my-2 my-sm-0">Search</button>
+            </form>
+          </div>
+          
+        <div class="flex-grow-1 float-right profile-section">
             <div *ngIf="isLoggedIn" ngbDropdown class="float-right">
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button (click)="goToUserProfile()" ngbDropdownItem>Profile</button>
@@ -35,3 +43,19 @@
         </div>
     </nav>
 </header>
+
+<ng-template #searchResultsModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">Search Results</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body d-flex align-items-center">
+        <div class="flex-grow-1">
+          <p *ngFor="let result of searchResults" class="mr-2">{{ result.username }}</p>
+        </div>
+        <button *ngFor="let result of searchResults" type="button" class="custom-button" (click)="openProfile(result.id)">Profile</button>
+      </div>
+      
+  </ng-template>

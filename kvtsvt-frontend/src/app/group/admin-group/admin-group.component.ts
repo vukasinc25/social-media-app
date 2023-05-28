@@ -4,7 +4,12 @@ import { GroupRequestService } from '../group-request.service';
 import { RegisterRequestModel } from 'src/app/auth/register/register-request-model';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { GroupService } from '../group.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ReportService } from 'src/app/shared/report.service';
+import { CommentService } from 'src/app/post/comment/comment.service';
+import { ReportModel } from 'src/app/shared/create-report/report-model';
+import { PostService } from 'src/app/post/post.service';
+import { PostModel } from 'src/app/post/post-model';
 
 @Component({
   selector: 'app-admin-group',
@@ -16,12 +21,18 @@ export class AdminGroupComponent implements OnInit {
   groupUsers: Array<GroupRequestModel> = [];
   groupRequest: GroupRequestModel;
   users: Array<RegisterRequestModel> = [];
+  reports: Array<ReportModel> = [];
+  posts: Array<PostModel> = [];
   id: number = 0;
   constructor(
     private groupRequestService: GroupRequestService,
     private authService: AuthService,
     private groupService: GroupService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private reportService: ReportService,
+    private commentService: CommentService,
+    private postService: PostService
   ) {
     this.id = this.activatedRoute.snapshot.params['id'];
     console.log(this.id);
@@ -37,6 +48,7 @@ export class AdminGroupComponent implements OnInit {
   ngOnInit(): void {
     this.getGroupRequests();
     this.getUsersFromGroup();
+    this.getAllReports();
   }
 
   getGroupRequests() {
@@ -88,6 +100,38 @@ export class AdminGroupComponent implements OnInit {
   declineRequest(id: number) {
     this.groupRequestService.deleteGroup(id).subscribe(() => {
       this.ngOnInit();
+    });
+  }
+
+  getAllReports() {
+    return this.reportService.getAll().subscribe((data) => {
+      this.postService.getAllPostsByGroup(this.id).subscribe((post) => {
+        this.posts = post;
+        for (const report of data) {
+          for (const post of this.posts) {
+            if (report.postId === post.id) {
+              this.reports.push(report);
+            }
+          }
+        }
+      });
+    });
+  }
+
+  openPost(postId: number, reportId: number) {
+    // this.router.navigate(['view-post/' + postId]);
+    this.postService.deletePost(postId).subscribe(() => {
+      this.getAllReports();
+    });
+    this.reportService.deleteReport(reportId).subscribe(() => {
+      this.getAllReports();
+    });
+    this.ngOnInit();
+  }
+
+  openComment(commentId: number, reportId: number) {
+    this.commentService.deleteComment(commentId).subscribe(() => {
+      this.getAllReports();
     });
   }
 }

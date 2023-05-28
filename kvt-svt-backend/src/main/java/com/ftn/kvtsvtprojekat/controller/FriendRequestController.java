@@ -88,6 +88,7 @@ public class FriendRequestController {
         if(group == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        group.setResponseDate(LocalDateTime.now());
         group.setApproved(true);
 
         friendRequestService.save(group);
@@ -102,8 +103,7 @@ public class FriendRequestController {
         FriendRequest userFriend = friendRequestService.findOneById(id);
 
         if (userFriend != null) {
-            userFriend.setIsDeleted(true);
-            friendRequestService.save(userFriend);
+            friendRequestService.delete(userFriend.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

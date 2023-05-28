@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../auth/shared/auth.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SearchModel } from '../auth/shared/search-model';
+import { RegisterRequestModel } from '../auth/register/register-request-model';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +18,26 @@ export class HeaderComponent implements OnInit {
   username!: string;
   id: number = 0;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  searchForm: FormGroup;
+  searchResults: Array<RegisterRequestModel> = [];
+  searchQuery: SearchModel;
+  @ViewChild('searchResultsModal') searchResultsModal!: TemplateRef<any>;
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
+  ) {
+    this.searchForm = this.formBuilder.group({
+      firstname: [''],
+      lastname: [''],
+    });
+    this.searchQuery = {
+      firstname: '',
+      lastname: '',
+    };
+  }
 
   ngOnInit() {
     this.authService.loggedIn.subscribe(
@@ -26,6 +49,22 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.username = this.authService.getUserName();
     this.id = this.authService.getUserId();
+  }
+
+  search(): void {
+    // const searchQuery = this.searchForm.value.firstname;
+    this.searchQuery.firstname = this.searchForm.value.firstname;
+    this.searchQuery.lastname = this.searchForm.value.lastname;
+    this.authService.searchUsers(this.searchQuery).subscribe((data) => {
+      this.searchResults = data;
+    });
+
+    this.openSearchResultsModal();
+  }
+
+  openSearchResultsModal(): void {
+    const modalRef = this.modalService.open(this.searchResultsModal);
+    // Additional modal configurations if needed
   }
 
   goToUserProfile() {
@@ -44,5 +83,9 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     this.isLoggedIn = false;
     this.router.navigateByUrl('');
+  }
+
+  openProfile(id: number) {
+    this.router.navigateByUrl('/user-profile/' + id);
   }
 }

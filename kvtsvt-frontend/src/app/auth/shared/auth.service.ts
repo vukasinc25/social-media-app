@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { LoginResponse } from '../login/login-response-model';
 import { Router } from '@angular/router';
+import { SearchModel } from './search-model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,22 +39,30 @@ export class AuthService {
       )
       .pipe(
         map((data) => {
-          console.log('Login sucessfull');
+          if (!data.isBlocked) {
+            console.log('Login sucessfull');
 
-          this.localStorage.store(
-            'authenticationToken',
-            data.authenticationToken
-          );
-          this.localStorage.store('userId', data.userId);
-          this.localStorage.store('username', data.username);
-          this.localStorage.store('expiresAt', data.expiresAt);
-          this.localStorage.store('role', data.role);
+            this.localStorage.store(
+              'authenticationToken',
+              data.authenticationToken
+            );
+            this.localStorage.store('userId', data.userId);
+            this.localStorage.store('username', data.username);
+            this.localStorage.store('expiresAt', data.expiresAt);
+            this.localStorage.store('role', data.role);
+            this.localStorage.store('isBlocked', data.isBlocked);
 
-          console.log(this.localStorage.retrieve('userId'));
-          console.log(this.localStorage.retrieve('username'));
-          console.log(this.localStorage.retrieve('authenticationToken'));
-          console.log(this.localStorage.retrieve('expiresAt'));
-          console.log(this.localStorage.retrieve('role'));
+            console.log(this.localStorage.retrieve('userId'));
+            console.log(this.localStorage.retrieve('username'));
+            console.log(this.localStorage.retrieve('authenticationToken'));
+            console.log(this.localStorage.retrieve('expiresAt'));
+            console.log(this.localStorage.retrieve('role'));
+
+            console.log('Login Successful');
+          } else {
+            this.localStorage.store('isBlocked', data.isBlocked);
+            console.log('Login blocked');
+          }
         })
       );
   }
@@ -65,15 +74,38 @@ export class AuthService {
     );
   }
 
+  blockUser(id: number) {
+    return this.httpClient.delete('http://localhost:8080/api/user/block/' + id);
+  }
+
   getUser(id: number): Observable<RegisterRequestModel> {
     return this.httpClient.get<RegisterRequestModel>(
       'http://localhost:8080/api/user/' + id
     );
   }
 
+  getUsers(): Observable<Array<RegisterRequestModel>> {
+    return this.httpClient.get<Array<RegisterRequestModel>>(
+      'http://localhost:8080/api/user/all'
+    );
+  }
+
+  getBlockedUsers(): Observable<Array<RegisterRequestModel>> {
+    return this.httpClient.get<Array<RegisterRequestModel>>(
+      'http://localhost:8080/api/user/blocked'
+    );
+  }
+
   getUsersFromGroup(groupId: number): Observable<Array<RegisterRequestModel>> {
     return this.httpClient.get<Array<RegisterRequestModel>>(
       'http://localhost:8080/api/user/findUsersGroup/' + groupId
+    );
+  }
+
+  searchUsers(user: SearchModel): Observable<Array<RegisterRequestModel>> {
+    return this.httpClient.post<Array<RegisterRequestModel>>(
+      'http://localhost:8080/api/user/search',
+      user
     );
   }
 

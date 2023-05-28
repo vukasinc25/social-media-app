@@ -6,6 +6,8 @@ import { CommentService } from 'src/app/post/comment/comment.service';
 import { PostModel } from 'src/app/post/post-model';
 import { PostService } from 'src/app/post/post.service';
 import { RegisterRequestModel } from '../register/register-request-model';
+import { FriendService } from '../shared/friend.service';
+import { FriendRequestModel } from '../shared/friend-request-model';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +15,7 @@ import { RegisterRequestModel } from '../register/register-request-model';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  name: string;
+  // name: string;
   posts: PostModel[] = [];
   comments: CommentPayload[] = [];
   user: RegisterRequestModel;
@@ -23,15 +25,19 @@ export class UserProfileComponent implements OnInit {
   id: number = 0;
   showReporter: boolean = false;
 
+  friendRequest: FriendRequestModel;
+  friendRequests: Array<FriendRequestModel> = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
     private commentService: CommentService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private friendService: FriendService
   ) {
     this.loggedId = this.authService.getUserId();
-    this.name = this.authService.getUserName();
+    // this.name = this.authService.getUserName();
     this.id = this.activatedRoute.snapshot.params['id'];
 
     this.user = {
@@ -41,6 +47,12 @@ export class UserProfileComponent implements OnInit {
       firstname: '',
       lastname: '',
       password: '',
+    };
+    this.friendRequest = {
+      id: 0,
+      approved: false,
+      requestForId: 0,
+      requestFromId: 0,
     };
 
     this.postService.getAllPostsByUser(this.id).subscribe((data) => {
@@ -53,7 +65,9 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getFriendRequests();
+  }
 
   showReport() {
     if (!this.showReporter) {
@@ -63,7 +77,41 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  blockUser(id: number) {
+    this.authService.blockUser(id).subscribe(() => {
+      this.router.navigateByUrl('admin');
+    });
+  }
+
   editUser(id: number) {
     this.router.navigateByUrl('edit-user/' + id);
+  }
+
+  getFriendRequests() {
+    this.friendService.getAllFriendRequests().subscribe((data) => {
+      for (const friendRequest of data) {
+        if (friendRequest.requestForId == this.id && !friendRequest.approved) {
+          this.friendRequests.push(friendRequest);
+        }
+      }
+    });
+  }
+
+  addFriend() {
+    this.friendRequest.requestForId = this.id;
+    this.friendRequest.requestFromId = this.loggedId;
+    this.friendService.createFriendRequest(this.friendRequest).subscribe();
+  }
+
+  acceptRequest(id: number) {
+    this.friendService.editFriendRequest(id).subscribe(() => {
+      this.getFriendRequests();
+    });
+  }
+
+  declineRequest(id: number) {
+    this.friendService.deleteFriendRequest(id).subscribe(() => {
+      this.getFriendRequests();
+    });
   }
 }

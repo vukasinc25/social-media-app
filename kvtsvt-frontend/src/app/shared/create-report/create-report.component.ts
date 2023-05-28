@@ -39,6 +39,9 @@ export class CreateReportComponent implements OnInit {
       reportReason: '',
       isAccepted: false,
       byUserId: 0,
+      // reportedUserId: 0,
+      // postId: 0,
+      // commentId: 0,
     };
   }
   ngOnInit() {

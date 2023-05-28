@@ -5,4 +5,5 @@ export interface LoginResponse {
   expiresAt: Date;
   username: string;
   role: string;
+  isBlocked: boolean;
 }
