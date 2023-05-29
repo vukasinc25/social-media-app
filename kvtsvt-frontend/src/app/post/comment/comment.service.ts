@@ -14,9 +14,27 @@ export class CommentService {
     );
   }
 
+  getAllCommentsForPostDesc(postId: number): Observable<CommentPayload[]> {
+    return this.httpClient.get<CommentPayload[]>(
+      'http://localhost:8080/api/comment/byPostDesc/' + postId
+    );
+  }
+
+  getCommentsByReaction(id: number): Observable<CommentPayload[]> {
+    return this.httpClient.get<CommentPayload[]>(
+      'http://localhost:8080/api/comment/byPostReaction/' + id
+    );
+  }
+
   getComment(id: number): Observable<CommentPayload> {
     return this.httpClient.get<CommentPayload>(
       'http://localhost:8080/api/comment/' + id
+    );
+  }
+
+  getCommentChildren(id: number): Observable<Array<CommentPayload>> {
+    return this.httpClient.get<Array<CommentPayload>>(
+      'http://localhost:8080/api/comment/all/' + id
     );
   }
 

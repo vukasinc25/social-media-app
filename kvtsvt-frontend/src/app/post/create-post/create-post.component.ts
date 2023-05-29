@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/shared/auth.service';
+import { ImageModel } from 'src/app/auth/shared/image-model';
+import { ImageService } from 'src/app/auth/shared/image.service';
 
 @Component({
   selector: 'app-create-post',
@@ -18,14 +20,24 @@ export class CreatePostComponent implements OnInit {
   postPayload: CreatePostDto;
   groups: Array<GroupModel> = [];
   groupId: number = 0;
+  imageModel: ImageModel;
+  imagesString: string = '';
+  imagesStringSeperated: string[] = [];
+  counter: number = 0;
 
   constructor(
     private router: Router,
     private postService: PostService,
     private groupService: GroupService,
     private authService: AuthService,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
+    private imageService: ImageService
   ) {
+    this.imageModel = {
+      id: 0,
+      path: '',
+      userId: 0,
+    };
     this.postPayload = {
       content: '',
       userId: 0,
@@ -38,6 +50,7 @@ export class CreatePostComponent implements OnInit {
     this.createPostForm = new FormGroup({
       groupId: new FormControl(''),
       content: new FormControl('', Validators.required),
+      images: new FormControl('', Validators.required),
     });
     this.groupService.getAllGroups().subscribe(
       (data) => {
@@ -57,6 +70,19 @@ export class CreatePostComponent implements OnInit {
     this.postService.createPost(this.postPayload).subscribe(
       (data) => {
         this.router.navigateByUrl('/');
+        this.postService.getAllPosts().subscribe((data) => {
+          for (const post of data) {
+            this.counter += 1;
+          }
+          this.imageModel.postId = this.counter;
+          this.imageModel.userId = this.authService.getUserId();
+          this.imagesString = this.createPostForm.get('images')?.value;
+          this.imagesStringSeperated = this.imagesString.split(',');
+          for (const image of this.imagesStringSeperated) {
+            this.imageModel.path = image;
+            this.imageService.createImage(this.imageModel).subscribe();
+          }
+        });
       },
       (error) => {
         throwError(error);

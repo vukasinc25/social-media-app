@@ -11,6 +11,8 @@ import { AuthService } from 'src/app/auth/shared/auth.service';
 import { RegisterRequestModel } from 'src/app/auth/register/register-request-model';
 import { GroupService } from 'src/app/group/group.service';
 import { GroupModel } from 'src/app/group/group-model';
+import { ImageService } from 'src/app/auth/shared/image.service';
+import { ImageModel } from 'src/app/auth/shared/image-model';
 
 @Component({
   selector: 'app-view-post',
@@ -29,6 +31,8 @@ export class ViewPostComponent implements OnInit {
   comments: CommentPayload[] = [];
   showReporter: boolean = false;
 
+  images: ImageModel[] = [];
+
   constructor(
     private postService: PostService,
     private activateRoute: ActivatedRoute,
@@ -36,12 +40,11 @@ export class ViewPostComponent implements OnInit {
     private localStorage: LocalStorageService,
     private groupService: GroupService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private imageService: ImageService
   ) {
     this.postId = this.activateRoute.snapshot.params['id'];
     this.loggedUserId = this.localStorage.retrieve('userId');
-
-    console.log(this.postId);
 
     this.commentForm = new FormGroup({
       text: new FormControl('', Validators.required),
@@ -79,6 +82,15 @@ export class ViewPostComponent implements OnInit {
     this.getPostById();
     this.userId = this.post.userId;
     this.getCommentsForPost();
+    this.getImagesForPost();
+  }
+
+  getImagesForPost() {
+    return this.imageService
+      .getAllImagesByPost(this.postId)
+      .subscribe((data) => {
+        this.images = data;
+      });
   }
 
   showReport() {
@@ -90,7 +102,7 @@ export class ViewPostComponent implements OnInit {
   }
 
   postComment() {
-    this.commentPayload.userId = this.post.userId;
+    this.commentPayload.userId = this.authService.getUserId();
     this.commentPayload.text = this.commentForm.get('text')?.value;
     this.commentService.postComment(this.commentPayload).subscribe(
       (data) => {
@@ -131,7 +143,7 @@ export class ViewPostComponent implements OnInit {
     );
   }
 
-  private getCommentsForPost() {
+  getCommentsForPost() {
     this.commentService.getAllCommentsForPost(this.postId).subscribe(
       (data) => {
         this.comments = data;
@@ -140,6 +152,45 @@ export class ViewPostComponent implements OnInit {
         throwError(error);
       }
     );
+  }
+
+  getCommentsForPostDesc() {
+    this.commentService
+      .getAllCommentsForPostDesc(this.postId)
+      .subscribe((data) => {
+        this.comments = data;
+      });
+  }
+
+  getCommentsLikesDesc() {
+    this.commentService.getCommentsByReaction(1).subscribe((data) => {
+      this.comments = data;
+    });
+  }
+  getCommentsLikesAsc() {
+    this.commentService.getCommentsByReaction(2).subscribe((data) => {
+      this.comments = data;
+    });
+  }
+  getCommentsDislikesDesc() {
+    this.commentService.getCommentsByReaction(3).subscribe((data) => {
+      this.comments = data;
+    });
+  }
+  getCommentsDislikesAsc() {
+    this.commentService.getCommentsByReaction(4).subscribe((data) => {
+      this.comments = data;
+    });
+  }
+  getCommentsHeartDesc() {
+    this.commentService.getCommentsByReaction(5).subscribe((data) => {
+      this.comments = data;
+    });
+  }
+  getCommentsHeartAsc() {
+    this.commentService.getCommentsByReaction(6).subscribe((data) => {
+      this.comments = data;
+    });
   }
 
   getUser(id: number) {

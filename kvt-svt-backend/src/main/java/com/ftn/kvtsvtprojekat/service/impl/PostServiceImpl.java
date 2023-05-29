@@ -26,6 +26,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> findAllByOrderByCreationDateDesc() {
+        return postRepository.findAllByOrderByCreationDateDesc();
+    }
+
+    @Override
+    public List<Post> findAllByOrderByCreationDateAsc() {
+        return postRepository.findAllByOrderByCreationDate();
+    }
+
+    @Override
     public List<Post> findAllByGroup(Group group) {
         return postRepository.findAllByGroup(group);
     }

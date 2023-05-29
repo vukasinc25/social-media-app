@@ -57,4 +57,14 @@ public class CommentServiceImpl implements CommentService {
          return commentRepository.findAllByPost(post);
 
     }
+
+    @Override
+    public List<Comment> findByPostOrderByIdDesc(Post post) {
+        return commentRepository.findAllByPostOrderByIdDesc(post);
+    }
+
+    @Override
+    public List<Comment> findByPostOrderByLikes() {
+        return commentRepository.findAllByPostOrderByReactionDesc();
+    }
 }

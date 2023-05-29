@@ -16,6 +16,12 @@ export class PostService {
     );
   }
 
+  getAllPostsDesc(): Observable<Array<PostModel>> {
+    return this.http.get<Array<PostModel>>(
+      'http://localhost:8080/api/post/allDesc'
+    );
+  }
+
   getAllPostsByUser(id: number): Observable<PostModel[]> {
     return this.http.get<PostModel[]>(
       'http://localhost:8080/api/post/byUser/' + id

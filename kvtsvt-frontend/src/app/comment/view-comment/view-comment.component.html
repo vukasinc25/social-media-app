@@ -18,6 +18,18 @@
     <div>
       <app-create-report *ngIf="showReporter" [comment]="comment"></app-create-report>
     </div>
+    <div>
+      <form [formGroup]="commentForm" (ngSubmit)="postComment(comment.id)">
+        <div class="form-group">
+          <textarea class="form-control" [formControlName]="'text'" placeholder="Leave a comment"></textarea>
+        </div>
+        <br>
+        <button type="submit" class="login float-right">Comment</button>
+      </form>
+      <p (click)="getCommentChildren(comment.id)">See replies</p>
+      <app-view-comment [comments]="commentChildren"></app-view-comment>
+    </div>
   </div>
   <hr/>
+  
 </div>

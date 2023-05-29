@@ -1,7 +1,7 @@
 <div class="container">
   <div>
     <button type="button" class="custom-button" *ngIf="id == loggedId" (click)="editUser(id)">Edit</button>
-    <button type="button" class="custom-button" (click)="showReport()">Report</button>
+    <button *ngIf="loggedId != id" type="button" class="custom-button" (click)="showReport()">Report</button>
     <button *ngIf="loggedId == 1" type="button" class="custom-button" (click)="blockUser(id)">Block</button>
     <button *ngIf="loggedId != id" type="button" class="custom-button" (click)="addFriend()">Add Friend</button>
   </div>
@@ -35,7 +35,7 @@
   <app-view-comment [comments]="comments"></app-view-comment>
 
   <br><br>
-  <table>
+  <table *ngIf="id == loggedId">
     <caption>Friend Request</caption>
     <thead>
       <tr>

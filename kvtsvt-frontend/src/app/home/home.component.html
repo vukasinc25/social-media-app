@@ -8,19 +8,27 @@
     </div>
   </div>
 </div>
-
-
-<div class="reddit-body">
-    <div class="container">
-      <div class="row">
-        <hr />
-        <div class="col-md-9">
-          <app-post-overview [posts]="posts"></app-post-overview>
+<div *ngIf="isLoggedIn" class="reddit-body">
+  <div class="container">
+    <div class="row">
+      <hr />
+      <div class="col-md-9">
+        <div class="d-flex justify-content-start">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sortOption" id="descOption" (change)="getAllPostsDesc()">
+            <label class="form-check-label" for="descOption">Date Descending</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sortOption" id="ascOption" (change)="getAllPosts()">
+            <label class="form-check-label" for="ascOption">Date Ascending</label>
+          </div>
         </div>
-        <div class="col-md-3">
-          <app-sidebar></app-sidebar>
-          <app-group-sidebar></app-group-sidebar>
-        </div>
+        <app-post-overview [posts]="posts"></app-post-overview>
+      </div>
+      <div class="col-md-3">
+        <app-sidebar></app-sidebar>
+        <app-group-sidebar></app-group-sidebar>
       </div>
     </div>
   </div>
+</div>

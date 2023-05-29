@@ -4,4 +4,5 @@ export interface CommentPayload {
   isDeleted: boolean;
   postId?: number;
   userId: number;
+  parentCommentId?: number;
 }

@@ -15,18 +15,33 @@ export class HomeComponent implements OnInit {
   constructor(
     private postService: PostService,
     private authService: AuthService
-  ) {
-    this.postService.getAllPosts().subscribe((posts) => {
-      this.posts = posts.sort((a, b) => {
-        // Sort by creation date in ascending order
-        return a.creationDate.getTime() - b.creationDate.getTime();
-        // Uncomment the line below to sort in descending order
-        // return b.creationDate.getTime() - a.creationDate.getTime();
-      });
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.getAllPosts();
   }
+
+  getAllPosts() {
+    this.postService.getAllPosts().subscribe((posts) => {
+      this.posts = posts;
+    });
+  }
+
+  getAllPostsDesc() {
+    this.postService.getAllPostsDesc().subscribe((posts) => {
+      this.posts = posts;
+    });
+  }
+  // sortPostsByCreationDateDesc(): void {
+  //   this.posts.sort(
+  //     (a, b) => b.creationDate.getTime() - a.creationDate.getTime()
+  //   );
+  // }
+
+  // sortPostsByCreationDateAsc(): void {
+  //   this.posts.sort(
+  //     (a, b) => a.creationDate.getTime() - b.creationDate.getTime()
+  //   );
+  // }
 }

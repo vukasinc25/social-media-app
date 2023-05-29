@@ -9,6 +9,10 @@ import java.util.List;
 public interface PostService {
     List<Post> findAll();
 
+    List<Post> findAllByOrderByCreationDateDesc();
+
+    List<Post> findAllByOrderByCreationDateAsc();
+
     List<Post> findAllByGroup(Group group);
 
     List<Post> findAllByUser(User user);

@@ -67,6 +67,34 @@ public class PostController {
         return new ResponseEntity<>(postsDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/allDesc")
+    public ResponseEntity<List<PostDTO>> getPostsDescending() {
+
+        List<Post> posts = postService.findAllByOrderByCreationDateDesc();
+        List<PostDTO> postsDTO = new ArrayList<>();
+        for (Post post : posts) {
+            if(!post.getIsDeleted()) {
+                PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+                postsDTO.add(postDTO);
+            }
+        }
+        return new ResponseEntity<>(postsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/allAsc")
+    public ResponseEntity<List<PostDTO>> getPostsAscending() {
+
+        List<Post> posts = postService.findAllByOrderByCreationDateAsc();
+        List<PostDTO> postsDTO = new ArrayList<>();
+        for (Post post : posts) {
+            if(!post.getIsDeleted()) {
+                PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+                postsDTO.add(postDTO);
+            }
+        }
+        return new ResponseEntity<>(postsDTO, HttpStatus.OK);
+    }
+
     @GetMapping("/byUser/{id}")
     public ResponseEntity<List<PostDTO>> getCommentsByUser(@PathVariable("id") Long userId) {
 

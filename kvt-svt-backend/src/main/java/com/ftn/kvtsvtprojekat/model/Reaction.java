@@ -27,6 +27,7 @@ public class Reaction {
 
     @OneToOne(fetch = FetchType.EAGER)
     private Post post;
-    @OneToOne(fetch = FetchType.EAGER)
+
+    @OneToOne(fetch = FetchType.LAZY)
     private Comment comment;
 }

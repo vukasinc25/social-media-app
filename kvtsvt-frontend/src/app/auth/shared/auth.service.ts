@@ -52,11 +52,8 @@ export class AuthService {
             this.localStorage.store('role', data.role);
             this.localStorage.store('isBlocked', data.isBlocked);
 
-            console.log(this.localStorage.retrieve('userId'));
             console.log(this.localStorage.retrieve('username'));
             console.log(this.localStorage.retrieve('authenticationToken'));
-            console.log(this.localStorage.retrieve('expiresAt'));
-            console.log(this.localStorage.retrieve('role'));
 
             console.log('Login Successful');
           } else {

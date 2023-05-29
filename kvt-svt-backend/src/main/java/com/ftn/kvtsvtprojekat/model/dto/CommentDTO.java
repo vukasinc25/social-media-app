@@ -11,4 +11,5 @@ public class CommentDTO {
     private Boolean isDeleted;
     private Long postId;
     private Long userId;
+    private Long parentCommentId;
 }

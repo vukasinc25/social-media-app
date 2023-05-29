@@ -25,6 +25,10 @@
             <div>
               <p class="post-text" [innerHtml]="post.content"></p>
             </div>
+            <div class="image-gallery">
+              <img *ngFor="let image of images" [src]="image.path" class="gallery-image">
+            </div>            
+            <br>
             <div class="post-comment">
               <form [formGroup]="commentForm" (ngSubmit)="postComment()">
                 <div class="form-group">
@@ -33,6 +37,41 @@
                 <br>
                 <button type="submit" class="login float-right">Comment</button>
               </form>
+            </div>
+            <br>
+            <div class="d-flex justify-content-start">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="descOption" (change)="getCommentsForPostDesc()">
+                <label class="form-check-label" for="descOption">Date Desc</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="ascOption" (change)="getCommentsForPost()">
+                <label class="form-check-label" for="ascOption">Date Asc</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="descOption" (change)="getCommentsLikesDesc()">
+                <label class="form-check-label" for="descOption">Likes Desc</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="ascOption" (change)="getCommentsLikesAsc()">
+                <label class="form-check-label" for="ascOption">Likes Asc</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="descOption" (change)="getCommentsDislikesDesc()">
+                <label class="form-check-label" for="descOption">Dislikes Desc</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="ascOption" (change)="getCommentsDislikesAsc()">
+                <label class="form-check-label" for="ascOption">Dislikes Asc</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="descOption" (change)="getCommentsHeartDesc()">
+                <label class="form-check-label" for="descOption">Heart Desc</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOption" id="ascOption" (change)="getCommentsHeartAsc()">
+                <label class="form-check-label" for="ascOption">Heart Asc</label>
+              </div>
             </div>
             <br>
             <app-view-comment [comments]="comments"></app-view-comment>

@@ -21,4 +21,8 @@ public interface CommentService {
     void delete(Long id);
 
     List<Comment> findByPost(Post post);
+
+    List<Comment> findByPostOrderByIdDesc(Post post);
+
+    List<Comment> findByPostOrderByLikes();
 }

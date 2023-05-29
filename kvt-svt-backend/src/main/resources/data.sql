@@ -12,9 +12,8 @@ INSERT INTO post (content, creation_date, is_deleted, user_id, group_id) VALUES 
 INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALUES (false, 'comment text 1', 1, 1, null);
 INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALUES (false, 'comment text 2', 1, 1, null);
 
-INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALUES (false, 'reply text 1', 1, 1, 1);
-INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALUES (false, 'reply text 2', 1, 1, 1);
-INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALUES (false, 'reply text 3', 1, 1, 2);
+INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALUES (false, 'reply text 1', null, 1, 1);
+INSERT INTO comment (is_deleted, text, post_id, user_id, parent_comment_id) VALUES (false, 'reply text 2', null, 1, 1);
 
 # INSERT INTO comments_replies (comment_parent, comment_child) VALUES (1, 2);
 

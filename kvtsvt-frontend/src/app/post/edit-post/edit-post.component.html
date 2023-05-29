@@ -1,26 +1,27 @@
 <div class="container">
-    <div class="row">
-      <hr />
-      <div class="create-post-container col-md-9">
-        <form class="post-form" [formGroup]="editPostForm" (ngSubmit)="editPost()">
-          <div class="form-group">
-            <div class="create-post-heading">Edit Post</div>
-            <hr />
+  <div class="row">
+    <hr />
+    <div class="create-post-container col-md-9">
+      <form class="post-form" [formGroup]="editPostForm" (ngSubmit)="editPost()">
+        <div class="form-group">
+          <div class="create-post-heading">Edit Post</div>
+          <hr />
 
-            <select class="form-control" style="margin-top: 10px" [formControlName]="'groupId'">
-              <option value="" selected disabled>Select Group</option>
-              <option *ngFor="let group of groups">{{group.name}}</option>
-            </select>
-  
-            <input [formControlName]="'content'" >
-            <span>
-              <div style="margin-top: 5px" class="float-right">
-                <button type="button" class="custom-button" (click)="discardPost()" class="btnDiscard">Discard</button>
-                <button class="btnCreatePost">Save</button>
-              </div>
-            </span>
+          <select class="form-control" style="margin-top: 10px" [formControlName]="'groupId'">
+            <option value="" selected disabled>Select Group</option>
+            <option *ngFor="let group of groups">{{ group.name }}</option>
+          </select>
+          <br>
+          <textarea [formControlName]="'content'" class="form-control" rows="4" placeholder="Enter your post content"></textarea>
+          <br>
+          <textarea [formControlName]="'images'" class="form-control" rows="5" placeholder="Enter your images here"></textarea>
+
+          <div class="text-right mt-3">
+            <button type="button" class="btn btn-secondary" (click)="discardPost()">Discard</button>
+            <button class="btn btn-primary">Save</button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>
