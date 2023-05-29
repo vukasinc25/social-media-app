@@ -23,6 +23,15 @@ export class GroupRequestService {
     );
   }
 
+  createGroupRequest(
+    groupRequest: GroupRequestModel
+  ): Observable<GroupRequestModel> {
+    return this.http.post<GroupRequestModel>(
+      'http://localhost:8080/api/groupRequest/create',
+      groupRequest
+    );
+  }
+
   approveGR(groupReustModel: GroupRequestModel): Observable<any> {
     return this.http.put<any>(
       'http://localhost:8080/api/groupRequest/' + groupReustModel.id,

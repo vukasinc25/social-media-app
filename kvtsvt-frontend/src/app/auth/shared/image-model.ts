@@ -1,5 +1,5 @@
 export interface ImageModel {
-  id?: number;
+  id: number;
   path: string;
   postId?: number;
   userId?: number;

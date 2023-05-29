@@ -55,7 +55,7 @@ export class AdminGroupComponent implements OnInit {
     this.groupRequestService.getAllRequests(this.id).subscribe((data) => {
       for (const request of data) {
         if (!request.approved) {
-          this.groupRequests = data;
+          this.groupRequests.push(request);
         }
       }
     });
@@ -81,8 +81,10 @@ export class AdminGroupComponent implements OnInit {
   //   });
   // }
 
-  banUser(id: number) {
-    this.groupRequest.id = id;
+  banUser(userId: number, groupId: number, requstId: number) {
+    this.groupRequest.userId = userId;
+    this.groupRequest.groupId = groupId;
+    this.groupRequest.id = requstId;
     this.groupRequestService.banGR(this.groupRequest).subscribe(() => {
       this.getUsersFromGroup();
     });

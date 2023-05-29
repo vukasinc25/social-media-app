@@ -1,3 +1,4 @@
+import { LocalStorageService } from 'ngx-webstorage';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterState } from '@angular/router';
@@ -8,6 +9,7 @@ import { PostService } from 'src/app/post/post.service';
 import { RegisterRequestModel } from '../register/register-request-model';
 import { FriendService } from '../shared/friend.service';
 import { FriendRequestModel } from '../shared/friend-request-model';
+import { ImageService } from '../shared/image.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,13 +30,19 @@ export class UserProfileComponent implements OnInit {
   friendRequest: FriendRequestModel;
   friendRequests: Array<FriendRequestModel> = [];
 
+  description: string = '';
+  newUsername: string = '';
+  image: string = '';
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
     private commentService: CommentService,
     private authService: AuthService,
     private router: Router,
-    private friendService: FriendService
+    private friendService: FriendService,
+    private localStorage: LocalStorageService,
+    private imageService: ImageService
   ) {
     this.loggedId = this.authService.getUserId();
     // this.name = this.authService.getUserName();
@@ -66,7 +74,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.description = this.localStorage.retrieve('description');
+    this.newUsername = this.localStorage.retrieve('newUsername');
     this.getFriendRequests();
+    this.getImage();
   }
 
   showReport() {
@@ -85,6 +96,13 @@ export class UserProfileComponent implements OnInit {
 
   editUser(id: number) {
     this.router.navigateByUrl('edit-user/' + id);
+  }
+
+  getImage() {
+    this.imageService.getImageByUser(this.id).subscribe((data) => {
+      this.image = data.path;
+      console.log(this.image);
+    });
   }
 
   getFriendRequests() {

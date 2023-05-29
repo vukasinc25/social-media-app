@@ -8,6 +8,7 @@ import { Observable, map } from 'rxjs';
 import { LoginResponse } from '../login/login-response-model';
 import { Router } from '@angular/router';
 import { SearchModel } from './search-model';
+import { UserEditModel } from '../edit-user/user-edit-model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,7 @@ export class AuthService {
   register(registerRequestModel: RegisterRequestModel): Observable<any> {
     return this.httpClient.post(
       'http://localhost:8080/api/user/signup',
-      registerRequestModel,
-      { responseType: 'text' }
+      registerRequestModel
     );
   }
 
@@ -84,6 +84,13 @@ export class AuthService {
     );
   }
 
+  editUser(user: UserEditModel): Observable<UserEditModel> {
+    return this.httpClient.put<UserEditModel>(
+      'http://localhost:8080/api/user/edit/' + user.id,
+      user
+    );
+  }
+
   getUsers(): Observable<Array<RegisterRequestModel>> {
     return this.httpClient.get<Array<RegisterRequestModel>>(
       'http://localhost:8080/api/user/all'
@@ -114,6 +121,10 @@ export class AuthService {
     this.localStorage.clear('authenticationToken');
     this.localStorage.clear('username');
     this.localStorage.clear('expiresAt');
+    this.localStorage.clear('role');
+    this.localStorage.clear('isBlocked');
+    this.localStorage.clear('description');
+    this.localStorage.clear('newUsername');
   }
 
   tokenIsPresent() {

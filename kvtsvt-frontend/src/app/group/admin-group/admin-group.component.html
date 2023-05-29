@@ -57,10 +57,10 @@
       <td>{{ request.groupId }}</td>
       <td>{{ request.userId }}</td>
       <td>
-        <button *ngIf="!request.isBanned" (click)="banUser(request.userId)">Ban</button>
+        <button *ngIf="!request.isBanned" (click)="banUser(request.userId, request.groupId, request.id)">Ban</button>
       </td>
       <td>
-        <button *ngIf="request.isBanned" (click)="banUser(request.userId)">Unban</button>
+        <button *ngIf="request.isBanned" (click)="banUser(request.userId, request.groupId, request.id)">Unban</button>
       </td>
     </tr>
   </tbody>

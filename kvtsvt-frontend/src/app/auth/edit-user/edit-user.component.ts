@@ -6,6 +6,11 @@ import { GroupService } from 'src/app/group/group.service';
 import { CommentPayload } from 'src/app/post/comment/comment-payload';
 import { CommentService } from 'src/app/post/comment/comment.service';
 import { AuthService } from '../shared/auth.service';
+import { RegisterRequestModel } from '../register/register-request-model';
+import { UserEditModel } from './user-edit-model';
+import { LocalStorageService } from 'ngx-webstorage';
+import { ImageService } from '../shared/image.service';
+import { ImageModel } from '../shared/image-model';
 
 @Component({
   selector: 'app-edit-user',
@@ -13,54 +18,91 @@ import { AuthService } from '../shared/auth.service';
   styleUrls: ['./edit-user.component.css'],
 })
 export class EditUserComponent {
-  editCommentForm!: FormGroup;
-  commentPayload: CommentPayload;
-  commentId: number = 0;
+  editUserForm!: FormGroup;
+  user: UserEditModel;
+  imageModel: ImageModel;
+  userId: number = 0;
   text: string = 'a';
+  image: string = '';
+  imageId: number = 0;
 
   constructor(
     private router: Router,
-    private commentService: CommentService,
     private groupService: GroupService,
     private activateRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private localStorage: LocalStorageService,
+    private imageService: ImageService
   ) {
-    this.commentId = this.activateRoute.snapshot.params['id'];
-    this.commentPayload = {
+    this.userId = this.activateRoute.snapshot.params['id'];
+    this.user = {
       id: 0,
-      text: '',
-      isDeleted: false,
-      postId: 0,
-      userId: 0,
+      firstname: '',
+      lastname: '',
+      email: '',
     };
+    this.imageModel = {
+      id: 0,
+      path: '',
+    };
+    this.imageService.getImageByUser(this.userId).subscribe((data) => {
+      this.image = data.path;
+      this.imageId = data.id;
+    });
   }
 
   ngOnInit() {
-    this.editCommentForm = new FormGroup({
-      text: new FormControl('', Validators.required),
+    this.editUserForm = new FormGroup({
+      firstname: new FormControl('', Validators.required),
+      lastname: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      picture: new FormControl('', Validators.required),
+      newUsername: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
     });
 
-    this.commentService.getComment(this.commentId).subscribe((data) => {
-      this.text = data.text;
-      this.commentPayload.postId = data.postId;
-      this.commentPayload.userId = data.userId;
-
-      this.editCommentForm.get('text')?.setValue(this.text);
+    this.authService.getUser(this.userId).subscribe((data) => {
+      this.user.id = data.id;
+      this.editUserForm.get('firstname')?.setValue(data.firstname);
+      this.editUserForm.get('lastname')?.setValue(data.lastname);
+      this.editUserForm.get('email')?.setValue(data.email);
+      this.editUserForm.get('picture')?.setValue(this.image);
+      this.editUserForm
+        .get('newUsername')
+        ?.setValue(this.localStorage.retrieve('newUsername'));
+      this.editUserForm
+        .get('description')
+        ?.setValue(this.localStorage.retrieve('description'));
     });
   }
 
   editUser() {
-    this.commentPayload.text = this.editCommentForm.get('text')?.value;
-    // this.commentPayload.userId = this.authService.getUserId();
-    this.commentPayload.id = this.commentId;
+    this.user.firstname = this.editUserForm.get('firstname')?.value;
+    this.user.lastname = this.editUserForm.get('lastname')?.value;
+    this.user.email = this.editUserForm.get('email')?.value;
 
-    this.commentService.updateComment(this.commentPayload).subscribe(
+    this.imageModel.id = this.imageId;
+    this.imageModel.path = this.editUserForm.get('picture')?.value;
+    console.log(this.imageModel.path);
+
+    this.imageService.editImage(this.imageModel).subscribe();
+
+    this.authService.editUser(this.user).subscribe(
       (data) => {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/user-profile/' + this.user.id);
       },
       (error) => {
         throwError(error);
       }
+    );
+
+    this.localStorage.store(
+      'newUsername',
+      this.editUserForm.get('newUsername')?.value
+    );
+    this.localStorage.store(
+      'description',
+      this.editUserForm.get('description')?.value
     );
   }
 

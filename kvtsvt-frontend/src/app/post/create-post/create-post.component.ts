@@ -5,7 +5,7 @@ import { PostService } from './../post.service';
 import { throwError } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 
 @Component({
@@ -17,12 +17,14 @@ export class CreatePostComponent implements OnInit {
   createPostForm!: FormGroup;
   postPayload: CreatePostDto;
   groups: Array<GroupModel> = [];
+  groupId: number = 0;
 
   constructor(
     private router: Router,
     private postService: PostService,
     private groupService: GroupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private activateRoute: ActivatedRoute
   ) {
     this.postPayload = {
       content: '',
@@ -32,6 +34,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.groupId = this.activateRoute.snapshot.params['id'];
     this.createPostForm = new FormGroup({
       groupId: new FormControl(''),
       content: new FormControl('', Validators.required),

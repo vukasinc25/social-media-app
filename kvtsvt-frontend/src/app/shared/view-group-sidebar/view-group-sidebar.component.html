@@ -6,10 +6,10 @@
         <button class="btnCreatePost" (click)="goToCreatePost()">Create Post</button>
     </div>
     <div style="text-align: center">
-        <button class="btnCreateSubreddit" (click)="goToGroupAdmin()">Group Admin</button>
+        <button *ngIf="isGroupAdmin" class="btnCreateSubreddit" (click)="goToGroupAdmin()">Group Admin</button>
     </div>
     <div style="text-align: center">
-        <button class="btnCreateSubreddit" (click)="goToEditGroup()">Edit Group</button>
+        <button *ngIf="isGroupAdmin" class="btnCreateSubreddit" (click)="goToEditGroup()">Edit Group</button>
     </div>
     <!-- <div style="text-align: center">
         <button class="btnCreateSubreddit" (click)="deleteGroup()">Delete Group</button>

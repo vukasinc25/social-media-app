@@ -4,4 +4,5 @@ export interface PostModel {
   isDeleted: boolean;
   userId: number;
   groupId: number;
+  creationDate: Date;
 }

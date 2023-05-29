@@ -52,6 +52,7 @@ export class ViewPostComponent implements OnInit {
       isDeleted: false,
       userId: 0,
       groupId: 0,
+      creationDate: new Date(),
     };
     this.user = {
       id: 0,

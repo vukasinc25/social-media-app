@@ -26,7 +26,6 @@ export class RegisterComponent implements OnInit {
     this.ImageModel = {
       id: 0,
       path: '',
-      postId: 0,
       userId: 0,
     };
     this.registerRequestModel = {
@@ -66,8 +65,8 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.registerRequestModel).subscribe(
       (data) => {
         this.ImageModel.userId = data.id;
+        console.log(data);
         console.log(data.id);
-        console.log('sadasdsadasdasd');
         this.imageService.createImage(this.ImageModel).subscribe();
         this.router.navigate(['/login'], {
           queryParams: { registered: 'true' },

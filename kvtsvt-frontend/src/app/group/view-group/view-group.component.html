@@ -1,4 +1,19 @@
-<div class="reddit-body">
+<div *ngIf="!isMember" class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card text-center">
+    <div class="card-body">
+      <h1 class="card-title">You are not a member of this group</h1>
+      <div *ngIf="!isWaiting" class="mt-4">
+        <button (click)="joinGroup()" class="btn btn-primary">Join Group</button>
+      </div>
+      <div *ngIf="isWaiting" class="mt-4">
+        <p>Wait to be accepted</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="isMember" class="reddit-body">
     <div class="container">
       <div class="row">
         <hr />

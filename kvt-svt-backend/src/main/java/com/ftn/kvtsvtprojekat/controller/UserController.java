@@ -58,7 +58,7 @@ public class UserController {
         User createdUser = modelMapper.map(newUser, User.class);
         createdUser.setRole(Roles.USER);
         createdUser.setIsDeleted(false);
-
+        createdUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userService.save(createdUser);
         User user2 = userService.findByUsername(newUser.getUsername());
         newUser.setId(user2.getId());
@@ -105,8 +105,6 @@ public class UserController {
                 .isBlocked(user2.getIsDeleted())
                 .build();
     }
-
-
     @DeleteMapping(value = "/block/{id}")
     public ResponseEntity<UserPasswordDTO> blockUser(@PathVariable("id") Long id) {
         User user = userService.findOneById(id);
@@ -117,8 +115,7 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
+    
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<UserPasswordDTO> updatePassword(@PathVariable("id") Long id, @RequestBody UserPasswordDTO userPasswordDTO) {
         User user = userService.findOneById(id);
@@ -149,6 +146,20 @@ public class UserController {
         return status(HttpStatus.OK).body(userDTO);
     }
 
+    @PutMapping(value = "/edit/{id}", consumes = "application/json")
+    public ResponseEntity<UserEditDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserEditDTO userEditDTO) {
+        User user = userService.findOneById(id);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        user.setFirstname(userEditDTO.getFirstname());
+        user.setLastname(userEditDTO.getLastname());
+        user.setEmail(userEditDTO.getEmail());
+
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
     @GetMapping(value = "/findUsersGroup/{groupId}")
     public ResponseEntity<List<UserRegisterDTO>> getUsersFromGroup(@PathVariable Long groupId) {
 

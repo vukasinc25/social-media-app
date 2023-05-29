@@ -1,3 +1,15 @@
+<div *ngIf="!isLoggedIn" class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card text-center">
+    <div class="card-body">
+      <h1 class="card-title">You are not logged in</h1>
+      <div class="mt-4">
+        <button routerLink="/login" class="btn btn-primary">Login</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="reddit-body">
     <div class="container">
       <div class="row">

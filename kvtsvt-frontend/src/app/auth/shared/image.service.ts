@@ -15,8 +15,8 @@ export class ImageService {
     );
   }
 
-  getImageByUser(id: number): Observable<Array<ImageModel>> {
-    return this.http.get<Array<ImageModel>>(
+  getImageByUser(id: number): Observable<ImageModel> {
+    return this.http.get<ImageModel>(
       'http://localhost:8080/api/image/byUser/' + id
     );
   }
@@ -32,8 +32,11 @@ export class ImageService {
     );
   }
 
-  editImage(id: number): Observable<any> {
-    return this.http.delete<any>('http://localhost:8080/api/image/' + id);
+  editImage(imageModel: ImageModel): Observable<ImageModel> {
+    return this.http.put<ImageModel>(
+      'http://localhost:8080/api/image/' + imageModel.id,
+      imageModel
+    );
   }
 
   deleteImage(id: number): Observable<any> {

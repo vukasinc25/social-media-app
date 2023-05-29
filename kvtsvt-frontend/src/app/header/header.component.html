@@ -28,7 +28,7 @@
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button (click)="goToUserProfile()" ngbDropdownItem>Profile</button>
                     <button (click)="changePassword()" ngbDropdownItem>Change Password</button>
-                    <button (click)="adminPage()" ngbDropdownItem>Admin</button>
+                    <button *ngIf="id == 1" (click)="adminPage()" ngbDropdownItem>Admin</button>
                     <button (click)="logout()" ngbDropdownItem>Logout</button>
                 </div>
                 <button class="userdetails" id="dropdownBasic1" ngbDropdownToggle>

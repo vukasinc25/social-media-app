@@ -6,6 +6,8 @@ import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { GroupAdminModel } from '../group-admin-model';
+import { GroupRequestService } from '../group-request.service';
+import { GroupRequestModel } from '../group-request-model';
 
 @Component({
   selector: 'app-create-group',
@@ -15,6 +17,7 @@ import { GroupAdminModel } from '../group-admin-model';
 export class CreateGroupComponent {
   createGroupForm: FormGroup;
   groupModel: GroupModel;
+  groupRequest: GroupRequestModel;
   groupAdminModel: GroupAdminModel;
   name = new FormControl('');
   description = new FormControl('');
@@ -25,12 +28,20 @@ export class CreateGroupComponent {
   constructor(
     private router: Router,
     private groupService: GroupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private groupRequestService: GroupRequestService
   ) {
     this.createGroupForm = new FormGroup({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
     });
+    this.groupRequest = {
+      id: 0,
+      approved: false,
+      isBanned: false,
+      groupId: 0,
+      userId: 0,
+    };
     this.groupModel = {
       id: 0,
       name: '',
@@ -59,10 +70,9 @@ export class CreateGroupComponent {
     this.groupService.createGroup(this.groupModel).subscribe(
       (data) => {
         this.groupId = data?.id ?? 0;
-        console.log(this.groupId);
-        console.log(data);
         this.router.navigateByUrl('/');
         this.createGroupAdmin();
+        this.createGroupRequestForAdmin();
       },
       (error) => {
         throwError(error);
@@ -84,5 +94,13 @@ export class CreateGroupComponent {
         throwError(error);
       }
     );
+  }
+
+  createGroupRequestForAdmin() {
+    this.groupRequest.approved = true;
+    this.groupRequest.groupId = this.groupId;
+    this.groupRequest.userId = this.userId;
+
+    this.groupRequestService.createGroupRequest(this.groupRequest).subscribe();
   }
 }

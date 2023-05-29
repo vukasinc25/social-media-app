@@ -5,8 +5,36 @@
     <button *ngIf="loggedId == 1" type="button" class="custom-button" (click)="blockUser(id)">Block</button>
     <button *ngIf="loggedId != id" type="button" class="custom-button" (click)="addFriend()">Add Friend</button>
   </div>
-  <br><br>
   <!-- <table *ngIf="id == loggedId"></table> -->
+  
+  <div class="container">
+    <div class="text-center">
+      <p *ngIf="image" class="text-bold">Picture:</p>
+      <img *ngIf="image" [src]="image" alt="User Image" class="user-image">
+      <p *ngIf="newUsername" class="text-bold">Username: {{ newUsername }}</p>
+      <p *ngIf="description" class="text-bold">Description: {{ description }}</p>
+      <br>
+      <p>Posted <strong>{{ postLength }}</strong> time(s) and commented <strong>{{ commentLength }}</strong> time(s).</p>
+      <p>Check the history below.</p>
+    </div>
+  </div>
+  
+  <hr />
+  
+    <div>
+      <app-create-report *ngIf="showReporter" [user]="user"></app-create-report>
+    </div>
+  <div>
+    Posts:
+  </div>
+  <app-post-overview [posts]="posts"></app-post-overview>
+  <hr />
+  <div>
+    Comments:
+  </div>
+  <app-view-comment [comments]="comments"></app-view-comment>
+
+  <br><br>
   <table>
     <caption>Friend Request</caption>
     <thead>
@@ -38,25 +66,4 @@
       </tr>
     </tbody>
   </table>
-  <br><br>
-  <!-- <img src="{{user.}}"> -->
-  <div>
-    <br /> Posted <b>{{postLength}}</b> time(s) and commented
-    <b>{{commentLength}}</b> time(s).
-    Check the history below
-  </div>
-  <hr />
-  
-    <div>
-      <app-create-report *ngIf="showReporter" [user]="user"></app-create-report>
-    </div>
-  <div>
-    Your Posts:
-  </div>
-  <app-post-overview [posts]="posts"></app-post-overview>
-  <hr />
-  <div>
-    Your Comments:
-  </div>
-  <app-view-comment [comments]="comments"></app-view-comment>
 </div>

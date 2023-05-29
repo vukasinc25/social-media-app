@@ -24,6 +24,11 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public Group findByName(String name) {
+        return groupRepository.findByName(name);
+    }
+
+    @Override
     public Group findOneById(Long id){
         return groupRepository.findGroupById(id);
     }

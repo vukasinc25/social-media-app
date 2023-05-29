@@ -76,7 +76,8 @@ public class GroupController {
         group.setCreationDate(LocalDateTime.now());
         group.setIsSuspended(false);
         groupService.save(group);
-        GroupDTO groupDTO1 = modelMapper.map(group, GroupDTO.class);
+        Group group232 = groupService.findByName(group.getName());
+        GroupDTO groupDTO1 = modelMapper.map(group232, GroupDTO.class);
         return new ResponseEntity<>(groupDTO1, HttpStatus.CREATED);
     }
 
