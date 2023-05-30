@@ -108,7 +108,7 @@ export class UserProfileComponent implements OnInit {
   getFriendRequests() {
     this.friendService.getAllFriendRequests().subscribe((data) => {
       for (const friendRequest of data) {
-        if (friendRequest.requestForId == this.id && !friendRequest.approved) {
+        if (friendRequest.requestForId == this.id) {
           this.friendRequests.push(friendRequest);
         }
       }
