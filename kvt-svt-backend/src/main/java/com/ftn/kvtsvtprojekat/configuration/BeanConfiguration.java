@@ -1,6 +1,6 @@
-package com.example.ddmdemo.configuration;
+package com.ftn.kvtsvtprojekat.configuration;
 
-import com.example.ddmdemo.exceptionhandling.exception.NotFoundException;
+import com.ftn.kvtsvtprojekat.exceptionhandling.exception.NotFoundException;
 import java.io.IOException;
 import org.apache.tika.language.detect.LanguageDetector;
 import org.springframework.context.annotation.Bean;

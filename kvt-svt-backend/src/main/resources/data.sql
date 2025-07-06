@@ -20,4 +20,4 @@ INSERT INTO groupp (creation_date, description, is_suspended, name, suspension_r
 INSERT INTO group_admin (is_deleted, group_id, user_id) VALUES (false, 1, 1);
 INSERT INTO group_request (approved, is_banned, request_date, response_date, group_id, user_id) VALUES (false, false, now(), null, 1, 1);
 
-INSERT INTO user_friends (is_deleted, friend_id, user_id) VALUES (false, 2, 1);
+-- INSERT INTO user_friends (is_deleted, friend_id, user_id) VALUES (false, 2, 1);

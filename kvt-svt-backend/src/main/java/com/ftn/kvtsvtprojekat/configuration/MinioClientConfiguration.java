@@ -1,4 +1,4 @@
-package com.example.ddmdemo.configuration;
+package com.ftn.kvtsvtprojekat.configuration;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,10 +1,10 @@
-package com.example.ddmdemo.configuration;
+package com.ftn.kvtsvtprojekat.configuration;
 
-import com.example.ddmdemo.exceptionhandling.ErrorObject;
-import com.example.ddmdemo.exceptionhandling.exception.LoadingException;
-import com.example.ddmdemo.exceptionhandling.exception.MalformedQueryException;
-import com.example.ddmdemo.exceptionhandling.exception.NotFoundException;
-import com.example.ddmdemo.exceptionhandling.exception.StorageException;
+import com.ftn.kvtsvtprojekat.exceptionhandling.ErrorObject;
+import com.ftn.kvtsvtprojekat.exceptionhandling.exception.LoadingException;
+import com.ftn.kvtsvtprojekat.exceptionhandling.exception.MalformedQueryException;
+import com.ftn.kvtsvtprojekat.exceptionhandling.exception.NotFoundException;
+import com.ftn.kvtsvtprojekat.exceptionhandling.exception.StorageException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
