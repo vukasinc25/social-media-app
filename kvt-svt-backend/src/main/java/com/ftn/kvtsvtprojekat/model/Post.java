@@ -34,4 +34,7 @@ public class Post {
 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet<>();
+
+    @Column
+    private String pdfFile;
 }

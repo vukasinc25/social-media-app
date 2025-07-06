@@ -33,4 +33,7 @@ public class Group {
     private Set<Post> posts = new HashSet<>();
 //    @OneToOne
 //    private User user;
+
+    @Column
+    private String pdfFile;
 }
