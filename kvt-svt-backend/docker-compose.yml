@@ -1,8 +1,7 @@
-version: "3.7"
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
-    container_name: socialNetwork-elasticsearch
+    container_name: elasticsearch
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
@@ -58,7 +57,7 @@ services:
       - socialNetwork-network
 
 networks:
-  ddmdemo-network:
+  socialNetwork-network:
     name: socialNetwork-network
 
 volumes:
