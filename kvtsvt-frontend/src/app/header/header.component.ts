@@ -62,6 +62,14 @@ export class HeaderComponent implements OnInit {
     this.openSearchResultsModal();
   }
 
+  goToSearchPosts() {
+    this.router.navigateByUrl('/search-posts');
+  }
+  
+  goToSearchGroups() {
+    this.router.navigateByUrl('/search-groups');
+  }
+
   openSearchResultsModal(): void {
     const modalRef = this.modalService.open(this.searchResultsModal);
     // Additional modal configurations if needed

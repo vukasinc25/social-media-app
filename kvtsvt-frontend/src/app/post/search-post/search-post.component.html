@@ -1,0 +1,148 @@
+<div class="container mt-5 pt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">Search Posts</h2>
+      
+      <!-- Search Form -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Search Filters</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="searchForm" (ngSubmit)="search()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="content" class="form-label">Content</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="content" 
+                  formControlName="content"
+                  placeholder="Search in post content...">
+              </div>
+              
+              <div class="col-md-3 mb-3">
+                <label for="userId" class="form-label">User ID</label>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  id="userId" 
+                  formControlName="userId"
+                  placeholder="User ID">
+              </div>
+              
+              <div class="col-md-3 mb-3">
+                <label for="groupId" class="form-label">Group ID</label>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  id="groupId" 
+                  formControlName="groupId"
+                  placeholder="Group ID">
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input 
+                  type="date" 
+                  class="form-control" 
+                  id="startDate" 
+                  formControlName="startDate">
+              </div>
+              
+              <div class="col-md-4 mb-3">
+                <label for="endDate" class="form-label">End Date</label>
+                <input 
+                  type="date" 
+                  class="form-control" 
+                  id="endDate" 
+                  formControlName="endDate">
+              </div>
+              
+              <div class="col-md-4 mb-3">
+                <label for="sortBy" class="form-label">Sort By</label>
+                <select class="form-select" id="sortBy" formControlName="sortBy">
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isLoading ? 'Searching...' : 'Search Posts' }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="clearSearch()">
+                Clear
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Search Results -->
+      <div *ngIf="hasSearched" class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Search Results</h5>
+          <span class="badge bg-primary">{{ searchResults.length }} posts found</span>
+        </div>
+        
+        <div class="card-body">
+          <div *ngIf="isLoading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Searching posts...</p>
+          </div>
+          
+          <div *ngIf="!isLoading && searchResults.length === 0" class="text-center py-4">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5>No posts found</h5>
+            <p class="text-muted">Try adjusting your search criteria</p>
+          </div>
+          
+          <div *ngIf="!isLoading && searchResults.length > 0" class="row">
+            <div *ngFor="let post of searchResults" class="col-12 mb-3">
+              <div class="card post-card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="post-meta">
+                      <small class="text-muted">
+                        <i class="fas fa-user me-1"></i>
+                        User ID: {{ post.userId }}
+                      </small>
+                      <small class="text-muted ms-3">
+                        <i class="fas fa-calendar me-1"></i>
+                        {{ formatDate(post.creationDate) }}
+                      </small>
+                      <small *ngIf="post.groupId" class="text-muted ms-3">
+                        <i class="fas fa-users me-1"></i>
+                        Group ID: {{ post.groupId }}
+                      </small>
+                    </div>
+                    <button 
+                      class="btn btn-sm btn-outline-primary" 
+                      (click)="viewPost(post.id)">
+                      View Post
+                    </button>
+                  </div>
+                  
+                  <p class="card-text post-content">{{ post.content }}</p>
+                  
+                  <div class="post-footer">
+                    <small class="text-muted">
+                      Post ID: {{ post.id }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

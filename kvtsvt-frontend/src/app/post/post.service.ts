@@ -1,8 +1,9 @@
 import { CreatePostDto } from './create-post-dto';
 import { PostModel } from './post-model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PostSearchModel } from './search-post/search-post-model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,40 @@ export class PostService {
   getAllPostsByGroup(id: number): Observable<PostModel[]> {
     return this.http.get<PostModel[]>(
       'http://localhost:8080/api/post/byGroup/' + id
+    );
+  }
+
+  searchPosts(searchModel: PostSearchModel): Observable<Array<PostModel>> {
+    let params = new HttpParams();
+    
+    if (searchModel.content) {
+      params = params.set('content', searchModel.content);
+    }
+    if (searchModel.userId) {
+      params = params.set('userId', searchModel.userId.toString());
+    }
+    if (searchModel.groupId) {
+      params = params.set('groupId', searchModel.groupId.toString());
+    }
+    if (searchModel.startDate) {
+      params = params.set('startDate', searchModel.startDate.toISOString());
+    }
+    if (searchModel.endDate) {
+      params = params.set('endDate', searchModel.endDate.toISOString());
+    }
+    if (searchModel.sortBy) {
+      params = params.set('sortBy', searchModel.sortBy);
+    }
+    if (searchModel.page) {
+      params = params.set('page', searchModel.page.toString());
+    }
+    if (searchModel.size) {
+      params = params.set('size', searchModel.size.toString());
+    }
+
+    return this.http.get<Array<PostModel>>(
+      'http://localhost:8080/api/post/search',
+      { params }
     );
   }
 

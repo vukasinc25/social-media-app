@@ -16,10 +16,14 @@
             </a>
         </div>
         <div class="d-flex search-form">
-            <form [formGroup]="searchForm" (ngSubmit)="search()" class="d-flex">
-              <input type="text" formControlName="firstname" class="form-control mr-sm-2" placeholder="Firstname">
-              <input type="text" formControlName="lastname" class="form-control mr-sm-2" placeholder="Lastname">
-              <button type="submit" class="btn btn-primary my-2 my-sm-0">Search</button>
+            <div class="search-buttons">
+                <button class="btn btn-secondary" (click)="goToSearchPosts()">Search Posts</button>
+                <button class="btn btn-secondary" (click)="goToSearchGroups()">Search Groups</button>
+            </div>
+            <form [formGroup]="searchForm" (ngSubmit)="search()">
+              <input type="text" formControlName="firstname" class="form-control" placeholder="Firstname">
+              <input type="text" formControlName="lastname" class="form-control" placeholder="Lastname">
+              <button type="submit" class="btn btn-primary">Search</button>
             </form>
           </div>
           

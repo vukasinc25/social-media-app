@@ -36,6 +36,8 @@ import { EditUserComponent } from './auth/edit-user/edit-user.component';
 import { AdminGroupComponent } from './group/admin-group/admin-group.component';
 import { AdminPageComponent } from './auth/admin-page/admin-page.component';
 import { CreateReportComponent } from './shared/create-report/create-report.component';
+import { SearchPostComponent } from './post/search-post/search-post.component';
+import { SearchGroupComponent } from './group/search-group/search-group.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { CreateReportComponent } from './shared/create-report/create-report.comp
     AdminGroupComponent,
     AdminPageComponent,
     CreateReportComponent,
+    SearchPostComponent,
+    SearchGroupComponent,
   ],
   imports: [
     BrowserModule,

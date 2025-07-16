@@ -1,0 +1,137 @@
+<div class="container mt-5 pt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">Search Groups</h2>
+      
+      <!-- Search Form -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Search Filters</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="searchForm" (ngSubmit)="search()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Group Name</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name" 
+                  formControlName="name"
+                  placeholder="Search by group name...">
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="description" 
+                  formControlName="description"
+                  placeholder="Search in group description...">
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="adminId" class="form-label">Admin ID</label>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  id="adminId" 
+                  formControlName="adminId"
+                  placeholder="Search by admin ID">
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="isSuspended" class="form-label">Status</label>
+                <select class="form-select" id="isSuspended" formControlName="isSuspended">
+                  <option value="">All Groups</option>
+                  <option value="false">Active Groups</option>
+                  <option value="true">Suspended Groups</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isLoading ? 'Searching...' : 'Search Groups' }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="clearSearch()">
+                Clear
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Search Results -->
+      <div *ngIf="hasSearched" class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Search Results</h5>
+          <span class="badge bg-primary">{{ searchResults.length }} groups found</span>
+        </div>
+        
+        <div class="card-body">
+          <div *ngIf="isLoading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Searching groups...</p>
+          </div>
+          
+          <div *ngIf="!isLoading && searchResults.length === 0" class="text-center py-4">
+            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+            <h5>No groups found</h5>
+            <p class="text-muted">Try adjusting your search criteria</p>
+          </div>
+          
+          <div *ngIf="!isLoading && searchResults.length > 0" class="row">
+            <div *ngFor="let group of searchResults" class="col-12 mb-3">
+              <div class="card group-card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="group-header">
+                      <h6 class="card-title mb-1">{{ group.name || 'Unnamed Group' }}</h6>
+                      <span class="badge" [ngClass]="getStatusBadgeClass(group)">
+                        {{ getStatusText(group) }}
+                      </span>
+                    </div>
+                    <button 
+                      class="btn btn-sm btn-outline-primary" 
+                      (click)="viewGroup(group.id)">
+                      View Group
+                    </button>
+                  </div>
+                  
+                  <div class="group-meta mb-2">
+                    <small class="text-muted">
+                      <i class="fas fa-user-shield me-1"></i>
+                      Admin ID: {{ group.adminId }}
+                    </small>
+                    <small class="text-muted ms-3">
+                      <i class="fas fa-hashtag me-1"></i>
+                      Group ID: {{ group.id }}
+                    </small>
+                  </div>
+                  
+                  <p *ngIf="group.description" class="card-text group-description">
+                    {{ group.description }}
+                  </p>
+                  
+                  <div *ngIf="group.suspensionReason && group.isSuspended" class="group-footer">
+                    <small class="text-danger">
+                      <i class="fas fa-exclamation-triangle me-1"></i>
+                      Suspension Reason: {{ group.suspensionReason }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs';
 import { GroupModel } from './group-model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GroupAdminModel } from './group-admin-model';
+import { GroupSearchModel } from './search-group/search-group-model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,34 @@ export class GroupService {
 
   getGroup(id: number): Observable<GroupModel> {
     return this.http.get<GroupModel>('http://localhost:8080/api/group/' + id);
+  }
+
+  searchGroups(searchModel: GroupSearchModel): Observable<Array<GroupModel>> {
+    let params = new HttpParams();
+    
+    if (searchModel.name) {
+      params = params.set('name', searchModel.name);
+    }
+    if (searchModel.description) {
+      params = params.set('description', searchModel.description);
+    }
+    if (searchModel.adminId) {
+      params = params.set('adminId', searchModel.adminId.toString());
+    }
+    if (searchModel.isSuspended !== undefined) {
+      params = params.set('isSuspended', searchModel.isSuspended.toString());
+    }
+    if (searchModel.page) {
+      params = params.set('page', searchModel.page.toString());
+    }
+    if (searchModel.size) {
+      params = params.set('size', searchModel.size.toString());
+    }
+
+    return this.http.get<Array<GroupModel>>(
+      'http://localhost:8080/api/group/search',
+      { params }
+    );
   }
 
   createGroup(groupmodel: GroupModel): Observable<GroupModel> {

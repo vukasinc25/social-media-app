@@ -3,10 +3,13 @@ package com.ftn.kvtsvtprojekat.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +17,7 @@ import java.util.Map;
 @Component
 public class TokenUtils {
 
-    @Value("biloKojiString")
+    @Value("${jwt.secret}")
     private String secret;
 
     @Value("3600000")
@@ -70,14 +73,20 @@ public class TokenUtils {
     /*Generisanje tokena za korisnika - postavljanje svih potrebnih informacija,
      * kao sto je rola korisnika.*/
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<String, Object>();
+        Map<String, Object> claims = new HashMap<>();
         claims.put("sub", userDetails.getUsername());
         claims.put("role", userDetails.getAuthorities().toArray()[0]);
         claims.put("created", new Date(System.currentTimeMillis()));
-        return Jwts.builder().setClaims(claims)
+
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.builder()
+                .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
     }
+
 
     public int getExpiredIn() {
         return expiration.intValue();
