@@ -12,6 +12,15 @@
           <form [formGroup]="searchForm" (ngSubmit)="search()">
             <div class="row">
               <div class="col-md-6 mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="title" 
+                  formControlName="title"
+                  placeholder="Search in post title...">
+              </div>
+              <div class="col-md-6 mb-3">
                 <label for="content" class="form-label">Content</label>
                 <input 
                   type="text" 
@@ -130,6 +139,7 @@
                     </button>
                   </div>
                   
+                  <h5 class="card-title">{{ post.title }}</h5>
                   <p class="card-text post-content">{{ post.content }}</p>
                   
                   <div class="post-footer">

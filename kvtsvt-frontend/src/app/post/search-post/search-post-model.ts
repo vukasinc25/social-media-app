@@ -1,4 +1,5 @@
 export interface PostSearchModel {
+  title?: string;
   content?: string;
   userId?: number;
   groupId?: number;

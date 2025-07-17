@@ -12,6 +12,8 @@
             <option *ngFor="let group of groups">{{ group.name }}</option>
           </select>
           <br>
+          <input [formControlName]="'title'" type="text" class="form-control" placeholder="Enter post title">
+          <br>
           <textarea [formControlName]="'content'" class="form-control" rows="4" placeholder="Enter your post content"></textarea>
           <br>
           <textarea [formControlName]="'images'" class="form-control" rows="5" placeholder="Enter your images here"></textarea>

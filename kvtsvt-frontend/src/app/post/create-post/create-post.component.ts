@@ -39,6 +39,7 @@ export class CreatePostComponent implements OnInit {
       userId: 0,
     };
     this.postPayload = {
+      title: '',
       content: '',
       userId: 0,
       groupId: 0,
@@ -49,6 +50,7 @@ export class CreatePostComponent implements OnInit {
     this.groupId = this.activateRoute.snapshot.params['id'];
     this.createPostForm = new FormGroup({
       groupId: new FormControl(''),
+      title: new FormControl('', Validators.required),
       content: new FormControl('', Validators.required),
       images: new FormControl('', Validators.required),
     });
@@ -63,6 +65,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost() {
+    this.postPayload.title = this.createPostForm.get('title')?.value;
     this.postPayload.content = this.createPostForm.get('content')?.value;
     this.postPayload.userId = this.authService.getUserId();
     this.postPayload.groupId = this.createPostForm.get('groupId')?.value;

@@ -22,6 +22,7 @@ export class SearchPostComponent implements OnInit {
     private router: Router
   ) {
     this.searchForm = this.formBuilder.group({
+      title: [''],
       content: [''],
       userId: [''],
       groupId: [''],
@@ -39,6 +40,7 @@ export class SearchPostComponent implements OnInit {
     this.hasSearched = true;
 
     const searchModel: PostSearchModel = {
+      title: this.searchForm.value.title || undefined,
       content: this.searchForm.value.content || undefined,
       userId: this.searchForm.value.userId ? Number(this.searchForm.value.userId) : undefined,
       groupId: this.searchForm.value.groupId ? Number(this.searchForm.value.groupId) : undefined,
@@ -66,6 +68,12 @@ export class SearchPostComponent implements OnInit {
 
   private filterPostsLocally(posts: PostModel[], searchModel: PostSearchModel): PostModel[] {
     let filteredPosts = posts;
+
+    if (searchModel.title) {
+      filteredPosts = filteredPosts.filter(post => 
+        post.title.toLowerCase().includes(searchModel.title!.toLowerCase())
+      );
+    }
 
     if (searchModel.content) {
       filteredPosts = filteredPosts.filter(post => 

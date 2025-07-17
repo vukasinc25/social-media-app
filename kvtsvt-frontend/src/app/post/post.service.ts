@@ -38,6 +38,9 @@ export class PostService {
   searchPosts(searchModel: PostSearchModel): Observable<Array<PostModel>> {
     let params = new HttpParams();
     
+    if (searchModel.title) {
+      params = params.set('title', searchModel.title);
+    }
     if (searchModel.content) {
       params = params.set('content', searchModel.content);
     }

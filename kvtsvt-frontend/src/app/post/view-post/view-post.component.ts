@@ -51,6 +51,7 @@ export class ViewPostComponent implements OnInit {
     });
     this.post = {
       id: this.activateRoute.snapshot.params['id'],
+      title: '',
       content: '',
       isDeleted: false,
       userId: 0,

@@ -44,6 +44,7 @@ export class EditPostComponent implements OnInit {
     };
     this.postId = this.activateRoute.snapshot.params['id'];
     this.postPayload = {
+      title: '',
       content: '',
       userId: 0,
       groupId: 0,
@@ -53,6 +54,7 @@ export class EditPostComponent implements OnInit {
   ngOnInit() {
     this.editPostForm = new FormGroup({
       groupId: new FormControl(''),
+      title: new FormControl('', Validators.required),
       content: new FormControl('', Validators.required),
       images: new FormControl(''),
     });
@@ -70,6 +72,7 @@ export class EditPostComponent implements OnInit {
       this.content = data.content;
       this.postPayload.groupId = data.groupId;
 
+      this.editPostForm.get('title')?.setValue(data.title);
       this.editPostForm.get('content')?.setValue(this.content);
     });
 
@@ -83,6 +86,7 @@ export class EditPostComponent implements OnInit {
   }
 
   editPost() {
+    this.postPayload.title = this.editPostForm.get('title')?.value;
     this.postPayload.content = this.editPostForm.get('content')?.value;
     this.postPayload.userId = this.authService.getUserId();
     this.postPayload.groupId = this.editPostForm.get('groupId')?.value;
