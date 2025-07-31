@@ -1,11 +1,14 @@
 export interface PostSearchModel {
+  keywords?: string[];
+  name?: string;
   title?: string;
   content?: string;
-  userId?: number;
-  groupId?: number;
-  startDate?: Date;
-  endDate?: Date;
-  sortBy?: 'newest' | 'oldest';
-  page?: number;
-  size?: number;
+  description?: string;
+  pdfContent?: string;
+  rules?: string;
+  postAverageLikes?: number[];
+  postCount?: number[];
+  likeCount?: number[];
+  commentCount?: number[];
+  operation?: string;
 } 

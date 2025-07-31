@@ -1,7 +1,7 @@
 import { CreatePostDto } from './create-post-dto';
 import { PostModel } from './post-model';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PostSearchModel } from './search-post/search-post-model';
 
@@ -35,45 +35,20 @@ export class PostService {
     );
   }
 
-  searchPosts(searchModel: PostSearchModel): Observable<Array<PostModel>> {
-    let params = new HttpParams();
-    
-    if (searchModel.title) {
-      params = params.set('title', searchModel.title);
-    }
-    if (searchModel.content) {
-      params = params.set('content', searchModel.content);
-    }
-    if (searchModel.userId) {
-      params = params.set('userId', searchModel.userId.toString());
-    }
-    if (searchModel.groupId) {
-      params = params.set('groupId', searchModel.groupId.toString());
-    }
-    if (searchModel.startDate) {
-      params = params.set('startDate', searchModel.startDate.toISOString());
-    }
-    if (searchModel.endDate) {
-      params = params.set('endDate', searchModel.endDate.toISOString());
-    }
-    if (searchModel.sortBy) {
-      params = params.set('sortBy', searchModel.sortBy);
-    }
-    if (searchModel.page) {
-      params = params.set('page', searchModel.page.toString());
-    }
-    if (searchModel.size) {
-      params = params.set('size', searchModel.size.toString());
-    }
-
-    return this.http.get<Array<PostModel>>(
-      'http://localhost:8080/api/post/search',
-      { params }
+  searchPosts(searchModel: PostSearchModel): Observable<any> {
+    return this.http.post(
+      'http://localhost:8080/api/search/posts/combined',
+      searchModel
     );
   }
-
-  createPost(postDto: CreatePostDto): Observable<any> {
-    return this.http.post('http://localhost:8080/api/post/create', postDto);
+ 
+  createPost(postDto: CreatePostDto, pdfFile?: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('post', new Blob([JSON.stringify(postDto)], { type: 'application/json' }));
+    if (pdfFile) {
+      formData.append('pdfFile', pdfFile);
+    }
+    return this.http.post('http://localhost:8080/api/post/create', formData);
   }
 
   updatePost(postDto: CreatePostDto): Observable<any> {

@@ -19,17 +19,17 @@ public class PostSearchController {
     @Qualifier("postSearchService")
     private final PostSearchService searchService;
 
-    @PostMapping("/posts/titleAndContent")
-    public Page<PostSearchResultDTO> titleAndContentSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
-                                                           Pageable pageable) {
-        return searchService.titleAndContentSearch(simpleSearchQuery.keywords(), pageable);
-    }
+    // @PostMapping("/posts/titleAndContent")
+    // public Page<PostSearchResultDTO> titleAndContentSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
+    //                                                        Pageable pageable) {
+    //     return searchService.titleAndContentSearch(simpleSearchQuery.keywords(), pageable);
+    // }
 
-    @PostMapping("/posts/phrase/titleAndContent")
-    public Page<PostSearchResultDTO> titleAndContentPhraseSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
-                                                                 Pageable pageable) {
-        return searchService.titleAndContentPhraseSearch(simpleSearchQuery.keywords(), pageable);
-    }
+    // @PostMapping("/posts/phrase/titleAndContent")
+    // public Page<PostSearchResultDTO> titleAndContentPhraseSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
+    //                                                              Pageable pageable) {
+    //     return searchService.titleAndContentPhraseSearch(simpleSearchQuery.keywords(), pageable);
+    // }
 
     @GetMapping("/posts/likeCountRange")
     public Page<PostSearchResultDTO> searchByLikeCountRange(
@@ -47,17 +47,17 @@ public class PostSearchController {
         return searchService.searchByCommentCountRange(from, to, pageable);
     }
 
-    @PostMapping("/posts/commentText")
-    public Page<PostSearchResultDTO> commentTextSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
-                                                       Pageable pageable) {
-        return searchService.commentTextSearch(simpleSearchQuery.keywords(), pageable);
-    }
+    // @PostMapping("/posts/commentText")
+    // public Page<PostSearchResultDTO> commentTextSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
+    //                                                    Pageable pageable) {
+    //     return searchService.commentTextSearch(simpleSearchQuery.keywords(), pageable);
+    // }
 
-    @PostMapping("/posts/phrase/commentText")
-    public Page<PostSearchResultDTO> commentTextPhraseSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
-                                                             Pageable pageable) {
-        return searchService.commentTextPhraseSearch(simpleSearchQuery.keywords(), pageable);
-    }
+    // @PostMapping("/posts/phrase/commentText")
+    // public Page<PostSearchResultDTO> commentTextPhraseSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
+    //                                                          Pageable pageable) {
+    //     return searchService.commentTextPhraseSearch(simpleSearchQuery.keywords(), pageable);
+    // }
     @PostMapping("/posts/combined")
     public Page<PostSearchResultDTO> combinedSearch(@RequestBody SearchQueryDTO combinedSearchQuery, Pageable pageable) {
         return searchService.combinedSearch(combinedSearchQuery, pageable);

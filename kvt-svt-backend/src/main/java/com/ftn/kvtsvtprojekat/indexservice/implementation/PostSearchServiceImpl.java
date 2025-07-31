@@ -136,7 +136,7 @@ public class PostSearchServiceImpl implements PostSearchService {
                         searchQuery.commentCount(),
                         searchQuery.operation()
                 );
-
+        System.out.println("Combined Query: " + combinedQuery);
         NativeQuery queryBuilder = new NativeQueryBuilder()
                 .withQuery(combinedQuery)
                 .withPageable(pageable)
@@ -380,7 +380,7 @@ public class PostSearchServiceImpl implements PostSearchService {
 
             results.add(resultDTO);
         }
-
+        
         return new PageImpl<>(results, searchQuery.getPageable(), searchHits.getTotalHits());
     }
 }

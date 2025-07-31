@@ -3,7 +3,6 @@ package com.ftn.kvtsvtprojekat.model;
 import com.ftn.kvtsvtprojekat.model.enums.ReactionType;
 import jakarta.persistence.*;
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -22,10 +21,10 @@ public class Reaction {
     private LocalDateTime reactionTime;
     private Boolean isDeleted;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -3,7 +3,6 @@ package com.ftn.kvtsvtprojekat.model;
 import com.ftn.kvtsvtprojekat.model.enums.ReportReason;
 import jakarta.persistence.*;
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 

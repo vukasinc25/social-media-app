@@ -20,16 +20,17 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
+    private String title;
     private String content;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Image> imagePaths;
     private LocalDateTime creationDate;
     private Boolean isDeleted;
 
-    @OneToOne
+    @ManyToOne
     private User user;
 
-    @OneToOne
+    @ManyToOne
     private Group group;
 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)

@@ -47,30 +47,36 @@ public class PostIndexingServiceImpl implements PostIndexingService {
     public void indexPost(MultipartFile documentFile, Post post) {
         var postIndex = new PostIndex();
 
-        var pdfName = Objects.requireNonNull(documentFile.getOriginalFilename()).split("\\.")[0];
-        postIndex.setPdfFileUrl(pdfName);
+        // Handle PDF file if provided
+        if (documentFile != null && !documentFile.isEmpty()) {
+            var pdfName = Objects.requireNonNull(documentFile.getOriginalFilename()).split("\\.")[0];
+            postIndex.setPdfFileUrl(pdfName);
 
-        var documentContent = extractDocumentContent(documentFile);
-        if (detectLanguage(documentContent).equals("SR")) {
-            postIndex.setContentSr(documentContent);
-        } else {
-            postIndex.setContentEn(documentContent);
+            var documentContent = extractDocumentContent(documentFile);
+            if (detectLanguage(documentContent).equals("SR")) {
+                postIndex.setContentSr(documentContent);
+            } else {
+                postIndex.setContentEn(documentContent);
+            }
+
+            var serverFilename = fileService.store(documentFile, UUID.randomUUID().toString());
+            postIndex.setServerFilename(serverFilename);
+            post.setPdfFile(serverFilename);
         }
 
-        var serverFilename = fileService.store(documentFile, UUID.randomUUID().toString());
-        postIndex.setServerFilename(serverFilename);
-        post.setPdfFile(serverFilename);
-
         postIndex.setId(post.getId().toString());
-//        postIndex.setTitle(post.getTitle());
+        postIndex.setTitle(post.getTitle());
         postIndex.setContent(post.getContent());
         postIndex.setCreationDate(post.getCreationDate());
         postIndex.setLikeCount(0);
         postIndex.setCommentCount(0);
-
+        // postIndex.setGroupId(groupId);
         if (post.getGroup() != null) {
             var groupId = post.getGroup().getId().toString();
+            System.out.println("groupId: " + groupId);
             postIndex.setGroupId(groupId);
+        } else {
+            postIndex.setGroupId(null);
         }
 
         postIndexingRepository.save(postIndex);
@@ -82,10 +88,15 @@ public class PostIndexingServiceImpl implements PostIndexingService {
         var postIndex = postIndexingRepository.findById(post.getId().toString())
                 .orElseThrow(() -> new NotFoundException("Post index not found"));
 
-//        postIndex.setTitle(post.getTitle());
+        postIndex.setTitle(post.getTitle());
         postIndex.setContent(post.getContent());
         postIndex.setCreationDate(post.getCreationDate());
-        postIndex.setGroupId(post.getGroup().getId().toString());
+        
+        if (post.getGroup() != null) {
+            postIndex.setGroupId(post.getGroup().getId().toString());
+        } else {
+            postIndex.setGroupId(null);
+        }
 
         postIndexingRepository.save(postIndex);
     }
@@ -192,6 +203,21 @@ public class PostIndexingServiceImpl implements PostIndexingService {
         }
 
         postIndexingRepository.save(postIndex);
+    }
+
+    @Override
+    public void recreateIndex() {
+        try {
+            // Delete all documents first
+            postIndexingRepository.deleteAll();
+            System.out.println("Cleared post_index documents.");
+            
+            // The index will be recreated automatically when the next document is saved
+            // with the new mapping from PostIndex class
+        } catch (Exception e) {
+            // Index might not exist, which is fine
+            System.out.println("Index deletion failed (might not exist): " + e.getMessage());
+        }
     }
 
 

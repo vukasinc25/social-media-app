@@ -20,4 +20,5 @@ public interface PostIndexingService {
     void createCommentTextIndex(Comment comment);
     void updateCommentTextIndex(Comment comment);
     void deleteCommentTextIndex(Comment comment);
+    void recreateIndex();
 }

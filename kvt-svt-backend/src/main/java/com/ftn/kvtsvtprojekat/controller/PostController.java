@@ -9,10 +9,13 @@ import com.ftn.kvtsvtprojekat.model.dto.PostDTO;
 import com.ftn.kvtsvtprojekat.service.GroupService;
 import com.ftn.kvtsvtprojekat.service.PostService;
 import com.ftn.kvtsvtprojekat.service.UserService;
+import com.ftn.kvtsvtprojekat.indexservice.PostIndexingService;
+import com.ftn.kvtsvtprojekat.indexservice.FileService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -29,12 +32,16 @@ public class PostController {
     private final GroupService groupService;
     public final ModelMapper modelMapper;
     private final UserService userService;
+    private final PostIndexingService postIndexingService;
+    private final FileService fileService;
 
-    public PostController(PostService postService, GroupService groupService, ModelMapper modelMapper, UserService userService) {
+    public PostController(PostService postService, GroupService groupService, ModelMapper modelMapper, UserService userService, PostIndexingService postIndexingService, FileService fileService) {
         this.postService = postService;
         this.groupService = groupService;
         this.modelMapper = modelMapper;
         this.userService = userService;
+        this.postIndexingService = postIndexingService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/byGroup/{id}")
@@ -124,13 +131,27 @@ public class PostController {
         return status(HttpStatus.OK).body(postDTO);
     }
 
-    @PostMapping(value = "/create", consumes = "application/json")
-    public ResponseEntity<Post> createPost(@Valid @RequestBody PostDTO postDTO) {
+    @PostMapping(value = "/create", consumes = {"multipart/form-data"})
+    public ResponseEntity<Post> createPost(
+            @RequestPart("post") PostDTO postDTO,
+            @RequestPart(value = "pdfFile", required = false) MultipartFile pdfFile
+    ) {
         postDTO.setIsDeleted(false);
         Post post = modelMapper.map(postDTO, Post.class);
         LocalDateTime time = LocalDateTime.now();
         post.setCreationDate(time);
+
+        // If PDF is provided, upload to MinIO and set file name
+        if (pdfFile != null && !pdfFile.isEmpty()) {
+            String serverFilename = fileService.store(pdfFile, java.util.UUID.randomUUID().toString());
+            post.setPdfFile(serverFilename);
+        }
+
         postService.save(post);
+
+        // Index in Elasticsearch (pass pdfFile if present, else null)
+        postIndexingService.indexPost(pdfFile, post);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -140,6 +161,7 @@ public class PostController {
         if(post == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
 
         postService.save(post);
@@ -160,6 +182,12 @@ public class PostController {
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
         }
+    }
+
+    @PostMapping("/recreate-index")
+    public ResponseEntity<Void> recreateIndex() {
+        postIndexingService.recreateIndex();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

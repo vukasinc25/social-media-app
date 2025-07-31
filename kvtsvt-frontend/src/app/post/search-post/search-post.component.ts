@@ -24,95 +24,62 @@ export class SearchPostComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       title: [''],
       content: [''],
-      userId: [''],
-      groupId: [''],
-      startDate: [''],
-      endDate: [''],
-      sortBy: ['newest']
+      pdfContent: [''],
+      likeCountMin: [''],
+      likeCountMax: [''],
+      commentCountMin: [''],
+      commentCountMax: [''],
+      operation: ['AND']
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   search(): void {
     this.isLoading = true;
     this.hasSearched = true;
 
+    const likeCount: number[] = [];
+    if (this.searchForm.value.likeCountMin !== '' && this.searchForm.value.likeCountMin !== null) {
+      likeCount.push(Number(this.searchForm.value.likeCountMin));
+    }
+    if (this.searchForm.value.likeCountMax !== '' && this.searchForm.value.likeCountMax !== null) {
+      likeCount.push(Number(this.searchForm.value.likeCountMax));
+    }
+
+    const commentCount: number[] = [];
+    if (this.searchForm.value.commentCountMin !== '' && this.searchForm.value.commentCountMin !== null) {
+      commentCount.push(Number(this.searchForm.value.commentCountMin));
+    }
+    if (this.searchForm.value.commentCountMax !== '' && this.searchForm.value.commentCountMax !== null) {
+      commentCount.push(Number(this.searchForm.value.commentCountMax));
+    }
+
     const searchModel: PostSearchModel = {
       title: this.searchForm.value.title || undefined,
       content: this.searchForm.value.content || undefined,
-      userId: this.searchForm.value.userId ? Number(this.searchForm.value.userId) : undefined,
-      groupId: this.searchForm.value.groupId ? Number(this.searchForm.value.groupId) : undefined,
-      startDate: this.searchForm.value.startDate ? new Date(this.searchForm.value.startDate) : undefined,
-      endDate: this.searchForm.value.endDate ? new Date(this.searchForm.value.endDate) : undefined,
-      sortBy: this.searchForm.value.sortBy
+      pdfContent: this.searchForm.value.pdfContent || undefined,
+      likeCount: likeCount.length > 0 ? likeCount : undefined,
+      commentCount: commentCount.length > 0 ? commentCount : undefined,
+      operation: this.searchForm.value.operation || 'AND'
     };
 
     this.postService.searchPosts(searchModel).subscribe({
       next: (results) => {
-        this.searchResults = results;
+        console.log(results);
+        this.searchResults = results.content;
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Error searching posts:', error);
         this.isLoading = false;
-        // For now, if the backend doesn't have the search endpoint, we'll use getAllPosts
-        this.postService.getAllPosts().subscribe(posts => {
-          this.searchResults = this.filterPostsLocally(posts, searchModel);
-          this.isLoading = false;
-        });
+        this.searchResults = [];
       }
     });
   }
 
-  private filterPostsLocally(posts: PostModel[], searchModel: PostSearchModel): PostModel[] {
-    let filteredPosts = posts;
-
-    if (searchModel.title) {
-      filteredPosts = filteredPosts.filter(post => 
-        post.title.toLowerCase().includes(searchModel.title!.toLowerCase())
-      );
-    }
-
-    if (searchModel.content) {
-      filteredPosts = filteredPosts.filter(post => 
-        post.content.toLowerCase().includes(searchModel.content!.toLowerCase())
-      );
-    }
-
-    if (searchModel.userId) {
-      filteredPosts = filteredPosts.filter(post => post.userId === searchModel.userId);
-    }
-
-    if (searchModel.groupId) {
-      filteredPosts = filteredPosts.filter(post => post.groupId === searchModel.groupId);
-    }
-
-    if (searchModel.startDate) {
-      filteredPosts = filteredPosts.filter(post => 
-        new Date(post.creationDate) >= searchModel.startDate!
-      );
-    }
-
-    if (searchModel.endDate) {
-      filteredPosts = filteredPosts.filter(post => 
-        new Date(post.creationDate) <= searchModel.endDate!
-      );
-    }
-
-    // Sort posts
-    if (searchModel.sortBy === 'newest') {
-      filteredPosts.sort((a, b) => new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime());
-    } else {
-      filteredPosts.sort((a, b) => new Date(a.creationDate).getTime() - new Date(b.creationDate).getTime());
-    }
-
-    return filteredPosts;
-  }
-
   clearSearch(): void {
-    this.searchForm.reset({ sortBy: 'newest' });
+    this.searchForm.reset({ operation: 'AND' });
     this.searchResults = [];
     this.hasSearched = false;
   }

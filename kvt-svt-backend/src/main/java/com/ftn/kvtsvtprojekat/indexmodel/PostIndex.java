@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -45,7 +46,7 @@ public class PostIndex {
     @Field(type = FieldType.Text, store = true, name = "pdfFile", index = false)
     private String pdfFileUrl;
 
-    @Field(type = FieldType.Nested, store = true, name = "groupId")
+    @Field(type = FieldType.Text, store = true, name = "groupId")
     private String groupId;
 
     @Field(type = FieldType.Integer, store = true, name = "likeCount", index = false)
@@ -56,4 +57,6 @@ public class PostIndex {
 
     @Field(type = FieldType.Nested, store = true, name = "comments")
     private List<CommentIndex> comments = new ArrayList<>();
+
+    private Map<String, List<String>> highlights;
 }

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class PostDTO {
     private Long id;
+    private String title;
     private String content;
     private Boolean isDeleted;
     private Long userId;
