@@ -16,8 +16,8 @@ public class GroupAdmin {
     private Long id;
     private Boolean isDeleted;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
 }

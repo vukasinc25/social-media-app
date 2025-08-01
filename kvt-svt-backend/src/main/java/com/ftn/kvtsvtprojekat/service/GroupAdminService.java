@@ -13,4 +13,6 @@ public interface GroupAdminService {
     GroupAdmin save(GroupAdmin groupAdmin);
 
     void delete(Long id);
+    
+    boolean existsByUserAndGroup(Long userId, Long groupId);
 }

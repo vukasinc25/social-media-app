@@ -9,6 +9,7 @@ import com.ftn.kvtsvtprojekat.service.CommentService;
 import com.ftn.kvtsvtprojekat.service.PostService;
 import com.ftn.kvtsvtprojekat.service.ReactionService;
 import com.ftn.kvtsvtprojekat.indexservice.PostIndexingService;
+import com.ftn.kvtsvtprojekat.indexservice.GroupIndexingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +30,15 @@ public class ReactionController {
     private final PostService postService;
     private final CommentService commentService;
     private final PostIndexingService postIndexingService;
+    private final GroupIndexingService groupIndexingService;
 
-    public ReactionController(ModelMapper modelMapper, ReactionService reactionService, PostService postService, CommentService commentService, PostIndexingService postIndexingService) {
+    public ReactionController(ModelMapper modelMapper, ReactionService reactionService, PostService postService, CommentService commentService, PostIndexingService postIndexingService, GroupIndexingService groupIndexingService) {
         this.modelMapper = modelMapper;
         this.reactionService = reactionService;
         this.postService = postService;
         this.commentService = commentService;
         this.postIndexingService = postIndexingService;
+        this.groupIndexingService = groupIndexingService;
     }
 
     @GetMapping("/byPost/{id}")
@@ -89,17 +92,24 @@ public class ReactionController {
         reaction.setIsDeleted(false);
         reaction.setReactionTime(LocalDateTime.now());
         
-        reactionService.save(reaction);
-        
         // Update Elasticsearch like count if this is a post reaction
-        if (reaction.getPost() != null && reaction.getPost().getId() != null) {
+        if (reactionDTO.getPostId() != null) {
             try {
-                postIndexingService.updateLikeCount(reaction.getPost().getId().toString());
+                System.out.println("Updating like count for post: " + reactionDTO.getPostId());
+                postIndexingService.updateLikeCount(reactionDTO.getPostId().toString());
+                
+                // Update group like count and number of posts with likes if post belongs to a group
+                if (reactionDTO.getGroupId() != null) {
+                    System.out.println("Updating like count for group: " + reactionDTO.getGroupId());
+                    groupIndexingService.updateLikeCount(reactionDTO.getGroupId().toString());
+                }
             } catch (Exception e) {
                 // Log error but don't fail the request
                 System.err.println("Failed to update Elasticsearch like count: " + e.getMessage());
             }
         }
+        
+        reactionService.save(reaction);
         
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -130,6 +140,11 @@ public class ReactionController {
                 // Update Elasticsearch like count
                 try {
                     postIndexingService.deleteLikeCount(reactionDTO.getPostId().toString());
+                    
+                    // Update group like count if post belongs to a group
+                    if (reactionDTO.getGroupId() != null) {
+                        groupIndexingService.deleteLikeCount(reactionDTO.getGroupId().toString());
+                    }
                 } catch (Exception e) {
                     // Log error but don't fail the request
                     System.err.println("Failed to update Elasticsearch like count: " + e.getMessage());

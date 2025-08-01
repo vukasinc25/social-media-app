@@ -22,6 +22,6 @@ public class Image {
     private Post post;
 
     //Users Profile Picture
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 }

@@ -37,5 +37,10 @@ public class GroupAdminServiceImpl implements GroupAdminService {
         GroupAdmin groupAdmin = groupAdminRepository.findGroupAdminById(id);
         groupAdminRepository.delete(groupAdmin);
     }
+    
+    @Override
+    public boolean existsByUserAndGroup(Long userId, Long groupId) {
+        return groupAdminRepository.existsByUser_IdAndGroup_IdAndIsDeletedFalse(userId, groupId);
+    }
 
 }

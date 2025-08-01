@@ -12,4 +12,5 @@ public class ReactionDTO {
     private Long userId;
     private Long postId;
     private Long commentId;
+    private Long groupId;
 }

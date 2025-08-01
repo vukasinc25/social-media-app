@@ -11,6 +11,7 @@ import com.ftn.kvtsvtprojekat.service.PostService;
 import com.ftn.kvtsvtprojekat.service.UserService;
 import com.ftn.kvtsvtprojekat.indexservice.PostIndexingService;
 import com.ftn.kvtsvtprojekat.indexservice.FileService;
+import com.ftn.kvtsvtprojekat.indexservice.GroupIndexingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +35,16 @@ public class PostController {
     private final UserService userService;
     private final PostIndexingService postIndexingService;
     private final FileService fileService;
+    private final GroupIndexingService groupIndexingService;
 
-    public PostController(PostService postService, GroupService groupService, ModelMapper modelMapper, UserService userService, PostIndexingService postIndexingService, FileService fileService) {
+    public PostController(PostService postService, GroupService groupService, ModelMapper modelMapper, UserService userService, PostIndexingService postIndexingService, FileService fileService, GroupIndexingService groupIndexingService) {
         this.postService = postService;
         this.groupService = groupService;
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.postIndexingService = postIndexingService;
         this.fileService = fileService;
+        this.groupIndexingService = groupIndexingService;
     }
 
     @GetMapping("/byGroup/{id}")
@@ -151,6 +154,16 @@ public class PostController {
 
         // Index in Elasticsearch (pass pdfFile if present, else null)
         postIndexingService.indexPost(pdfFile, post);
+        
+        // Update group post count if post belongs to a group
+        if (post.getGroup() != null && post.getGroup().getId() != null) {
+            try {
+                groupIndexingService.updatePostCount(post.getGroup().getId().toString());
+            } catch (Exception e) {
+                // Log error but don't fail the request
+                System.err.println("Failed to update group post count in Elasticsearch: " + e.getMessage());
+            }
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -178,6 +191,17 @@ public class PostController {
         if (post != null) {
             post.setIsDeleted(true);
             postService.save(post);
+            
+            // Update group post count if post belongs to a group
+            if (post.getGroup() != null && post.getGroup().getId() != null) {
+                try {
+                    groupIndexingService.deletePostCount(post.getGroup().getId().toString());
+                } catch (Exception e) {
+                    // Log error but don't fail the request
+                    System.err.println("Failed to update group post count in Elasticsearch: " + e.getMessage());
+                }
+            }
+            
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

@@ -5,4 +5,5 @@ export interface ReactionModel {
   userId: number;
   postId?: number;
   commentId?: number;
+  groupId?: number;
 }

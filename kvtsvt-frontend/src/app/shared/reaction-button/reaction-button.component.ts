@@ -75,6 +75,7 @@ export class ReactionButtonComponent implements OnInit {
     this.reactionDeleteModel.userId = this.authService.getUserId();
     if (this.post !== undefined) {
       this.reactionDeleteModel.postId = this.post.id;
+      this.reactionDeleteModel.groupId = this.post.groupId;
     } else if (this.comment !== undefined) {
       this.reactionDeleteModel.commentId = this.comment.id;
     }
@@ -105,6 +106,7 @@ export class ReactionButtonComponent implements OnInit {
     this.reactionModel.userId = this.authService.getUserId();
     if (this.post !== undefined) {
       this.reactionModel.postId = this.post.id;
+      this.reactionModel.groupId = this.post.groupId;
     } else if (this.comment !== undefined) {
       this.reactionModel.commentId = this.comment.id;
     }

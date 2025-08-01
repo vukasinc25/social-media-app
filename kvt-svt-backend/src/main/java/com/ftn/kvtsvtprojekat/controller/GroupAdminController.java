@@ -54,6 +54,11 @@ public class GroupAdminController {
 
     @PostMapping(value = "/create", consumes = "application/json")
     public ResponseEntity<GroupAdminDTO> createGroupAdmin(@Valid @RequestBody GroupAdminDTO groupAdminDTO) {
+        // Check if a group admin already exists for this user and group
+        if (groupAdminService.existsByUserAndGroup(groupAdminDTO.getUserId(), groupAdminDTO.getGroupId())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        
         GroupAdmin groupAdmin = modelMapper.map(groupAdminDTO, GroupAdmin.class);
         groupAdmin.setIsDeleted(false);
         groupAdminService.save(groupAdmin);

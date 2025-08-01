@@ -21,8 +21,8 @@ public class GroupRequest {
     private LocalDateTime responseDate;
     private Boolean isBanned;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 }
