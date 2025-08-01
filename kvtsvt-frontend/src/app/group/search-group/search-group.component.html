@@ -13,46 +13,44 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="name" class="form-label">Group Name</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="name" 
-                  formControlName="name"
-                  placeholder="Search by group name...">
+                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Search in group name...">
               </div>
-              
               <div class="col-md-6 mb-3">
                 <label for="description" class="form-label">Description</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="description" 
-                  formControlName="description"
-                  placeholder="Search in group description...">
+                <input type="text" class="form-control" id="description" formControlName="description" placeholder="Search in group description...">
               </div>
             </div>
-            
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="adminId" class="form-label">Admin ID</label>
-                <input 
-                  type="number" 
-                  class="form-control" 
-                  id="adminId" 
-                  formControlName="adminId"
-                  placeholder="Search by admin ID">
+                <label for="pdfDescription" class="form-label">PDF Description</label>
+                <input type="text" class="form-control" id="pdfDescription" formControlName="pdfDescription" placeholder="Search in PDF content...">
               </div>
-              
+              <div class="col-md-3 mb-3">
+                <label for="postsFrom" class="form-label">Min Posts</label>
+                <input type="number" class="form-control" id="postsFrom" formControlName="postsFrom">
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="postsTo" class="form-label">Max Posts</label>
+                <input type="number" class="form-control" id="postsTo" formControlName="postsTo">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="avgLikesFrom" class="form-label">Min Avg Likes</label>
+                <input type="number" class="form-control" id="avgLikesFrom" formControlName="avgLikesFrom">
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="avgLikesTo" class="form-label">Max Avg Likes</label>
+                <input type="number" class="form-control" id="avgLikesTo" formControlName="avgLikesTo">
+              </div>
               <div class="col-md-6 mb-3">
-                <label for="isSuspended" class="form-label">Status</label>
-                <select class="form-select" id="isSuspended" formControlName="isSuspended">
-                  <option value="">All Groups</option>
-                  <option value="false">Active Groups</option>
-                  <option value="true">Suspended Groups</option>
+                <label for="operation" class="form-label">Operation</label>
+                <select class="form-select" id="operation" formControlName="useAndOperator">
+                  <option [value]="false">OR</option>
+                  <option [value]="true">AND</option>
                 </select>
               </div>
             </div>
-            
             <div class="d-flex gap-2">
               <button type="submit" class="btn btn-primary" [disabled]="isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
@@ -92,11 +90,20 @@
               <div class="card group-card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-start mb-2">
-                    <div class="group-header">
-                      <h6 class="card-title mb-1">{{ group.name || 'Unnamed Group' }}</h6>
-                      <span class="badge" [ngClass]="getStatusBadgeClass(group)">
-                        {{ getStatusText(group) }}
-                      </span>
+                    <div class="group-meta">
+                      <small class="text-muted">
+                        <i class="fas fa-user-shield me-1"></i>
+                        Admin ID: {{ group.adminId }}
+                      </small>
+                      <small class="text-muted ms-3">
+                        <i class="fas fa-hashtag me-1"></i>
+                        Group ID: {{ group.id }}
+                      </small>
+                      <small class="text-muted ms-3">
+                        <span class="badge" [ngClass]="getStatusBadgeClass(group)">
+                          {{ getStatusText(group) }}
+                        </span>
+                      </small>
                     </div>
                     <button 
                       class="btn btn-sm btn-outline-primary" 
@@ -104,26 +111,11 @@
                       View Group
                     </button>
                   </div>
-                  
-                  <div class="group-meta mb-2">
+                  <h5 class="card-title">{{ group.name || 'Unnamed Group' }}</h5>
+                  <p class="card-text group-description">{{ group.description }}</p>
+                  <div class="group-footer">
                     <small class="text-muted">
-                      <i class="fas fa-user-shield me-1"></i>
-                      Admin ID: {{ group.adminId }}
-                    </small>
-                    <small class="text-muted ms-3">
-                      <i class="fas fa-hashtag me-1"></i>
                       Group ID: {{ group.id }}
-                    </small>
-                  </div>
-                  
-                  <p *ngIf="group.description" class="card-text group-description">
-                    {{ group.description }}
-                  </p>
-                  
-                  <div *ngIf="group.suspensionReason && group.isSuspended" class="group-footer">
-                    <small class="text-danger">
-                      <i class="fas fa-exclamation-triangle me-1"></i>
-                      Suspension Reason: {{ group.suspensionReason }}
                     </small>
                   </div>
                 </div>

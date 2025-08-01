@@ -24,6 +24,7 @@ export class CreateGroupComponent {
   username: string = '';
   userId: number = 0;
   groupId: number = 0;
+  selectedFile: File | null = null;
 
   constructor(
     private router: Router,
@@ -58,6 +59,16 @@ export class CreateGroupComponent {
 
   ngOnInit() {}
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/pdf') {
+      this.selectedFile = file;
+    } else {
+      alert('Please select a valid PDF file');
+      event.target.value = '';
+    }
+  }
+
   discard() {
     this.router.navigateByUrl('/');
   }
@@ -67,12 +78,13 @@ export class CreateGroupComponent {
     this.groupModel.description =
       this.createGroupForm.get('description')?.value;
 
-    this.groupService.createGroup(this.groupModel).subscribe(
+    this.groupService.createGroup(this.groupModel, this.selectedFile || undefined).subscribe(
       (data) => {
         this.groupId = data?.id ?? 0;
-        this.router.navigateByUrl('/');
+        this.userId = this.authService.getUserId();
         this.createGroupAdmin();
         this.createGroupRequestForAdmin();
+        this.router.navigateByUrl('/');
       },
       (error) => {
         throwError(error);
@@ -81,17 +93,17 @@ export class CreateGroupComponent {
   }
 
   createGroupAdmin() {
-    this.userId = this.authService.getUserId();
     this.groupAdminModel.groupId = this.groupId;
     this.groupAdminModel.userId = this.userId;
     this.groupAdminModel.isDeleted = false;
-    console.log(this.groupId);
+    console.log('Creating group admin for group ID:', this.groupId, 'and user ID:', this.userId);
     this.groupService.createGroupAdmin(this.groupAdminModel).subscribe(
       (data) => {
-        console.log('created group admin');
+        console.log('Group admin created successfully');
       },
       (error) => {
-        throwError(error);
+        console.error('Error creating group admin:', error);
+        // Don't throw error here to prevent the entire group creation from failing
       }
     );
   }

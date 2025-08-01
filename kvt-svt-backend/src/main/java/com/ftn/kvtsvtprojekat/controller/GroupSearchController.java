@@ -1,5 +1,6 @@
 package com.ftn.kvtsvtprojekat.controller;
 
+import com.ftn.kvtsvtprojekat.indexmodel.dto.GroupSearchQueryDTO;
 import com.ftn.kvtsvtprojekat.indexmodel.dto.GroupSearchResultDTO;
 import com.ftn.kvtsvtprojekat.indexmodel.dto.SearchQueryDTO;
 import com.ftn.kvtsvtprojekat.indexservice.GroupSearchService;
@@ -58,12 +59,12 @@ public class GroupSearchController {
     }
 
     @PostMapping("/groups/combined")
-    public Page<GroupSearchResultDTO> combinedSearch(@RequestBody SearchQueryDTO combinedSearchQuery, Pageable pageable) {
+    public Page<GroupSearchResultDTO> combinedSearch(@RequestBody GroupSearchQueryDTO combinedSearchQuery, Pageable pageable) {
         return groupSearchService.combinedSearch(combinedSearchQuery, pageable);
     }
 
     @PostMapping("/groups/phrase/combined")
-    public Page<GroupSearchResultDTO> combinedPhraseSearch(@RequestBody SearchQueryDTO combinedSearchQuery, Pageable pageable) {
+    public Page<GroupSearchResultDTO> combinedPhraseSearch(@RequestBody GroupSearchQueryDTO combinedSearchQuery, Pageable pageable) {
         return groupSearchService.combinedPhraseSearch(combinedSearchQuery, pageable);
     }
 

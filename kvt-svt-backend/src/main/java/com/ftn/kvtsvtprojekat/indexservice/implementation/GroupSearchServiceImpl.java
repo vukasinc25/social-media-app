@@ -5,7 +5,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.json.JsonData;
 import com.ftn.kvtsvtprojekat.indexmodel.dto.GroupSearchResultDTO;
-import com.ftn.kvtsvtprojekat.indexmodel.dto.SearchQueryDTO;
+import com.ftn.kvtsvtprojekat.indexmodel.dto.GroupSearchQueryDTO;
 import com.ftn.kvtsvtprojekat.indexmodel.GroupIndex;
 import com.ftn.kvtsvtprojekat.indexservice.GroupSearchService;
 import lombok.RequiredArgsConstructor;
@@ -117,7 +117,7 @@ public class GroupSearchServiceImpl implements GroupSearchService {
     }
 
     @Override
-    public Page<GroupSearchResultDTO> combinedSearch(SearchQueryDTO searchQuery, Pageable pageable) {
+    public Page<GroupSearchResultDTO> combinedSearch(GroupSearchQueryDTO searchQuery, Pageable pageable) {
         List<HighlightField> requiredHighlights = Arrays.asList(
                 new HighlightField("name"),
                 new HighlightField("description"),
@@ -146,7 +146,7 @@ public class GroupSearchServiceImpl implements GroupSearchService {
     }
 
     @Override
-    public Page<GroupSearchResultDTO> combinedPhraseSearch(SearchQueryDTO searchQuery, Pageable pageable) {
+    public Page<GroupSearchResultDTO> combinedPhraseSearch(GroupSearchQueryDTO searchQuery, Pageable pageable) {
         List<HighlightField> requiredHighlights = Arrays.asList(
                 new HighlightField("name"),
                 new HighlightField("description"),

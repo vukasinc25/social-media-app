@@ -9,6 +9,15 @@
               placeholder="Group Name">
             <textarea type="text" [formControlName]="'description'" style="width: 100%; margin-top: 5px"
               placeholder="Description"></textarea>
+            <div style="margin-top: 10px;">
+              <label for="pdfFile" class="form-label">PDF File (Optional)</label>
+              <input 
+                type="file" 
+                class="form-control" 
+                id="pdfFile" 
+                accept=".pdf"
+                (change)="onFileSelected($event)">
+            </div>
             <div>
               <div style="margin-top: 5px" class="float-right">
                 <button (click)="discard()" class="btnDiscard">Discard</button>

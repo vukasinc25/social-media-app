@@ -8,6 +8,7 @@ import com.ftn.kvtsvtprojekat.model.enums.ReactionType;
 import com.ftn.kvtsvtprojekat.service.CommentService;
 import com.ftn.kvtsvtprojekat.service.PostService;
 import com.ftn.kvtsvtprojekat.service.ReactionService;
+import com.ftn.kvtsvtprojekat.indexservice.PostIndexingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,14 @@ public class ReactionController {
     private final ReactionService reactionService;
     private final PostService postService;
     private final CommentService commentService;
+    private final PostIndexingService postIndexingService;
 
-    public ReactionController(ModelMapper modelMapper, ReactionService reactionService, PostService postService, CommentService commentService) {
+    public ReactionController(ModelMapper modelMapper, ReactionService reactionService, PostService postService, CommentService commentService, PostIndexingService postIndexingService) {
         this.modelMapper = modelMapper;
         this.reactionService = reactionService;
         this.postService = postService;
         this.commentService = commentService;
+        this.postIndexingService = postIndexingService;
     }
 
     @GetMapping("/byPost/{id}")
@@ -85,7 +88,19 @@ public class ReactionController {
         Reaction reaction = modelMapper.map(reactionDTO, Reaction.class);
         reaction.setIsDeleted(false);
         reaction.setReactionTime(LocalDateTime.now());
+        
         reactionService.save(reaction);
+        
+        // Update Elasticsearch like count if this is a post reaction
+        if (reaction.getPost() != null && reaction.getPost().getId() != null) {
+            try {
+                postIndexingService.updateLikeCount(reaction.getPost().getId().toString());
+            } catch (Exception e) {
+                // Log error but don't fail the request
+                System.err.println("Failed to update Elasticsearch like count: " + e.getMessage());
+            }
+        }
+        
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -111,6 +126,15 @@ public class ReactionController {
             Reaction reaction = reactionService.findOneByPostIdAndUserId(reactionDTO.getPostId(), reactionDTO.getUserId());
             if (reaction != null) {
                 reactionService.delete(reaction.getId());
+                
+                // Update Elasticsearch like count
+                try {
+                    postIndexingService.deleteLikeCount(reactionDTO.getPostId().toString());
+                } catch (Exception e) {
+                    // Log error but don't fail the request
+                    System.err.println("Failed to update Elasticsearch like count: " + e.getMessage());
+                }
+                
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

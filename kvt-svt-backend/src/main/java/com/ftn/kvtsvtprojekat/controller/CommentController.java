@@ -8,6 +8,7 @@ import com.ftn.kvtsvtprojekat.repository.CommentRepository;
 import com.ftn.kvtsvtprojekat.service.CommentService;
 import com.ftn.kvtsvtprojekat.service.PostService;
 import com.ftn.kvtsvtprojekat.service.UserService;
+import com.ftn.kvtsvtprojekat.indexservice.PostIndexingService;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -29,29 +30,23 @@ public class CommentController {
     public final UserService userService;
     public final ModelMapper modelMapper;
     public final CommentRepository commentRepository;
+    public final PostIndexingService postIndexingService;
 
-    public CommentController(CommentService commentService, PostService postService, UserService userService, ModelMapper modelMapper, CommentRepository commentRepository) {
+    public CommentController(CommentService commentService, PostService postService, UserService userService, ModelMapper modelMapper, CommentRepository commentRepository, PostIndexingService postIndexingService) {
         this.commentService = commentService;
         this.postService = postService;
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.commentRepository = commentRepository;
+        this.postIndexingService = postIndexingService;
     }
 
     @GetMapping("/all/{id}")
     public ResponseEntity<List<CommentDTO>> getChildComments(@PathVariable("id") Long parentId) {
 
         Comment commentParent = commentService.findOneById(parentId);
-        List<Comment> comments = commentService.findAllByParentComment(commentParent);
-        List<CommentDTO> commentsDTO = new ArrayList<>();
-        for (Comment comment : comments) {
-            if(!comment.getIsDeleted()){
-                CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
-                commentsDTO.add(commentDTO);
-            }
-        }
-
-        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+        List<Comment> comments = commentService.findAllByParentCommentAndIsDeletedFalse(commentParent);
+        return getListResponseEntity(comments);
     }
 
     @GetMapping("/all")
@@ -88,23 +83,15 @@ public class CommentController {
     public ResponseEntity<List<CommentDTO>> getCommentsByUser(@PathVariable("id") Long userId) {
 
         User user = userService.findOneById(userId);
-        List<Comment> comments = commentService.findAllByUser(user);
-        List<CommentDTO> commentsDTO = new ArrayList<>();
-        for (Comment comment : comments) {
-            if(!comment.getIsDeleted()){
-                CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
-                commentsDTO.add(commentDTO);
-            }
-        }
-
-        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+        List<Comment> comments = commentService.findAllByUserAndIsDeletedFalse(user);
+        return getListResponseEntity(comments);
     }
 
     @GetMapping("/byPost/{id}")
     public ResponseEntity<List<CommentDTO>> getCommentsForPost(@PathVariable("id") Long postId) {
 
         Post post = postService.findOneById(postId);
-        List<Comment> comments = commentService.findByPost(post);
+        List<Comment> comments = commentService.findByPostAndIsDeletedFalse(post);
         return getListResponseEntity(comments);
     }
 
@@ -112,35 +99,32 @@ public class CommentController {
     public ResponseEntity<List<CommentDTO>> getCommentsForPostDesc(@PathVariable("id") Long postId) {
 
         Post post = postService.findOneById(postId);
-        List<Comment> comments = commentService.findByPostOrderByIdDesc(post);
+        List<Comment> comments = commentService.findByPostAndIsDeletedFalseOrderByIdDesc(post);
         return getListResponseEntity(comments);
     }
 
     @GetMapping("/byPostReaction/{id}")
     public ResponseEntity<List<CommentDTO>> getCommentsForPostByReaction(@PathVariable("id") Long postId) {
 
+        List<Comment> comments;
         if(postId == 1){
-            List<Comment> comments = commentService.findByPostOrderByLikes();
-            return getListResponseEntity(comments);
+            comments = commentService.findByPostAndIsDeletedFalseOrderByLikes();
         } else if (postId == 2) {
-            List<Comment> comments = commentRepository.findAllByPostOrderByReactionLikeAsc();
-            return getListResponseEntity(comments);
+            comments = commentRepository.findAllByPostAndIsDeletedFalseOrderByReactionLikeAsc();
         } else if (postId == 3) {
-            List<Comment> comments = commentRepository.findAllByPostOrderByReactionDislikeDesc();
-            return getListResponseEntity(comments);
+            comments = commentRepository.findAllByPostAndIsDeletedFalseOrderByReactionDislikeDesc();
         }
         else if (postId == 4) {
-            List<Comment> comments = commentRepository.findAllByPostOrderByReactionDislikeAsc();
-            return getListResponseEntity(comments);
+            comments = commentRepository.findAllByPostAndIsDeletedFalseOrderByReactionDislikeAsc();
         } else if (postId == 5) {
-            List<Comment> comments = commentRepository.findAllByPostOrderByReactionHeartDesc();
-            return getListResponseEntity(comments);
+            comments = commentRepository.findAllByPostAndIsDeletedFalseOrderByReactionHeartDesc();
         } else if (postId == 6) {
-            List<Comment> comments = commentRepository.findAllByPostOrderByReactionHeartAsc();
-            return getListResponseEntity(comments);
+            comments = commentRepository.findAllByPostAndIsDeletedFalseOrderByReactionHeartAsc();
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+        
+        return getListResponseEntity(comments);
     }
 
     @NotNull
@@ -157,7 +141,7 @@ public class CommentController {
     public ResponseEntity<CommentDTO> getComment(@PathVariable("id") Long id) {
         Comment comment = commentService.findOneById(id);
 
-        if (comment == null) {
+        if (comment == null || comment.getIsDeleted()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -174,6 +158,18 @@ public class CommentController {
         comment.setParentComment(comment2);
         comment.setIsDeleted(false);
         commentService.save(comment);
+        
+        // Update Elasticsearch comment count and add comment text to index
+        if (comment.getPost() != null && comment.getPost().getId() != null) {
+            try {
+                postIndexingService.updateCommentCount(comment.getPost().getId().toString());
+                postIndexingService.createCommentTextIndex(comment);
+            } catch (Exception e) {
+                // Log error but don't fail the request
+                System.err.println("Failed to update Elasticsearch comment index: " + e.getMessage());
+            }
+        }
+        
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -187,6 +183,17 @@ public class CommentController {
         comment.setIsDeleted(commentDTO.getIsDeleted());
 
         commentService.save(comment);
+        
+        // Update Elasticsearch comment text index
+        if (comment.getPost() != null && comment.getPost().getId() != null) {
+            try {
+                postIndexingService.updateCommentTextIndex(comment);
+            } catch (Exception e) {
+                // Log error but don't fail the request
+                System.err.println("Failed to update Elasticsearch comment text index: " + e.getMessage());
+            }
+        }
+        
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -200,6 +207,18 @@ public class CommentController {
         if (comment != null) {
             comment.setIsDeleted(true);
             commentService.save(comment);
+            
+            // Update Elasticsearch comment count and remove comment text from index
+            if (comment.getPost() != null && comment.getPost().getId() != null) {
+                try {
+                    postIndexingService.deleteCommentCount(comment.getPost().getId().toString());
+                    postIndexingService.deleteCommentTextIndex(comment);
+                } catch (Exception e) {
+                    // Log error but don't fail the request
+                    System.err.println("Failed to update Elasticsearch comment index: " + e.getMessage());
+                }
+            }
+            
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

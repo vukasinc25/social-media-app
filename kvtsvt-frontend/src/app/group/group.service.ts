@@ -22,38 +22,19 @@ export class GroupService {
   }
 
   searchGroups(searchModel: GroupSearchModel): Observable<Array<GroupModel>> {
-    let params = new HttpParams();
-    
-    if (searchModel.name) {
-      params = params.set('name', searchModel.name);
-    }
-    if (searchModel.description) {
-      params = params.set('description', searchModel.description);
-    }
-    if (searchModel.adminId) {
-      params = params.set('adminId', searchModel.adminId.toString());
-    }
-    if (searchModel.isSuspended !== undefined) {
-      params = params.set('isSuspended', searchModel.isSuspended.toString());
-    }
-    if (searchModel.page) {
-      params = params.set('page', searchModel.page.toString());
-    }
-    if (searchModel.size) {
-      params = params.set('size', searchModel.size.toString());
-    }
-
-    return this.http.get<Array<GroupModel>>(
-      'http://localhost:8080/api/group/search',
-      { params }
+    return this.http.post<Array<GroupModel>>(
+      'http://localhost:8080/api/search/groups/combined',
+       searchModel 
     );
   }
 
-  createGroup(groupmodel: GroupModel): Observable<GroupModel> {
-    return this.http.post<GroupModel>(
-      'http://localhost:8080/api/group/create',
-      groupmodel
-    );
+  createGroup(groupmodel: GroupModel, pdfFile?: File): Observable<GroupModel> {
+    const formData = new FormData();
+    formData.append('group', new Blob([JSON.stringify(groupmodel)], { type: 'application/json' }));
+    if (pdfFile) {
+      formData.append('pdfFile', pdfFile);
+    }
+    return this.http.post<GroupModel>('http://localhost:8080/api/group/create', formData);
   }
 
   editGroup(groupModel: GroupModel): Observable<any> {

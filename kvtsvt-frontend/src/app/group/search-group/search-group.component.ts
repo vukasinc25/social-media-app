@@ -24,8 +24,12 @@ export class SearchGroupComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       name: [''],
       description: [''],
-      adminId: [''],
-      isSuspended: ['']
+      pdfDescription: [''],
+      postsFrom: [''],
+      postsTo: [''],
+      avgLikesFrom: [''],
+      avgLikesTo: [''],
+      useAndOperator: [false]
     });
   }
 
@@ -36,11 +40,16 @@ export class SearchGroupComponent implements OnInit {
     this.isLoading = true;
     this.hasSearched = true;
 
+    const formValue = this.searchForm.value;
     const searchModel: GroupSearchModel = {
-      name: this.searchForm.value.name || undefined,
-      description: this.searchForm.value.description || undefined,
-      adminId: this.searchForm.value.adminId ? Number(this.searchForm.value.adminId) : undefined,
-      isSuspended: this.searchForm.value.isSuspended !== '' ? this.searchForm.value.isSuspended === 'true' : undefined
+      name: formValue.name || undefined,
+      description: formValue.description || undefined,
+      pdfDescription: formValue.pdfDescription || undefined,
+      postsFrom: formValue.postsFrom ? Number(formValue.postsFrom) : undefined,
+      postsTo: formValue.postsTo ? Number(formValue.postsTo) : undefined,
+      avgLikesFrom: formValue.avgLikesFrom ? Number(formValue.avgLikesFrom) : undefined,
+      avgLikesTo: formValue.avgLikesTo ? Number(formValue.avgLikesTo) : undefined,
+      useAndOperator: formValue.useAndOperator
     };
 
     this.groupService.searchGroups(searchModel).subscribe({
@@ -75,19 +84,18 @@ export class SearchGroupComponent implements OnInit {
       );
     }
 
-    if (searchModel.adminId) {
-      filteredGroups = filteredGroups.filter(group => group.adminId === searchModel.adminId);
-    }
 
-    if (searchModel.isSuspended !== undefined) {
-      filteredGroups = filteredGroups.filter(group => group.isSuspended === searchModel.isSuspended);
-    }
+
+    // Note: Local filtering for PDF description, post count, and average likes
+    // would require additional data that might not be available in the basic group model
+    // These would typically be handled by the backend search service
 
     return filteredGroups;
   }
 
   clearSearch(): void {
     this.searchForm.reset();
+    this.searchForm.patchValue({ useAndOperator: false });
     this.searchResults = [];
     this.hasSearched = false;
   }

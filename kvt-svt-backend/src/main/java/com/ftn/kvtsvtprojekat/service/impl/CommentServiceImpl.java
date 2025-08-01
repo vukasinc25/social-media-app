@@ -29,10 +29,20 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findAllByParentComment(Comment parentComment) {
         return commentRepository.findAllByParentComment(parentComment);
     }
+    
+    @Override
+    public List<Comment> findAllByParentCommentAndIsDeletedFalse(Comment parentComment) {
+        return commentRepository.findAllByParentCommentAndIsDeletedFalse(parentComment);
+    }
 
     @Override
     public List<Comment> findAllByUser(User user) {
         return commentRepository.findAllByUser(user);
+    }
+    
+    @Override
+    public List<Comment> findAllByUserAndIsDeletedFalse(User user) {
+        return commentRepository.findAllByUserAndIsDeletedFalse(user);
     }
 
     @Override
@@ -57,14 +67,30 @@ public class CommentServiceImpl implements CommentService {
          return commentRepository.findAllByPost(post);
 
     }
+    
+    @Override
+    public List<Comment> findByPostAndIsDeletedFalse(Post post) {
+         return commentRepository.findAllByPostAndIsDeletedFalse(post);
+
+    }
 
     @Override
     public List<Comment> findByPostOrderByIdDesc(Post post) {
         return commentRepository.findAllByPostOrderByIdDesc(post);
     }
+    
+    @Override
+    public List<Comment> findByPostAndIsDeletedFalseOrderByIdDesc(Post post) {
+        return commentRepository.findAllByPostAndIsDeletedFalseOrderByIdDesc(post);
+    }
 
     @Override
     public List<Comment> findByPostOrderByLikes() {
         return commentRepository.findAllByPostOrderByReactionDesc();
+    }
+    
+    @Override
+    public List<Comment> findByPostAndIsDeletedFalseOrderByLikes() {
+        return commentRepository.findAllByPostAndIsDeletedFalseOrderByReactionDesc();
     }
 }
