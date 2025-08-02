@@ -22,16 +22,22 @@
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="pdfDescription" class="form-label">PDF Description</label>
-                <input type="text" class="form-control" id="pdfDescription" formControlName="pdfDescription" placeholder="Search in PDF content...">
+                <label for="pdfContent" class="form-label">PDF Content</label>
+                <input type="text" class="form-control" id="pdfContent" formControlName="pdfContent" placeholder="Search in PDF content...">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="rules" class="form-label">Rules</label>
+                <input type="text" class="form-control" id="rules" formControlName="rules" placeholder="Search in group rules...">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="postCountFrom" class="form-label">Min Posts</label>
+                <input type="number" class="form-control" id="postCountFrom" formControlName="postCountFrom">
               </div>
               <div class="col-md-3 mb-3">
-                <label for="postsFrom" class="form-label">Min Posts</label>
-                <input type="number" class="form-control" id="postsFrom" formControlName="postsFrom">
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="postsTo" class="form-label">Max Posts</label>
-                <input type="number" class="form-control" id="postsTo" formControlName="postsTo">
+                <label for="postCountTo" class="form-label">Max Posts</label>
+                <input type="number" class="form-control" id="postCountTo" formControlName="postCountTo">
               </div>
             </div>
             <div class="row">
@@ -45,9 +51,9 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="operation" class="form-label">Operation</label>
-                <select class="form-select" id="operation" formControlName="useAndOperator">
-                  <option [value]="false">OR</option>
-                  <option [value]="true">AND</option>
+                <select class="form-select" id="operation" formControlName="operation">
+                  <option value="OR">OR</option>
+                  <option value="AND">AND</option>
                 </select>
               </div>
             </div>

@@ -2,22 +2,21 @@ export interface GroupSearchModel {
   // Basic search fields
   name?: string;
   description?: string;
-  adminId?: number;
-  isSuspended?: boolean;
   
-  // PDF description search
-  pdfDescription?: string;
+  // PDF content search
+  pdfContent?: string;
+  
+  // Rules search
+  rules?: string;
+  
+  // Post average likes range
+  postAverageLikes?: number[];
   
   // Post count range
-  postsFrom?: number;
-  postsTo?: number;
-  
-  // Average likes range
-  avgLikesFrom?: number;
-  avgLikesTo?: number;
+  postCount?: number[];
   
   // Boolean query operator
-  useAndOperator?: boolean;
+  operation?: string;
   
   // Pagination
   page?: number;

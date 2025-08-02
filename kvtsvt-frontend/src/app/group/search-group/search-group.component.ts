@@ -24,12 +24,13 @@ export class SearchGroupComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       name: [''],
       description: [''],
-      pdfDescription: [''],
-      postsFrom: [''],
-      postsTo: [''],
+      pdfContent: [''],
+      rules: [''],
+      postCountFrom: [''],
+      postCountTo: [''],
       avgLikesFrom: [''],
       avgLikesTo: [''],
-      useAndOperator: [false]
+      operation: ['OR']
     });
   }
 
@@ -44,12 +45,15 @@ export class SearchGroupComponent implements OnInit {
     const searchModel: GroupSearchModel = {
       name: formValue.name || undefined,
       description: formValue.description || undefined,
-      pdfDescription: formValue.pdfDescription || undefined,
-      postsFrom: formValue.postsFrom ? Number(formValue.postsFrom) : undefined,
-      postsTo: formValue.postsTo ? Number(formValue.postsTo) : undefined,
-      avgLikesFrom: formValue.avgLikesFrom ? Number(formValue.avgLikesFrom) : undefined,
-      avgLikesTo: formValue.avgLikesTo ? Number(formValue.avgLikesTo) : undefined,
-      useAndOperator: formValue.useAndOperator
+      pdfContent: formValue.pdfContent || undefined,
+      rules: formValue.rules || undefined,
+      postCount: formValue.postCountFrom || formValue.postCountTo ? 
+        [formValue.postCountFrom ? Number(formValue.postCountFrom) : 0, 
+         formValue.postCountTo ? Number(formValue.postCountTo) : 999999] : undefined,
+      postAverageLikes: formValue.avgLikesFrom || formValue.avgLikesTo ? 
+        [formValue.avgLikesFrom ? Number(formValue.avgLikesFrom) : 0, 
+         formValue.avgLikesTo ? Number(formValue.avgLikesTo) : 999999] : undefined,
+      operation: formValue.operation
     };
 
     this.groupService.searchGroups(searchModel).subscribe({
@@ -95,7 +99,7 @@ export class SearchGroupComponent implements OnInit {
 
   clearSearch(): void {
     this.searchForm.reset();
-    this.searchForm.patchValue({ useAndOperator: false });
+    this.searchForm.patchValue({ operation: 'OR' });
     this.searchResults = [];
     this.hasSearched = false;
   }
